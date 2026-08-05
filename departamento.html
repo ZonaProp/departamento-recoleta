@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+  <title>Departamentos en Alquiler · Recoleta | ZonaProp</title>
+  <meta name="description" content="Departamentos en alquiler en Recoleta, Capital Federal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #ff5500;
+      --bg: #f4f4f4;
+      --fg: #111;
+      --muted: #5a5a5a;
+      --subtle: #8a8a8a;
+      --border: #e6e6e6;
+      --ok: #1b8a4a;
+      --ok-soft: #e8f7ee;
+      --font: "Hind", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+    header {
+      position: sticky; top: 0; z-index: 30; height: 54px;
+      background: #fff; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+    }
+    .hi {
+      width: min(640px, 100%); margin: 0 auto; padding: 0 1rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: .35rem;
+      font-weight: 700; font-size: 1.2rem;
+    }
+    .logo svg { width: 24px; height: 24px; color: var(--primary); }
+    .status {
+      font-size: 11.5px; font-weight: 600; color: var(--ok);
+      background: var(--ok-soft); padding: 3px 9px; border-radius: 999px;
+    }
+
+    .wrap { width: min(640px, 100%); margin: 0 auto; padding: 0 1rem 2.5rem; }
+
+    .page-title { padding: 1.2rem 0 .75rem; }
+    .page-title h1 { font-size: 1.35rem; font-weight: 700; }
+    .page-title p { font-size: 13.5px; color: var(--muted); margin-top: .2rem; }
+
+    .filters {
+      display: flex; gap: .45rem; overflow-x: auto;
+      padding-bottom: .85rem; margin-bottom: .25rem;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .chip {
+      flex-shrink: 0;
+      padding: .4rem .85rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      font-size: 13px; font-weight: 500;
+      color: var(--muted);
+    }
+    .chip.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .list { display: flex; flex-direction: column; gap: .85rem; }
+
+    .card {
+      display: flex;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 6px rgb(0 0 0 / .05);
+    }
+    .card:active { opacity: .92; }
+
+    .card-img {
+      width: 118px;
+      min-height: 118px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #e8e8e8, #d0d0d0);
+      display: grid;
+      place-items: center;
+      color: #999;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      padding: .5rem;
+    }
+    .card-img.featured {
+      background: linear-gradient(135deg, #ffeee5, #ffd9c2);
+      color: var(--primary);
+    }
+
+    .card-body {
+      flex: 1;
+      padding: .75rem .85rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+    .card-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-addr {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: .15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-price {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-top: .4rem;
+    }
+    .card-price span {
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .card-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .3rem;
+      margin-top: .4rem;
+    }
+    .spec {
+      background: var(--bg);
+      border-radius: 5px;
+      padding: .18rem .4rem;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .badge-row {
+      display: flex;
+      gap: .35rem;
+      margin-bottom: .25rem;
+    }
+    .badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #fff;
+    }
+    .badge.destacado { background: var(--primary); }
+    .badge.nuevo { background: var(--ok); }
+
+    footer {
+      text-align: center;
+      padding: 1.25rem 1rem 2rem;
+      font-size: 12px;
+      color: var(--subtle);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hi">
+      <a class="logo" href="#">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M10.6 23.5c-.6.2-.6 1 0 1.3l2.3 1c.2.1.4.1.5 0l5.4-2V20.5l-8.1 2.9z" fill="currentColor"/><path d="M22.7 9c0-3.1-2.6-5.6-5.7-5.5-2.9.1-5.2 2.5-5.3 5.4-.1 2.6 1.7 4.9 4.1 5.5v2.4l-5.1 1.9c-.6.2-.6 1 0 1.3l2.3 1c.2.1.4.1.5 0l5.3-2V14.3c2.3-.6 4-2.8 4-5.3z" fill="currentColor"/></svg>
+        zonaprop
+      </a>
+      <span class="status">● En línea</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="page-title">
+      <h1>Departamentos en Recoleta</h1>
+      <p>Alquiler · Capital Federal</p>
+    </div>
+
+    <div class="filters">
+      <button class="chip active">Todos</button>
+      <button class="chip">2 ambientes</button>
+      <button class="chip">1 ambiente</button>
+      <button class="chip">Amueblados</button>
+      <button class="chip">Con cochera</button>
+    </div>
+
+    <div class="list">
+
+      <a href="index.html" class="card">
+        <div class="card-img featured">Destacado</div>
+        <div class="card-body">
+          <div class="badge-row"><span class="badge destacado">Destacado</span></div>
+          <div class="card-title">2 ambientes con cochera</div>
+          <div class="card-addr">Pueyrredón 1700 · Recoleta</div>
+          <div class="card-price">$ 550.000 <span>/ mes</span></div>
+          <div class="card-specs">
+            <span class="spec">54 m²</span>
+            <span class="spec">2 amb.</span>
+            <span class="spec">Cochera</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-img">Foto</div>
+        <div class="card-body">
+          <div class="badge-row"><span class="badge nuevo">Nuevo</span></div>
+          <div class="card-title">Monoambiente luminoso</div>
+          <div class="card-addr">Posadas 1400 · Recoleta</div>
+          <div class="card-price">$ 420.000 <span>/ mes</span></div>
+          <div class="card-specs">
+            <span class="spec">38 m²</span>
+            <span class="spec">1 amb.</span>
+            <span class="spec">Balcón</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-img">Foto</div>
+        <div class="card-body">
+          <div class="card-title">2 ambientes con vista</div>
+          <div class="card-addr">Las Heras 2500 · Recoleta</div>
+          <div class="card-price">$ 480.000 <span>/ mes</span></div>
+          <div class="card-specs">
+            <span class="spec">48 m²</span>
+            <span class="spec">2 amb.</span>
+            <span class="spec">1 baño</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-img">Foto</div>
+        <div class="card-body">
+          <div class="card-title">Departamento 3 ambientes</div>
+          <div class="card-addr">Callao 1300 · Recoleta</div>
+          <div class="card-price">$ 720.000 <span>/ mes</span></div>
+          <div class="card-specs">
+            <span class="spec">78 m²</span>
+            <span class="spec">3 amb.</span>
+            <span class="spec">2 baños</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-img">Foto</div>
+        <div class="card-body">
+          <div class="badge-row"><span class="badge nuevo">Nuevo</span></div>
+          <div class="card-title">Monoambiente reciclado</div>
+          <div class="card-addr">Santa Fe 2600 · Recoleta</div>
+          <div class="card-price">$ 390.000 <span>/ mes</span></div>
+          <div class="card-specs">
+            <span class="spec">32 m²</span>
+            <span class="spec">1 amb.</span>
+            <span class="spec">Amueblado</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-img">Foto</div>
+        <div class="card-body">
+          <div class="card-title">2 ambientes al frente</div>
+          <div class="card-addr">Arenales 2200 · Recoleta</div>
+          <div class="card-price">$ 510.000 <span>/ mes</span></div>
+          <div class="card-specs">
+            <span class="spec">52 m²</span>
+            <span class="spec">2 amb.</span>
+            <span class="spec">Balcón</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-img">Foto</div>
+        <div class="card-body">
+          <div class="card-title">Departamento con patio</div>
+          <div class="card-addr">Austria 1900 · Recoleta</div>
+          <div class="card-price">$ 580.000 <span>/ mes</span></div>
+          <div class="card-specs">
+            <span class="spec">60 m²</span>
+            <span class="spec">2 amb.</span>
+            <span class="spec">Patio</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-img">Foto</div>
+        <div class="card-body">
+          <div class="card-title">3 ambientes luminoso</div>
+          <div class="card-addr">Juncal 2400 · Recoleta</div>
+          <div class="card-price">$ 690.000 <span>/ mes</span></div>
+          <div class="card-specs">
+            <span class="spec">85 m²</span>
+            <span class="spec">3 amb.</span>
+            <span class="spec">Cochera</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>© 2026 · ZonaProp Recoleta</footer>
+
+  <script>
+    // Navegación JS hacia la ficha
+    function goToDepto(url, e) {
+      if (e) e.preventDefault();
+      // Guardar que venimos del listado
+      try { sessionStorage.setItem("fromListado", "1"); } catch(err) {}
+      window.location.href = url || "departamento.html";
+      return false;
+    }
+    // Asignar a las cards
+    document.querySelectorAll(".card[href]").forEach(function(card) {
+      var href = card.getAttribute("href");
+      if (href && href !== "#") {
+        card.addEventListener("click", function(e) {
+          goToDepto(href, e);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
