@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+  <title>Inmuebles en Argentina: venta y alquiler — Zonaprop</title>
+  <meta name="description" content="Alquiler, compra y venta de propiedades en Argentina. Encontrá tu hogar en Zonaprop." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #ff5500;
+      --primary-hover: #e64d00;
+      --primary-soft: #fff3eb;
+      --bg: #ffffff;
+      --bg-subtle: #f5f5f5;
+      --fg: #000000;
+      --fg-muted: #4a4a4a;
+      --fg-subtle: #8a8a8a;
+      --border: #e6e6e6;
+      --border-strong: #cccccc;
+      --whatsapp: #25d366;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgb(0 0 0 / 0.12);
+      --font: "Hind", "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, select, textarea { font-family: inherit; }
+    button { cursor: pointer; border: none; background: none; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { width: min(1100px, 100% - 2rem); margin-inline: auto; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      height: 60px; background: #fff;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+    }
+    .header-inner {
+      width: min(1280px, 100% - 2rem); margin-inline: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 0.35rem;
+      font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em;
+    }
+    .logo-key {
+      width: 28px; height: 28px; color: var(--primary);
+    }
+    .btn-publicar {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      height: 40px; padding: 0 1rem;
+      border: 2px solid var(--primary); border-radius: 8px;
+      font-size: 15px; font-weight: 500;
+      transition: background 0.15s;
+    }
+    .btn-publicar:hover { background: var(--primary-soft); }
+    .btn-publicar svg { color: var(--primary); }
+
+    /* Hero */
+    .hero {
+      position: relative; min-height: 520px;
+      display: flex; align-items: center; justify-content: center;
+      background: #1a1a1a center/cover no-repeat;
+      background-image: linear-gradient(rgb(0 0 0 / 0.5), rgb(0 0 0 / 0.5)),
+        url("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&q=80&auto=format&fit=crop");
+    }
+    .hero-content {
+      width: min(900px, 100% - 2rem); padding: 3.5rem 0 3rem; text-align: center;
+    }
+    .hero h1 {
+      color: #fff; font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600; margin-bottom: 1.75rem;
+    }
+    .tabs {
+      display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.25rem;
+    }
+    .tab {
+      color: rgb(255 255 255 / 0.85); font-size: 1.1rem; padding-bottom: 0.5rem;
+      position: relative; font-weight: 400;
+    }
+    .tab.active { color: #fff; font-weight: 600; }
+    .tab.active::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+      height: 3px; background: var(--primary); border-radius: 99px;
+    }
+    .search-box {
+      display: flex; align-items: stretch; gap: 0;
+      background: #fff; border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow: hidden; padding: 6px;
+    }
+    .search-box .input-wrap {
+      flex: 1; display: flex; align-items: center; gap: 0.5rem; padding: 0 0.75rem;
+    }
+    .search-box input {
+      flex: 1; border: 0; outline: none; height: 48px; font-size: 15px;
+      background: transparent;
+    }
+    .search-box input::placeholder { color: var(--fg-subtle); }
+    .btn-buscar {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+      background: var(--primary); color: #fff; font-weight: 600; font-size: 1rem;
+      padding: 0 1.5rem; border-radius: 8px; min-width: 120px;
+      transition: background 0.15s;
+    }
+    .btn-buscar:hover { background: var(--primary-hover); }
+
+    /* Chips */
+    .chips {
+      display: flex; gap: 0.85rem; overflow-x: auto; padding: 1.75rem 0 0.25rem;
+      justify-content: flex-start; scrollbar-width: none;
+    }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      min-width: 72px; color: #fff;
+    }
+    .chip-icon {
+      width: 56px; height: 56px; border-radius: 50%; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.12); color: #111;
+      transition: box-shadow 0.15s, ring 0.15s;
+    }
+    .chip.active .chip-icon {
+      box-shadow: 0 0 0 2px var(--primary), 0 0 0 4px rgb(255 85 0 / 0.25);
+      color: var(--primary);
+    }
+    .chip span { font-size: 11px; text-align: center; line-height: 1.2; }
+    .chip.active span { font-weight: 600; }
+
+    /* Sections */
+    section { padding: 2.5rem 0; }
+    section.alt { background: var(--bg-subtle); }
+    .section-head {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: 1rem; margin-bottom: 1.25rem;
+    }
+    .section-head h2 { font-size: 1.4rem; font-weight: 600; }
+    .section-head a, .section-head button {
+      font-size: 13px; font-weight: 600; color: var(--fg);
+    }
+    .section-head a:hover, .section-head button:hover { text-decoration: underline; }
+
+    /* Results toolbar */
+    .results-bar {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: space-between; gap: 0.75rem; margin-bottom: 1rem;
+    }
+    .results-bar h2 { font-size: 1.25rem; font-weight: 600; }
+    .results-bar h2 span { font-weight: 400; color: var(--fg-muted); }
+    .results-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .pill {
+      height: 40px; padding: 0 0.85rem; border: 1px solid var(--border);
+      border-radius: 8px; background: #fff; font-size: 14px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .pill select {
+      border: 0; outline: none; font-weight: 600; background: transparent;
+    }
+
+    /* Cards */
+    .grid-cards {
+      display: grid; gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    .list-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .card {
+      background: #fff; border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden; box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+      transition: box-shadow 0.15s; cursor: pointer;
+    }
+    .card:hover { box-shadow: 0 4px 16px rgb(0 0 0 / 0.12); }
+    .card-img {
+      position: relative; aspect-ratio: 4/3; background: #eee; overflow: hidden;
+    }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .badge {
+      position: absolute; top: 8px; left: 8px;
+      background: var(--primary); color: #fff; font-size: 11px; font-weight: 600;
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .fav {
+      position: absolute; top: 8px; right: 8px;
+      width: 36px; height: 36px; border-radius: 50%; background: rgb(255 255 255 / 0.95);
+      display: flex; align-items: center; justify-content: center; color: var(--fg-subtle);
+    }
+    .fav.on { color: #d32f2f; }
+    .card-body { padding: 0.85rem; }
+    .price { font-size: 1.25rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .price small { font-size: 0.85rem; font-weight: 400; color: var(--fg-muted); }
+    .meta { font-size: 13px; color: var(--fg-muted); margin-top: 2px; }
+    .title-line {
+      margin-top: 0.4rem; font-size: 14px; font-weight: 500;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .addr { font-size: 13px; color: var(--fg-muted); margin-top: 2px; }
+
+    /* Horizontal list card */
+    .card-h {
+      display: flex; flex-direction: column; background: #fff;
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+    }
+    @media (min-width: 640px) {
+      .card-h { flex-direction: row; }
+      .card-h .card-img { width: 300px; flex-shrink: 0; aspect-ratio: auto; min-height: 200px; }
+    }
+    .card-h .card-body {
+      flex: 1; display: flex; flex-direction: column; padding: 1rem;
+    }
+    .card-h .price { font-size: 1.5rem; }
+    .card-actions {
+      margin-top: auto; padding-top: 1rem;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem;
+    }
+    .publisher { font-size: 13px; color: var(--fg-subtle); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .btn-sm {
+      height: 36px; padding: 0 0.75rem; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline {
+      border: 2px solid var(--primary); color: var(--fg);
+    }
+    .btn-outline:hover { background: var(--primary-soft); }
+    .btn-wa { background: var(--whatsapp); color: #fff; }
+
+    /* Cities */
+    .city-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .city-chip {
+      padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 999px;
+      background: #fff; font-size: 14px; font-weight: 500;
+    }
+    .city-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .barrio-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.75rem;
+    }
+    @media (min-width: 640px) { .barrio-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 900px) { .barrio-grid { grid-template-columns: repeat(4, 1fr); } }
+    .barrio-grid button {
+      text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--border);
+      border-radius: 8px; background: #fff; font-size: 14px;
+    }
+    .barrio-grid button:hover { border-color: var(--primary); }
+
+    /* CTA */
+    .cta {
+      background: var(--primary); color: #fff; padding: 2.5rem 0;
+    }
+    .cta-inner {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .cta h2 { font-size: 1.35rem; font-weight: 600; }
+    .cta p { opacity: 0.9; margin-top: 0.25rem; }
+    .cta .btn-white {
+      height: 48px; padding: 0 1.5rem; background: #fff; color: #111;
+      border-radius: var(--radius); font-weight: 600; font-size: 15px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-subtle); border-top: 1px solid var(--border);
+      padding: 2.5rem 0 1.5rem; font-size: 13px;
+    }
+    .footer-grid {
+      display: grid; gap: 2rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+    }
+    footer h4 { font-weight: 600; margin-bottom: 0.5rem; }
+    footer ul { list-style: none; }
+    footer li { color: var(--fg-muted); margin-bottom: 0.3rem; }
+    .copy { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--fg-subtle); font-size: 12px; }
+
+    /* FAB */
+    .fab {
+      position: fixed; right: 1rem; bottom: 1rem; z-index: 60;
+      height: 48px; padding: 0 1.25rem; border-radius: 999px;
+      background: var(--primary); color: #fff; font-weight: 600; font-size: 15px;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
+    }
+    .fab:hover { background: var(--primary-hover); }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 100; background: rgb(0 0 0 / 0.5);
+      display: none; align-items: flex-end; justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    @media (min-width: 640px) {
+      .modal-backdrop { align-items: center; padding: 1rem; }
+    }
+    .modal {
+      background: #fff; width: min(440px, 100%); max-height: 92dvh;
+      overflow: auto; border-radius: 16px 16px 0 0;
+    }
+    @media (min-width: 640px) { .modal { border-radius: 16px; } }
+    .modal-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem; border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: #fff;
+    }
+    .modal-head h3 { font-size: 1rem; font-weight: 600; }
+    .modal-body { padding: 1rem; }
+    .field { margin-bottom: 0.75rem; }
+    .field label { display: block; font-size: 12px; font-weight: 600; color: var(--fg-muted); margin-bottom: 0.25rem; }
+    .field input, .field select, .field textarea {
+      width: 100%; height: 44px; border: 1px solid var(--border-strong);
+      border-radius: 8px; padding: 0 0.75rem; font-size: 14px; outline: none;
+    }
+    .field textarea { height: auto; min-height: 80px; padding: 0.65rem 0.75rem; resize: vertical; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--primary); box-shadow: 0 0 0 2px rgb(255 85 0 / 0.2);
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .success-box {
+      text-align: center; padding: 1.5rem 0.5rem;
+    }
+    .success-box .check {
+      width: 56px; height: 56px; border-radius: 50%; background: var(--primary-soft);
+      color: var(--primary); display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem; font-size: 1.5rem;
+    }
+
+    /* Detail drawer */
+    .detail-backdrop {
+      position: fixed; inset: 0; z-index: 90; background: rgb(0 0 0 / 0.45);
+      display: none; justify-content: flex-end;
+    }
+    .detail-backdrop.open { display: flex; }
+    .detail-panel {
+      width: min(480px, 100%); height: 100%; background: #fff;
+      overflow-y: auto; box-shadow: -8px 0 32px rgb(0 0 0 / 0.15);
+    }
+    .detail-img { aspect-ratio: 16/10; background: #eee; position: relative; }
+    .detail-img img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-body { padding: 1.25rem; }
+    .detail-body .price { font-size: 1.75rem; }
+    .detail-close {
+      position: absolute; top: 12px; right: 12px;
+      width: 40px; height: 40px; border-radius: 50%; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+    }
+
+    .hidden { display: none !important; }
+    .empty {
+      text-align: center; padding: 3rem 1rem; border: 1px dashed var(--border-strong);
+      border-radius: 12px; background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo" id="logoHome">
+        <svg class="logo-key" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path d="M10.6 23.5c-.6.2-.6 1 0 1.3l2.3 1c.2.1.4.1.5 0l5.4-2V20.5l-8.1 2.9z" fill="currentColor"/>
+          <path d="M16.5 26.2c-.6.2-.6 1 0 1.3l2.2 1V25.4l-2.2.8z" fill="currentColor"/>
+          <path d="M22.7 9c0-3.1-2.6-5.6-5.7-5.5-2.9.1-5.2 2.5-5.3 5.4-.1 2.6 1.7 4.9 4.1 5.5v2.4l-5.1 1.9c-.6.2-.6 1 0 1.3l2.3 1c.2.1.4.1.5 0l5.3-2V14.3c2.3-.6 4-2.8 4-5.3z" fill="currentColor"/>
+        </svg>
+        zonaprop
+      </a>
+      <div style="display:flex;gap:0.5rem;align-items:center">
+        <button type="button" class="btn-publicar" id="btnReservas" title="Mis reservas">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Reservas
+        </button>
+        <a class="btn-publicar" href="https://www.zonaprop.com.ar/publicar-aviso.html" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          Publicar
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <div class="hero" id="hero">
+      <div class="hero-content">
+        <h1>Encontrá tu hogar</h1>
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab" data-op="alquiler">Alquilar</button>
+          <button type="button" class="tab active" data-op="venta">Comprar</button>
+          <button type="button" class="tab" data-op="emprendimiento">Emprendimientos</button>
+        </div>
+        <form class="search-box" id="searchForm">
+          <div class="input-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <input type="search" id="locationInput" placeholder="Ingresá ubicaciones o características (ej: pileta)" autocomplete="off" />
+          </div>
+          <button type="submit" class="btn-buscar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            Buscar
+          </button>
+        </form>
+        <div class="chips" id="typeChips">
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <section class="alt hidden" id="resultsSection">
+      <div class="container">
+        <div class="results-bar">
+          <h2 id="resultsTitle">0 inmuebles <span></span></h2>
+          <div class="results-actions">
+            <button type="button" class="pill" id="btnAlert">Crear alerta</button>
+            <label class="pill">
+              Ordenar
+              <select id="sortSelect">
+                <option value="recent">Más relevantes</option>
+                <option value="price-asc">Menor precio</option>
+                <option value="price-desc">Mayor precio</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="list-cards" id="resultsList"></div>
+      </div>
+    </section>
+
+    <!-- DESTACADOS -->
+    <section id="featuredSection">
+      <div class="container">
+        <div class="section-head">
+          <h2>Destacados</h2>
+          <button type="button" id="verMasDestacados">Ver más</button>
+        </div>
+        <div class="grid-cards" id="featuredGrid"></div>
+      </div>
+    </section>
+
+    <!-- CIUDADES -->
+    <section class="alt">
+      <div class="container">
+        <h2 style="font-size:1.4rem;font-weight:600;margin-bottom:1rem">Ciudades principales</h2>
+        <div class="city-chips" id="cityChips"></div>
+        <h3 style="font-size:1.1rem;font-weight:600;margin-top:2rem">Barrios de CABA</h3>
+        <div class="barrio-grid" id="barrioGrid"></div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta">
+      <div class="container cta-inner">
+        <div>
+          <h2>¿Querés vender o alquilar?</h2>
+          <p>Publicá tu aviso en Zonaprop.</p>
+        </div>
+        <a class="btn-white" href="https://www.zonaprop.com.ar/publicar-aviso.html" target="_blank" rel="noopener">Publicar</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="logo" style="margin-bottom:0.5rem">
+          <svg class="logo-key" viewBox="0 0 32 32" fill="none"><path d="M10.6 23.5c-.6.2-.6 1 0 1.3l2.3 1c.2.1.4.1.5 0l5.4-2V20.5l-8.1 2.9z" fill="currentColor"/><path d="M22.7 9c0-3.1-2.6-5.6-5.7-5.5-2.9.1-5.2 2.5-5.3 5.4-.1 2.6 1.7 4.9 4.1 5.5v2.4l-5.1 1.9c-.6.2-.6 1 0 1.3l2.3 1c.2.1.4.1.5 0l5.3-2V14.3c2.3-.6 4-2.8 4-5.3z" fill="currentColor"/></svg>
+          zonaprop
+        </div>
+        <p style="color:var(--fg-muted);max-width:220px">Alquiler, compra y venta de propiedades en Argentina.</p>
+        <a href="https://www.zonaprop.com.ar/" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;display:inline-block;margin-top:0.5rem">www.zonaprop.com.ar</a>
+      </div>
+      <div>
+        <h4>Comprar</h4>
+        <ul><li>Departamentos</li><li>Casas</li><li>PH</li><li>Terrenos</li></ul>
+      </div>
+      <div>
+        <h4>Alquilar</h4>
+        <ul><li>Departamentos</li><li>Casas</li><li>Oficinas</li><li>Locales</li></ul>
+      </div>
+      <div>
+        <h4>Zonaprop</h4>
+        <ul><li>Publicar aviso</li><li>Mis reservas</li><li>Ayuda</li><li>Contacto</li></ul>
+      </div>
+    </div>
+    <div class="container copy">© 2026 Zonaprop · Réplica demo para migración</div>
+  </footer>
+
+  <a class="fab" href="https://www.zonaprop.com.ar/" target="_blank" rel="noopener">
+    Contacto con Zonaprop
+  </a>
+
+  <!-- DETAIL PANEL -->
+  <div class="detail-backdrop" id="detailBackdrop">
+    <div class="detail-panel" id="detailPanel"></div>
+  </div>
+
+  <!-- RESERVE MODAL -->
+  <div class="modal-backdrop" id="reserveModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="reserveTitle">Reservar visita</h3>
+        <button type="button" id="closeReserve" aria-label="Cerrar" style="font-size:1.25rem;width:36px;height:36px">×</button>
+      </div>
+      <div class="modal-body" id="reserveBody"></div>
+    </div>
+  </div>
+
+  <!-- RESERVAS LIST MODAL -->
+  <div class="modal-backdrop" id="reservasModal">
+    <div class="modal" style="width:min(520px,100%)">
+      <div class="modal-head">
+        <h3>Mis reservas</h3>
+        <button type="button" id="closeReservas" aria-label="Cerrar" style="font-size:1.25rem;width:36px;height:36px">×</button>
+      </div>
+      <div class="modal-body" id="reservasBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const IMG = {
+      a: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80&auto=format&fit=crop",
+      b: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80&auto=format&fit=crop",
+      c: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80&auto=format&fit=crop",
+      d: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80&auto=format&fit=crop",
+      e: "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&q=80&auto=format&fit=crop",
+      f: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80&auto=format&fit=crop",
+      g: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80&auto=format&fit=crop",
+      h: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80&auto=format&fit=crop",
+      i: "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=800&q=80&auto=format&fit=crop",
+    };
+
+    const PROPERTIES = [
+      { id: "1", title: "3 ambientes impecable · Almagro", op: "venta", type: "departamento", price: 150000, currency: "USD", expenses: 230000, address: "Bulnes al 700", neighborhood: "Almagro", rooms: 3, bedrooms: 2, baths: 2, m2: 85, badge: "Super destacado", img: IMG.a, publisher: "Click Aparts", features: ["Balcón", "Dependencia", "2 ascensores"], desc: "Impecable 3 ambientes en Almagro. Balcón al frente, dependencia de servicio." },
+      { id: "2", title: "4 ambientes full amenities · Palermo Soho", op: "venta", type: "departamento", price: 379000, currency: "USD", expenses: 500000, address: "Guatemala al 4800", neighborhood: "Palermo Soho", rooms: 4, bedrooms: 3, baths: 2, m2: 100, badge: "Super destacado", img: IMG.f, publisher: "Coldwell Banker", features: ["Amenities", "2 cocheras", "Suite"], desc: "Excelente 4 ambientes con lavadero, suite y 2 cocheras." },
+      { id: "3", title: "4 ambientes a estrenar · Núñez", op: "venta", type: "departamento", price: 480000, currency: "USD", address: "O'Higgins al 2700", neighborhood: "Núñez", rooms: 4, bedrooms: 3, baths: 2, m2: 149, badge: "Super destacado", img: IMG.e, publisher: "Pilar Passaglia", features: ["A estrenar", "Dependencia", "Vista"], desc: "A estrenar en O'Higgins. Living con balcón y vista abierta." },
+      { id: "4", title: "2 ambientes con amenities · Caballito", op: "venta", type: "departamento", price: 153600, currency: "USD", address: "Av. Avellaneda 1285", neighborhood: "Caballito", rooms: 2, bedrooms: 1, baths: 1, m2: 52, badge: "Destacado", img: IMG.b, publisher: "Inmobiliaria Caballito", features: ["Suite", "Pileta", "Gym"], desc: "Suite con vestidor. Amenities: parrilla, SUM, gym, pileta." },
+      { id: "5", title: "2 ambientes con terraza · Palermo", op: "venta", type: "departamento", price: 129000, currency: "USD", expenses: 140000, address: "Salguero al 1900", neighborhood: "Palermo", rooms: 2, bedrooms: 1, baths: 1, m2: 55, badge: "Apto crédito", img: IMG.c, publisher: "Lilian Kreimer", features: ["Terraza", "Apto crédito"], desc: "Luminoso 2 ambientes con terraza de 17 m². Apto crédito." },
+      { id: "6", title: "3 ambientes · Barrio Norte", op: "venta", type: "departamento", price: 198000, currency: "USD", expenses: 195000, address: "Av. Las Heras 2200", neighborhood: "Barrio Norte", rooms: 3, bedrooms: 2, baths: 1, m2: 78, badge: "Destacado", img: IMG.d, publisher: "Barrio Norte Prop", features: ["Balcón corrido", "Al frente"], desc: "3 ambientes al frente con balcón corrido." },
+      { id: "7", title: "2 ambientes con cochera · Belgrano", op: "venta", type: "departamento", price: 175000, currency: "USD", expenses: 165000, address: "Sucre 2400", neighborhood: "Belgrano", rooms: 2, bedrooms: 1, baths: 1, m2: 58, badge: "Apto crédito", img: IMG.g, publisher: "Belgrano Premium", features: ["Cochera", "Suite"], desc: "2 ambientes con cochera fija en Belgrano R." },
+      { id: "8", title: "3 ambientes a estrenar · Villa Urquiza", op: "venta", type: "departamento", price: 168000, currency: "USD", expenses: 110000, address: "Av. Triunvirato 4500", neighborhood: "Villa Urquiza", rooms: 3, bedrooms: 2, baths: 2, m2: 72, badge: "Super destacado", img: IMG.h, publisher: "Urquiza Homes", features: ["A estrenar", "Pileta", "Gym"], desc: "A estrenar en torre con pileta y gym." },
+      { id: "9", title: "2 ambientes vista dique · Puerto Madero", op: "venta", type: "departamento", price: 320000, currency: "USD", expenses: 350000, address: "Juana Manso 1400", neighborhood: "Puerto Madero", rooms: 2, bedrooms: 1, baths: 1, m2: 65, badge: "Super destacado", img: IMG.i, publisher: "Madero RE", features: ["Vista al dique", "Pileta", "Cochera"], desc: "Vista al dique. Amenities completos y cochera." },
+      { id: "10", title: "2 ambientes reciclado · Recoleta", op: "alquiler", type: "departamento", price: 780000, currency: "ARS", expenses: 120000, address: "Av. Callao 1200", neighborhood: "Recoleta", rooms: 2, bedrooms: 1, baths: 1, m2: 48, badge: "Destacado", img: IMG.b, publisher: "Particular", features: ["Reciclado", "Cocina equipada"], desc: "Recién reciclado frente a plaza." },
+      { id: "11", title: "Monoambiente a estrenar · Villa Crespo", op: "alquiler", type: "departamento", price: 520000, currency: "ARS", expenses: 85000, address: "Corrientes 5400", neighborhood: "Villa Crespo", rooms: 1, bedrooms: 0, baths: 1, m2: 35, img: IMG.c, publisher: "Particular", features: ["A estrenar", "Amenities"], desc: "Monoambiente a estrenar cerca de subte B." },
+      { id: "12", title: "3 ambientes con cochera · Belgrano", op: "alquiler", type: "departamento", price: 1200000, currency: "ARS", expenses: 200000, address: "Conesa 1800", neighborhood: "Belgrano", rooms: 3, bedrooms: 2, baths: 1, m2: 75, img: IMG.g, publisher: "Belgrano Alquileres", features: ["Cochera", "Seguridad"], desc: "3 ambientes con cochera cubierta." },
+      { id: "13", title: "2 ambientes amoblado · Palermo Soho", op: "alquiler", type: "departamento", price: 850000, currency: "ARS", expenses: 150000, address: "Serrano 1400", neighborhood: "Palermo Soho", rooms: 2, bedrooms: 1, baths: 1, m2: 50, badge: "Destacado", img: IMG.a, publisher: "Particular", features: ["Amoblado", "Wifi"], desc: "Amoblado y equipado. Ideal profesional." },
+      { id: "14", title: "Loft temporal · San Telmo", op: "temporal", type: "departamento", price: 45, currency: "USD", address: "Defensa 800", neighborhood: "San Telmo", rooms: 2, bedrooms: 1, baths: 1, m2: 55, badge: "Destacado", img: IMG.i, publisher: "Stay BA", features: ["Amoblado", "Wifi", "Aire"], desc: "Loft amoblado. Precio por noche. Mínimo 7 noches." },
+      { id: "15", title: "2 ambientes temporal · Palermo Hollywood", op: "temporal", type: "departamento", price: 55, currency: "USD", address: "Fitz Roy 1600", neighborhood: "Palermo Hollywood", rooms: 2, bedrooms: 1, baths: 1, m2: 48, badge: "Destacado", img: IMG.f, publisher: "BA Stays", features: ["Amoblado", "Wifi"], desc: "Amoblado. Mínimo 5 noches. Precio por noche." },
+      { id: "16", title: "Cuba 2665 · emprendimiento Belgrano", op: "venta", type: "emprendimiento", price: 179000, currency: "USD", address: "Cuba 2665", neighborhood: "Belgrano", rooms: 2, bedrooms: 1, baths: 1, m2: 55, badge: "En Construcción", img: IMG.g, publisher: "David Cipolla", features: ["Pileta", "Solarium"], desc: "25 unidades de 1 a 3 ambientes. Entrega 2028." },
+    ];
+
+    const TYPES = [
+      { id: "casa", label: "Casa", icon: "🏠" },
+      { id: "departamento", label: "Departamento", icon: "🏢" },
+      { id: "ph", label: "PH", icon: "🏡" },
+      { id: "quinta", label: "Quinta", icon: "🌳" },
+      { id: "garage", label: "Garage", icon: "🚗" },
+      { id: "oficina", label: "Oficina comercial", icon: "🗂️" },
+      { id: "local", label: "Local comercial", icon: "🏪" },
+      { id: "todos", label: "Todos", icon: "▦" },
+    ];
+
+    const CITIES = ["Capital Federal", "GBA Norte", "GBA Sur", "GBA Oeste", "Córdoba", "Rosario", "Costa Atlántica"];
+    const BARRIOS = ["Palermo", "Belgrano", "Recoleta", "Caballito", "Almagro", "Núñez", "Villa Crespo", "Puerto Madero", "Colegiales", "San Telmo", "Palermo Soho", "Barrio Norte"];
+
+    const state = {
+      op: "venta",
+      type: "departamento",
+      location: "",
+      sort: "recent",
+      applied: false,
+      selectedId: null,
+    };
+
+    const RES_KEY = "zp-reservas-v1";
+
+    function getReservas() {
+      try { return JSON.parse(localStorage.getItem(RES_KEY) || "[]"); } catch { return []; }
+    }
+    function saveReservas(list) {
+      localStorage.setItem(RES_KEY, JSON.stringify(list));
+    }
+
+    function formatPrice(p) {
+      if (p.currency === "USD") return `USD ${p.price.toLocaleString("es-AR")}`;
+      return `$ ${p.price.toLocaleString("es-AR")}`;
+    }
+    function priceSuffix(p) {
+      if (p.op === "temporal") return " / noche";
+      if (p.op === "alquiler") return " / mes";
+      return "";
+    }
+
+    function filterProps() {
+      let list = PROPERTIES.filter((p) => {
+        if (state.op === "emprendimiento") return p.type === "emprendimiento";
+        if (p.op !== state.op && !(state.op === "venta" && p.op === "venta")) {
+          if (p.op !== state.op) return false;
+        }
+        if (state.type !== "todos" && p.type !== state.type && p.type !== "emprendimiento") {
+          if (p.type !== state.type) return false;
+        }
+        if (state.location.trim()) {
+          const q = state.location.toLowerCase();
+          const hay = `${p.neighborhood} ${p.address} ${p.title} ${(p.features || []).join(" ")}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+      if (state.sort === "price-asc") list = [...list].sort((a, b) => a.price - b.price);
+      if (state.sort === "price-desc") list = [...list].sort((a, b) => b.price - a.price);
+      return list;
+    }
+
+    function cardGridHTML(p) {
+      return `
+        <article class="card" data-id="${p.id}">
+          <div class="card-img">
+            <img src="${p.img}" alt="" loading="lazy" />
+            ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
+            <button type="button" class="fav" data-fav="${p.id}" aria-label="Favorito">♡</button>
+          </div>
+          <div class="card-body">
+            <p class="price">${formatPrice(p)}<small>${priceSuffix(p)}</small></p>
+            ${p.expenses ? `<p class="meta">$ ${p.expenses.toLocaleString("es-AR")} Expensas</p>` : ""}
+            <p class="meta">${p.m2} m² · ${p.rooms} amb.${p.bedrooms ? ` · ${p.bedrooms} dorm.` : ""} · ${p.baths} baño${p.baths > 1 ? "s" : ""}</p>
+            <p class="title-line">${p.title}</p>
+            <p class="addr">${p.address}, ${p.neighborhood}</p>
+          </div>
+        </article>`;
+    }
+
+    function cardListHTML(p) {
+      return `
+        <article class="card-h" data-id="${p.id}">
+          <div class="card-img">
+            <img src="${p.img}" alt="" loading="lazy" />
+            ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
+          </div>
+          <div class="card-body">
+            <p class="price">${formatPrice(p)}<small>${priceSuffix(p)}</small></p>
+            ${p.expenses ? `<p class="meta">$ ${p.expenses.toLocaleString("es-AR")} Expensas</p>` : ""}
+            <p class="meta" style="font-weight:500;color:#111;margin-top:0.5rem">${p.m2} m² tot. · ${p.rooms} amb.${p.bedrooms ? ` · ${p.bedrooms} dorm.` : ""} · ${p.baths} baño${p.baths > 1 ? "s" : ""}</p>
+            <p style="margin-top:0.35rem"><strong>${p.address}</strong><span class="meta">, ${p.neighborhood}</span></p>
+            <p class="title-line" style="color:var(--fg-muted)">${p.title}</p>
+            <div class="card-actions">
+              <span class="publisher">${p.publisher}</span>
+              <div class="btn-row">
+                <button type="button" class="btn-sm btn-primary" data-reserve="${p.id}">Reservar${p.op === "temporal" ? " estadía" : " visita"}</button>
+                <button type="button" class="btn-sm btn-wa" data-wa="${p.id}">WhatsApp</button>
+                <button type="button" class="btn-sm btn-outline" data-id="${p.id}">Ver</button>
+              </div>
+            </div>
+          </div>
+        </article>`;
+    }
+
+    function renderChips() {
+      document.getElementById("typeChips").innerHTML = TYPES.map((t) => `
+        <button type="button" class="chip ${state.type === t.id ? "active" : ""}" data-type="${t.id}">
+          <span class="chip-icon">${t.icon}</span>
+          <span>${t.label}</span>
+        </button>`).join("");
+    }
+
+    function renderFeatured() {
+      const feat = PROPERTIES.filter((p) => p.badge && p.op === "venta").slice(0, 4);
+      document.getElementById("featuredGrid").innerHTML = feat.map(cardGridHTML).join("");
+    }
+
+    function renderResults() {
+      const list = filterProps();
+      const sec = document.getElementById("resultsSection");
+      sec.classList.remove("hidden");
+      const opLabel = state.op === "alquiler" ? "en alquiler" : state.op === "emprendimiento" ? "en emprendimientos" : "en venta";
+      document.getElementById("resultsTitle").innerHTML =
+        `${list.length} inmuebles <span>${opLabel}${state.location ? " · " + state.location : ""}</span>`;
+      document.getElementById("resultsList").innerHTML =
+        list.length ? list.map(cardListHTML).join("") :
+        `<div class="empty"><p style="font-weight:600;font-size:1.1rem">No hay resultados</p><p class="meta" style="margin-top:0.35rem">Probá otra ubicación o tipo.</p></div>`;
+      sec.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderCities() {
+      document.getElementById("cityChips").innerHTML = CITIES.map((c) =>
+        `<button type="button" class="city-chip" data-loc="${c}">${c}</button>`).join("");
+      document.getElementById("barrioGrid").innerHTML = BARRIOS.map((b) =>
+        `<button type="button" data-loc="${b}">${b}</button>`).join("");
+    }
+
+    function openDetail(id) {
+      const p = PROPERTIES.find((x) => x.id === id);
+      if (!p) return;
+      state.selectedId = id;
+      const panel = document.getElementById("detailPanel");
+      panel.innerHTML = `
+        <div class="detail-img">
+          <img src="${p.img}" alt="" />
+          <button type="button" class="detail-close" id="closeDetail">×</button>
+          ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
+        </div>
+        <div class="detail-body">
+          <p class="price">${formatPrice(p)}<small>${priceSuffix(p)}</small></p>
+          ${p.expenses ? `<p class="meta">$ ${p.expenses.toLocaleString("es-AR")} Expensas</p>` : ""}
+          <p class="meta" style="margin-top:0.75rem;font-weight:500;color:#111">${p.m2} m² · ${p.rooms} amb.${p.bedrooms ? ` · ${p.bedrooms} dorm.` : ""} · ${p.baths} baño${p.baths > 1 ? "s" : ""}</p>
+          <h2 style="font-size:1.2rem;font-weight:600;margin-top:0.75rem">${p.title}</h2>
+          <p class="meta" style="margin-top:0.25rem">${p.address}, ${p.neighborhood}</p>
+          <p style="margin-top:1rem;font-size:14px;color:var(--fg-muted);line-height:1.5">${p.desc}</p>
+          <h3 style="font-size:12px;font-weight:600;text-transform:uppercase;margin-top:1.25rem;letter-spacing:0.04em">Características</h3>
+          <ul style="margin-top:0.5rem;font-size:14px;list-style:none">
+            ${(p.features || []).map((f) => `<li style="padding:0.2rem 0">✓ ${f}</li>`).join("")}
+          </ul>
+          <p class="meta" style="margin-top:1rem">Anunciante: <strong style="color:#111">${p.publisher}</strong></p>
+          <button type="button" class="btn-sm btn-primary" style="width:100%;height:48px;margin-top:1.25rem;font-size:15px" data-reserve="${p.id}">
+            ${p.op === "temporal" ? "Reservar estadía" : "Reservar visita"}
+          </button>
+          <div class="btn-row" style="margin-top:0.5rem">
+            <button type="button" class="btn-sm btn-wa" style="flex:1;height:40px" data-wa="${p.id}">WhatsApp</button>
+            <a class="btn-sm btn-outline" style="flex:1;height:40px;justify-content:center" href="https://www.zonaprop.com.ar/" target="_blank" rel="noopener">Contacto ZP</a>
+          </div>
+        </div>`;
+      document.getElementById("detailBackdrop").classList.add("open");
+      document.getElementById("closeDetail").onclick = () =>
+        document.getElementById("detailBackdrop").classList.remove("open");
+    }
+
+    function openReserve(id) {
+      const p = PROPERTIES.find((x) => x.id === id);
+      if (!p) return;
+      const isTemp = p.op === "temporal";
+      document.getElementById("reserveTitle").textContent = isTemp ? "Reservar estadía" : "Reservar visita";
+      const today = new Date().toISOString().slice(0, 10);
+      document.getElementById("reserveBody").innerHTML = `
+        <p class="meta" style="margin-bottom:0.75rem">${p.title}<br/>${formatPrice(p)}${priceSuffix(p)}</p>
+        <form id="reserveForm">
+          <div class="field"><label>Nombre completo</label><input name="name" required placeholder="Tu nombre" /></div>
+          <div class="grid-2">
+            <div class="field"><label>Email</label><input name="email" type="email" required placeholder="vos@email.com" /></div>
+            <div class="field"><label>Teléfono</label><input name="phone" type="tel" required placeholder="11 1234-5678" /></div>
+          </div>
+          ${isTemp ? `
+            <div class="grid-2">
+              <div class="field"><label>Check-in</label><input name="from" type="date" required min="${today}" value="${today}" /></div>
+              <div class="field"><label>Check-out</label><input name="to" type="date" required min="${today}" /></div>
+            </div>
+            <div class="field"><label>Huéspedes</label>
+              <select name="guests">${[1,2,3,4,5,6].map((n) => `<option value="${n}">${n}</option>`).join("")}</select>
+            </div>
+          ` : `
+            <div class="grid-2">
+              <div class="field"><label>Fecha de visita</label><input name="from" type="date" required min="${today}" value="${today}" /></div>
+              <div class="field"><label>Horario</label>
+                <select name="time">${["10:00","11:00","12:00","15:00","16:00","17:00","18:00"].map((t) => `<option>${t}</option>`).join("")}</select>
+              </div>
+            </div>
+          `}
+          <div class="field"><label>Comentarios (opcional)</label><textarea name="notes" placeholder="Pedidos especiales…"></textarea></div>
+          <button type="submit" class="btn-sm btn-primary" style="width:100%;height:48px;font-size:15px">
+            ${isTemp ? "Confirmar reserva" : "Confirmar visita"}
+          </button>
+          <p class="meta" style="text-align:center;margin-top:0.5rem;font-size:11px">Sin cargo. El anunciante confirmará el detalle.</p>
+        </form>`;
+      document.getElementById("reserveModal").classList.add("open");
+      document.getElementById("reserveForm").onsubmit = (e) => {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const code = Math.random().toString(36).slice(2, 10).toUpperCase();
+        const res = {
+          id: "r-" + Date.now(),
+          code,
+          propertyId: p.id,
+          title: p.title,
+          kind: isTemp ? "estadia" : "visita",
+          name: fd.get("name"),
+          email: fd.get("email"),
+          phone: fd.get("phone"),
+          from: fd.get("from"),
+          to: fd.get("to") || null,
+          time: fd.get("time") || null,
+          guests: fd.get("guests") || null,
+          notes: fd.get("notes") || "",
+          status: "confirmada",
+          createdAt: new Date().toISOString(),
+        };
+        const list = getReservas();
+        list.unshift(res);
+        saveReservas(list);
+        document.getElementById("reserveBody").innerHTML = `
+          <div class="success-box">
+            <div class="check">✓</div>
+            <p style="font-size:1.15rem;font-weight:600">${isTemp ? "¡Estadía reservada!" : "¡Visita reservada!"}</p>
+            <p class="meta" style="margin-top:0.5rem">Código: <strong style="color:var(--primary)">${code}</strong></p>
+            <p class="meta" style="margin-top:0.35rem">Te enviamos la confirmación a ${res.email}</p>
+            <button type="button" class="btn-sm btn-primary" style="width:100%;height:44px;margin-top:1.25rem" id="okReserve">Listo</button>
+          </div>`;
+        document.getElementById("okReserve").onclick = () =>
+          document.getElementById("reserveModal").classList.remove("open");
+      };
+    }
+
+    function openReservas() {
+      const list = getReservas();
+      const body = document.getElementById("reservasBody");
+      if (!list.length) {
+        body.innerHTML = `<div class="empty"><p style="font-weight:600">Todavía no tenés reservas</p><p class="meta" style="margin-top:0.35rem">Reservá una visita o estadía desde un aviso.</p></div>`;
+      } else {
+        body.innerHTML = list.map((r) => `
+          <div style="border:1px solid var(--border);border-radius:10px;padding:0.85rem;margin-bottom:0.65rem">
+            <span style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--primary);background:var(--primary-soft);padding:2px 8px;border-radius:4px">${r.kind} · ${r.status}</span>
+            <p style="font-weight:600;margin-top:0.4rem;font-size:14px">${r.title}</p>
+            <p class="meta">${r.kind === "estadia" ? `Check-in ${r.from} → ${r.to}` : `${r.from} a las ${r.time} hs`}${r.guests ? ` · ${r.guests} huésped(es)` : ""}</p>
+            <p class="meta">${r.name} · ${r.email}</p>
+            <p class="meta" style="font-size:12px">Código ${r.code}</p>
+            <button type="button" class="btn-sm btn-outline" style="margin-top:0.5rem;height:32px;font-size:12px" data-cancel="${r.id}">Cancelar</button>
+          </div>`).join("");
+      }
+      document.getElementById("reservasModal").classList.add("open");
+    }
+
+    // Init UI
+    renderChips();
+    renderFeatured();
+    renderCities();
+
+    // Events
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        state.op = tab.dataset.op;
+      });
+    });
+
+    document.getElementById("typeChips").addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-type]");
+      if (!btn) return;
+      state.type = btn.dataset.type;
+      renderChips();
+    });
+
+    document.getElementById("searchForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      state.location = document.getElementById("locationInput").value;
+      state.applied = true;
+      renderResults();
+    });
+
+    document.getElementById("sortSelect").addEventListener("change", (e) => {
+      state.sort = e.target.value;
+      if (state.applied) renderResults();
+    });
+
+    document.getElementById("verMasDestacados").addEventListener("click", () => {
+      state.op = "venta";
+      state.type = "departamento";
+      state.location = "";
+      document.getElementById("locationInput").value = "";
+      document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.dataset.op === "venta"));
+      renderChips();
+      state.applied = true;
+      renderResults();
+    });
+
+    document.body.addEventListener("click", (e) => {
+      const loc = e.target.closest("[data-loc]");
+      if (loc) {
+        state.location = loc.dataset.loc;
+        document.getElementById("locationInput").value = state.location;
+        state.applied = true;
+        renderResults();
+        return;
+      }
+      const resBtn = e.target.closest("[data-reserve]");
+      if (resBtn) {
+        e.stopPropagation();
+        openReserve(resBtn.dataset.reserve);
+        return;
+      }
+      const wa = e.target.closest("[data-wa]");
+      if (wa) {
+        e.stopPropagation();
+        const p = PROPERTIES.find((x) => x.id === wa.dataset.wa);
+        if (p) window.open(`https://wa.me/?text=${encodeURIComponent("Hola, me interesa: " + p.title + " — " + formatPrice(p))}`, "_blank");
+        return;
+      }
+      const cancel = e.target.closest("[data-cancel]");
+      if (cancel) {
+        saveReservas(getReservas().filter((r) => r.id !== cancel.dataset.cancel));
+        openReservas();
+        return;
+      }
+      const card = e.target.closest("[data-id]");
+      if (card && !e.target.closest("[data-fav]")) {
+        openDetail(card.dataset.id);
+      }
+    });
+
+    document.getElementById("btnReservas").addEventListener("click", openReservas);
+    document.getElementById("closeReserve").addEventListener("click", () =>
+      document.getElementById("reserveModal").classList.remove("open"));
+    document.getElementById("closeReservas").addEventListener("click", () =>
+      document.getElementById("reservasModal").classList.remove("open"));
+    document.getElementById("detailBackdrop").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) e.currentTarget.classList.remove("open");
+    });
+    document.getElementById("reserveModal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) e.currentTarget.classList.remove("open");
+    });
+    document.getElementById("reservasModal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) e.currentTarget.classList.remove("open");
+    });
+    document.getElementById("logoHome").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("resultsSection").classList.add("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
