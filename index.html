@@ -170,13 +170,12 @@
     }
     .fab-reserve:active { transform: scale(.97); }
     
-    /* ===== Modal + Pasarela lista para Mercado Pago ===== */
+    /* Modal + Pasarela */
     .modal-overlay {
       position: fixed; inset: 0; z-index: 100;
       background: rgb(0 0 0 / .55);
       display: none; align-items: flex-end; justify-content: center;
-      padding: 0 .75rem .75rem;
-      backdrop-filter: blur(4px);
+      padding: 0 .75rem .75rem; backdrop-filter: blur(4px);
     }
     .modal-overlay.open { display: flex; }
     .modal {
@@ -216,9 +215,8 @@
       display: flex; align-items: center; gap: .8rem;
       padding: .8rem .95rem; border-radius: 12px;
       border: 2px solid var(--border); background: #fff;
-      cursor: pointer; text-align: left; width: 100%; transition: all .15s;
+      cursor: pointer; text-align: left; width: 100%;
     }
-    .pay-method:hover { border-color: #ccc; }
     .pay-method.active { border-color: var(--primary); background: #fff8f5; }
     .pay-method .icon {
       width: 40px; height: 40px; border-radius: 10px;
@@ -237,11 +235,11 @@
     }
     .pay-panel { display: none; }
     .pay-panel.visible { display: block; }
-    .mp-box {
+    .pay-box {
       background: #f0f9ff; border: 1px solid #b6e0fe;
       border-radius: 12px; padding: 1.1rem; text-align: center;
     }
-    .mp-box p { font-size: 14px; color: #0369a1; margin-bottom: .9rem; line-height: 1.45; }
+    .pay-box p { font-size: 14px; color: #0369a1; margin-bottom: .9rem; line-height: 1.45; }
     .transfer-box {
       background: var(--bg); border-radius: 12px; padding: 1rem;
       border: 1px solid var(--border); font-size: 13.5px;
@@ -262,28 +260,12 @@
       height: 52px; border-radius: 12px; font-size: 1.05rem; font-weight: 700;
       display: flex; align-items: center; justify-content: center; gap: .5rem; width: 100%;
     }
-    .btn-pay.primary { background: var(--primary); color: #fff; }
-    .btn-pay.mp { background: #009ee3; color: #fff; }
+    .btn-pay.paypal { background: #0070ba; color: #fff; }
     .btn-pay.wa { background: var(--wa); color: #fff; }
-    .btn-pay .spinner {
-      width: 20px; height: 20px; border: 2.5px solid rgb(255 255 255 / .3);
-      border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: none;
-    }
-    .btn-pay.loading .spinner { display: block; }
-    .btn-pay.loading .btn-text { display: none; }
-    @keyframes spin { to { transform: rotate(360deg); } }
     .secure-note {
       display: flex; align-items: center; justify-content: center; gap: .35rem;
       font-size: 11.5px; color: var(--subtle); margin-top: .7rem;
     }
-    .pay-success { text-align: center; padding: 1.5rem 1rem 1rem; display: none; }
-    .pay-success.visible { display: block; }
-    .pay-success .check {
-      width: 68px; height: 68px; border-radius: 50%; background: var(--ok-soft); color: var(--ok);
-      display: grid; place-items: center; font-size: 2rem; margin: 0 auto 1rem;
-    }
-    .pay-success h3 { font-size: 1.25rem; margin-bottom: .4rem; }
-    .pay-success p { font-size: 14px; color: var(--muted); line-height: 1.5; margin-bottom: 1.2rem; }
     
     footer { text-align: center; padding: 1rem; font-size: 12px; color: var(--subtle); }
   </style>
@@ -453,94 +435,80 @@
     </button>
   </div>
 
-  <!-- Modal listo para Mercado Pago -->
+  <!-- Modal de pago -->
   <div class="modal-overlay" id="payModal">
-    <div class="modal" role="dialog" aria-labelledby="payTitle">
+    <div class="modal">
       <div class="modal-header">
-        <h2 id="payTitle">Reservar departamento</h2>
-        <button type="button" class="modal-close" id="payClose" aria-label="Cerrar">×</button>
+        <h2>Reservar departamento</h2>
+        <button type="button" class="modal-close" id="payClose">×</button>
       </div>
-      <div id="payContent">
-        <div class="modal-body">
-          <div class="pay-summary">
-            <div class="label">Seña de reserva</div>
-            <div class="amount">$ 100.000 <span>ARS</span></div>
-            <div class="desc">Pueyrredón 1700 · Recoleta · 54 m² · 2 amb.</div>
-          </div>
+      <div class="modal-body">
+        <div class="pay-summary">
+          <div class="label">Seña de reserva</div>
+          <div class="amount">$ 100.000 <span>ARS</span></div>
+          <div class="desc">Pueyrredón 1700 · Recoleta · 54 m² · 2 amb.</div>
+        </div>
 
-          <p style="font-size:14px;color:var(--muted);margin-bottom:.85rem;">Elegí cómo querés pagar la seña:</p>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:.85rem;">Elegí el método de pago:</p>
 
-          <div class="pay-methods">
-            <button type="button" class="pay-method active" data-method="mp">
-              <div class="icon">💙</div>
-              <div class="info">
-                <strong>Mercado Pago</strong>
-                <span>Tarjeta, dinero en cuenta o débito</span>
-              </div>
-              <div class="radio"></div>
-            </button>
-            <button type="button" class="pay-method" data-method="transfer">
-              <div class="icon">🏦</div>
-              <div class="info">
-                <strong>Transferencia bancaria</strong>
-                <span>CBU / Alias</span>
-              </div>
-              <div class="radio"></div>
-            </button>
-            <button type="button" class="pay-method" data-method="cash">
-              <div class="icon">💵</div>
-              <div class="info">
-                <strong>Efectivo</strong>
-                <span>Al firmar el contrato</span>
-              </div>
-              <div class="radio"></div>
-            </button>
-          </div>
-
-          <!-- Panel Mercado Pago (listo para conectar) -->
-          <div class="pay-panel visible" id="panel-mp">
-            <div class="mp-box">
-              <p>Vas a ser redirigido a <strong>Mercado Pago</strong> para pagar de forma 100% segura. Nosotros nunca vemos los datos de tu tarjeta.</p>
-              <button type="button" class="btn-pay mp" id="btnPayMP">
-                <span class="spinner"></span>
-                <span class="btn-text">Pagar $ 100.000 con Mercado Pago</span>
-              </button>
+        <div class="pay-methods">
+          <button type="button" class="pay-method active" data-method="paypal">
+            <div class="icon">💙</div>
+            <div class="info">
+              <strong>PayPal</strong>
+              <span>Pagar de forma segura</span>
             </div>
-            <div class="secure-note">🔒 Procesado de forma segura por Mercado Pago</div>
-          </div>
+            <div class="radio"></div>
+          </button>
+          <button type="button" class="pay-method" data-method="transfer">
+            <div class="icon">🏦</div>
+            <div class="info">
+              <strong>Transferencia bancaria</strong>
+              <span>CBU / Alias</span>
+            </div>
+            <div class="radio"></div>
+          </button>
+          <button type="button" class="pay-method" data-method="cash">
+            <div class="icon">💵</div>
+            <div class="info">
+              <strong>Efectivo</strong>
+              <span>Al firmar el contrato</span>
+            </div>
+            <div class="radio"></div>
+          </button>
+        </div>
 
-          <!-- Panel Transferencia -->
-          <div class="pay-panel" id="panel-transfer">
-            <div class="transfer-box">
-              <div class="row"><span class="key">Banco</span><span class="val">Galicia</span></div>
-              <div class="row"><span class="key">Titular</span><span class="val">Inmobiliaria Recoleta SA</span></div>
-              <div class="row"><span class="key">CBU</span><span class="val">00700123-00000012345678 <button type="button" class="copy-btn" data-copy="0070012300000012345678">Copiar</button></span></div>
-              <div class="row"><span class="key">Alias</span><span class="val">RECOLETA.DEPTO.1700 <button type="button" class="copy-btn" data-copy="RECOLETA.DEPTO.1700">Copiar</button></span></div>
-              <div class="row"><span class="key">Monto</span><span class="val">$ 100.000</span></div>
-            </div>
-            <p style="font-size:13px;color:var(--muted);margin:1rem 0 .5rem;">Después de transferir, envianos el comprobante.</p>
-            <div class="pay-actions">
-              <button type="button" class="btn-pay wa" id="btnTransferWA">Enviar comprobante por WhatsApp</button>
-            </div>
+        <!-- Panel PayPal -->
+        <div class="pay-panel visible" id="panel-paypal">
+          <div class="pay-box">
+            <p>Vas a ser redirigido a <strong>PayPal</strong> para completar el pago de forma segura.</p>
+            <a href="https://www.paypal.com" target="_blank" rel="noopener" class="btn-pay paypal" id="btnPayPal">
+              Pagar con PayPal
+            </a>
           </div>
+          <div class="secure-note">🔒 Procesado de forma segura por PayPal</div>
+        </div>
 
-          <!-- Panel Efectivo -->
-          <div class="pay-panel" id="panel-cash">
-            <p style="font-size:14px;color:var(--muted);margin-bottom:1rem;">La seña se abona en efectivo al firmar el contrato y entregar las llaves. Coordinamos día y horario por WhatsApp.</p>
-            <div class="pay-actions">
-              <button type="button" class="btn-pay wa" id="btnCashWA">Coordinar por WhatsApp</button>
-            </div>
+        <!-- Panel Transferencia -->
+        <div class="pay-panel" id="panel-transfer">
+          <div class="transfer-box">
+            <div class="row"><span class="key">Banco</span><span class="val">Galicia</span></div>
+            <div class="row"><span class="key">Titular</span><span class="val">Inmobiliaria Recoleta SA</span></div>
+            <div class="row"><span class="key">CBU</span><span class="val">00700123-00000012345678 <button type="button" class="copy-btn" data-copy="0070012300000012345678">Copiar</button></span></div>
+            <div class="row"><span class="key">Alias</span><span class="val">RECOLETA.DEPTO.1700 <button type="button" class="copy-btn" data-copy="RECOLETA.DEPTO.1700">Copiar</button></span></div>
+            <div class="row"><span class="key">Monto</span><span class="val">$ 100.000</span></div>
+          </div>
+          <div class="pay-actions">
+            <button type="button" class="btn-pay wa" id="btnTransferWA">Enviar comprobante por WhatsApp</button>
           </div>
         </div>
-      </div>
 
-      <div class="pay-success" id="paySuccess">
-        <div class="check">✓</div>
-        <h3>¡Listo!</h3>
-        <p>Te redirigimos a Mercado Pago.<br>Cuando el pago se acredite te contactamos para coordinar la firma.</p>
-        <div class="pay-actions" style="padding:0 1.2rem 1.4rem;">
-          <button type="button" class="btn-pay wa" id="btnSuccessWA">Avisar por WhatsApp</button>
-          <button type="button" class="btn-pay" id="btnSuccessClose" style="background:var(--bg);color:var(--fg);border:1px solid var(--border);">Cerrar</button>
+        <!-- Panel Efectivo -->
+        <div class="pay-panel" id="panel-cash">
+          <p style="font-size:14px;color:var(--muted);margin-bottom:1rem;">La seña se abona en efectivo al firmar el contrato. Coordinamos por WhatsApp.</p>
+          <div class="pay-actions">
+            <button type="button" class="btn-pay wa" id="btnCashWA">Coordinar por WhatsApp</button>
+          </div>
         </div>
       </div>
     </div>
@@ -614,28 +582,21 @@
       }, { passive: true });
     })();
 
-    // ===== Pasarela lista para Mercado Pago =====
+    // Pasarela de pago
     (function() {
       var modal = document.getElementById("payModal");
       var btnReserve = document.getElementById("btnReserve");
       var btnClose = document.getElementById("payClose");
-      var payContent = document.getElementById("payContent");
-      var paySuccess = document.getElementById("paySuccess");
       var methods = document.querySelectorAll(".pay-method");
       var panels = {
-        mp: document.getElementById("panel-mp"),
+        paypal: document.getElementById("panel-paypal"),
         transfer: document.getElementById("panel-transfer"),
         cash: document.getElementById("panel-cash")
       };
 
-      // >>> CUANDO TENGAS EL LINK DE MERCADO PAGO, PEGALO ACÁ <<<
-      var MERCADOPAGO_CHECKOUT_URL = ""; // ejemplo: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXX"
-
       function openModal() {
         modal.classList.add("open");
         document.body.style.overflow = "hidden";
-        payContent.style.display = "block";
-        paySuccess.classList.remove("visible");
       }
       function closeModal() {
         modal.classList.remove("open");
@@ -644,8 +605,9 @@
 
       btnReserve.addEventListener("click", openModal);
       btnClose.addEventListener("click", closeModal);
-      modal.addEventListener("click", function(e) { if (e.target === modal) closeModal(); });
-      document.getElementById("btnSuccessClose").addEventListener("click", closeModal);
+      modal.addEventListener("click", function(e) {
+        if (e.target === modal) closeModal();
+      });
 
       methods.forEach(function(btn) {
         btn.addEventListener("click", function() {
@@ -671,26 +633,6 @@
         });
       });
 
-      // Botón Mercado Pago
-      document.getElementById("btnPayMP").addEventListener("click", function() {
-        var btn = this;
-        btn.classList.add("loading");
-
-        if (MERCADOPAGO_CHECKOUT_URL && MERCADOPAGO_CHECKOUT_URL.length > 10) {
-          // Ya tenés el link real → redirigir
-          setTimeout(function() {
-            window.location.href = MERCADOPAGO_CHECKOUT_URL;
-          }, 600);
-        } else {
-          // Todavía no hay link → simulación + WhatsApp
-          setTimeout(function() {
-            btn.classList.remove("loading");
-            payContent.style.display = "none";
-            paySuccess.classList.add("visible");
-          }, 1200);
-        }
-      });
-
       function openWA(msg) {
         window.open("https://wa.me/message/DNHVMI3DD5MGG1?text=" + encodeURIComponent(msg), "_blank", "noopener");
       }
@@ -699,11 +641,7 @@
         openWA("Hola! Realicé la transferencia de la seña ($100.000) para el depto en Pueyrredón 1700, Recoleta.\n\nAdjunto el comprobante.");
       });
       document.getElementById("btnCashWA").addEventListener("click", function() {
-        openWA("Hola! Quiero reservar el departamento en Pueyrredón 1700, Recoleta.\n\nPrefiero abonar la seña en efectivo al firmar. ¿Coordinamos día y horario?");
-      });
-      document.getElementById("btnSuccessWA").addEventListener("click", function() {
-        openWA("Hola! Estoy por pagar / ya pagué la seña de $100.000 del departamento en Pueyrredón 1700 por Mercado Pago.\n\n¿Me confirman los próximos pasos?");
-        closeModal();
+        openWA("Hola! Quiero reservar el departamento en Pueyrredón 1700, Recoleta.\n\nPrefiero abonar la seña en efectivo al firmar. ¿Coordinamos?");
       });
     })();
   </script>
