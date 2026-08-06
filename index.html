@@ -4,237 +4,223 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
 <title>Zonaprop · Encontrá tu hogar</title>
-<meta name="description" content="Alquilá departamentos en CABA y GBA. Buscá por zona, ambientes y reservá con seña."/>
+<meta name="description" content="Encontrá departamentos en alquiler en CABA y GBA. Reservá con seña por Mercado Pago."/>
 <meta property="og:title" content="Zonaprop · Encontrá tu hogar"/>
-<meta property="og:description" content="Departamentos en alquiler. Calendario, Mercado Pago y WhatsApp."/>
 <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--primary:#ff5500;--muted:#5a5a5a;--border:#e8e8e8;--font:"Hind",system-ui,sans-serif}
+:root{--primary:#ff5500;--muted:#6b6b6b;--border:#e5e5e5;--font:"Hind",system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:#fff;color:#111;line-height:1.45}
+body{font-family:var(--font);background:#fff;color:#1a1a1a;line-height:1.4}
 a{color:inherit;text-decoration:none}
-header{position:sticky;top:0;z-index:40;height:56px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}
-.hi{width:min(960px,100%);margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between}
-.logo{font-weight:700;font-size:1.35rem;display:flex;align-items:center;gap:.35rem}
-.logo span{color:var(--primary);font-size:1.1rem}
-.hi-right{display:flex;align-items:center;gap:.5rem}
-.btn-ghost{font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-family:inherit}
-.btn-orange{font-size:13px;font-weight:700;padding:8px 16px;border-radius:999px;border:none;background:var(--primary);color:#fff;cursor:pointer;font-family:inherit}
+button,input,select{font-family:inherit}
+
+/* Header like Zonaprop */
+header{position:sticky;top:0;z-index:50;height:56px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.hi{width:min(100%,720px);margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:.4rem;font-weight:700;font-size:1.35rem;letter-spacing:-.02em}
+.logo-pin{color:var(--primary);font-size:1.15rem;line-height:1}
+.hi-icons{display:flex;align-items:center;gap:.15rem}
+.hi-icons a,.hi-icons button{
+  width:40px;height:40px;border:none;background:transparent;border-radius:50%;
+  display:grid;place-items:center;cursor:pointer;color:#333;font-size:1.25rem
+}
 
 /* Hero */
 .hero{
-  position:relative;min-height:420px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(160deg,#1a1a1a 0%,#3d2a1f 40%,#5c3d2e 100%);
-  background-image:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.55)),url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=800&fit=crop");
-  background-size:cover;background-position:center;padding:2rem 1rem 2.5rem;color:#fff;text-align:center
+  position:relative;min-height:min(78vh,560px);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2.5rem 1rem 3rem;text-align:center;color:#fff;
+  background:#2a2a2a center/cover no-repeat;
+  background-image:
+    linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.5) 100%),
+    url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1400&h=900&fit=crop");
 }
-.hero h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:800;margin-bottom:1.25rem;text-shadow:0 2px 12px rgb(0 0 0/.4)}
+.hero h1{
+  font-size:clamp(1.85rem,6vw,2.55rem);font-weight:700;margin-bottom:1.35rem;
+  text-shadow:0 2px 16px rgba(0,0,0,.35);letter-spacing:-.01em
+}
 
+/* Search card */
 .search-card{
-  width:min(440px,100%);margin:0 auto;background:#fff;border-radius:16px;padding:1rem 1rem 1.15rem;
-  box-shadow:0 12px 40px rgb(0 0 0/.25);text-align:left;color:#111
+  width:min(400px,100%);background:#fff;border-radius:16px;padding:1.1rem 1rem 1.15rem;
+  box-shadow:0 16px 48px rgba(0,0,0,.28);text-align:left;color:#1a1a1a
 }
-.tabs{display:flex;gap:0;margin-bottom:1rem;border-bottom:2px solid #eee}
+.tabs{display:flex;margin-bottom:1rem;border-bottom:1px solid #eee}
 .tab{
-  flex:1;text-align:center;padding:.65rem .4rem;font-size:14px;font-weight:600;color:var(--muted);
-  background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;font-family:inherit
+  flex:1;padding:.7rem .25rem;font-size:13.5px;font-weight:600;color:#777;
+  background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-1px;cursor:pointer
 }
 .tab.active{color:var(--primary);border-bottom-color:var(--primary)}
-.field{margin-bottom:.65rem}
-.field label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:.25rem}
+.field{margin-bottom:.7rem}
 .field select,.field input{
-  width:100%;padding:.7rem .85rem;border:1.5px solid var(--border);border-radius:10px;
-  font-size:15px;font-family:inherit;background:#fff;appearance:none
+  width:100%;height:48px;padding:0 .95rem;border:1.5px solid #ddd;border-radius:10px;
+  font-size:15px;background:#fff;color:#333
 }
-.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-.btn-search{
-  width:100%;height:48px;margin-top:.35rem;border:none;border-radius:12px;
-  background:var(--primary);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit
+.field select{
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center
 }
-.btn-search:active{transform:scale(.98)}
+.field input::placeholder{color:#999}
+.btn-buscar{
+  width:100%;height:50px;margin-top:.25rem;border:none;border-radius:12px;
+  background:var(--primary);color:#fff;font-size:16px;font-weight:700;cursor:pointer
+}
+.btn-buscar:active{opacity:.92;transform:scale(.99)}
 
-/* Sections */
-.section{width:min(960px,100%);margin:0 auto;padding:1.5rem 1rem}
-.section h2{font-size:1.2rem;font-weight:800;margin-bottom:.85rem}
-.quick-zones{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.25rem}
-.zone-chip{
-  padding:.45rem .9rem;border-radius:999px;background:#f3f3f3;font-size:13px;font-weight:600;color:#333
+/* Below hero - ad style strips */
+.below{background:#fff;padding:0 0 1.5rem}
+.ad-strip{
+  display:flex;align-items:center;gap:.85rem;padding:1rem 1.15rem;
+  border-bottom:1px solid #f0f0f0;max-width:720px;margin:0 auto
 }
-.zone-chip:active{background:#ffe8dc;color:var(--primary)}
-
-.cards{display:grid;grid-template-columns:1fr;gap:.85rem}
-@media(min-width:560px){.cards{grid-template-columns:1fr 1fr}}
-.card{
-  background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column
+.ad-logo{
+  flex-shrink:0;width:52px;height:36px;border-radius:6px;background:#004481;color:#fff;
+  display:grid;place-items:center;font-size:11px;font-weight:800;letter-spacing:.02em
 }
-.card-img{height:160px;background:#ddd center/cover no-repeat}
-.card-body{padding:.75rem .9rem}
-.card-barrio{font-size:12px;color:var(--muted)}
-.card-title{font-size:15px;font-weight:700;margin:.15rem 0}
-.card-specs{font-size:12.5px;color:var(--muted)}
-.card-price{font-size:1.05rem;font-weight:800;margin-top:.35rem}
+.ad-logo.hoggax{background:#ff2d7b;font-size:10px}
+.ad-text{flex:1;min-width:0}
+.ad-text strong{display:block;font-size:14px;font-weight:700}
+.ad-text span{font-size:12.5px;color:var(--muted)}
+.ad-label{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
 
-.cta-band{
-  margin:1.5rem 1rem;padding:1.25rem 1rem;background:#fff8f5;border:1px solid #ffd9c2;border-radius:16px;
-  text-align:center;width:min(960px,calc(100% - 2rem));margin-left:auto;margin-right:auto
+.section{max-width:720px;margin:0 auto;padding:1.25rem 1rem}
+.section h2{font-size:1.15rem;font-weight:700;margin-bottom:.75rem}
+.zones{display:flex;flex-wrap:wrap;gap:.4rem}
+.zone{
+  padding:.4rem .85rem;border-radius:999px;background:#f4f4f4;font-size:13px;font-weight:600;color:#333
 }
-.cta-band h3{font-size:1.1rem;margin-bottom:.35rem}
-.cta-band p{font-size:13.5px;color:var(--muted);margin-bottom:.75rem}
-.ads-row{display:flex;flex-direction:column;gap:.65rem;margin-top:1rem}
-.ad-card{background:#f8f8f8;border-radius:12px;padding:.85rem 1rem;font-size:13px;color:var(--muted);border:1px solid var(--border)}
-.ad-card strong{color:#111;display:block;margin-bottom:.15rem}
 
-footer{padding:1.5rem 1rem 2rem;text-align:center;font-size:12px;color:var(--muted);border-top:1px solid var(--border);margin-top:1rem}
+.feat{
+  display:grid;grid-template-columns:1fr;gap:.75rem
+}
+.feat a{
+  display:grid;grid-template-columns:110px 1fr;border:1px solid var(--border);border-radius:12px;overflow:hidden;min-height:100px
+}
+.feat .ph{background:#e8e8e8 center/cover no-repeat;min-height:100px}
+.feat .bd{padding:.65rem .75rem;display:flex;flex-direction:column;justify-content:center;gap:.1rem}
+.feat .br{font-size:11.5px;color:var(--muted)}
+.feat .tt{font-size:14px;font-weight:700}
+.feat .sp{font-size:12px;color:var(--muted)}
+.feat .pr{font-size:15px;font-weight:800;margin-top:.15rem}
+
+.btn-all{
+  display:block;width:100%;max-width:320px;margin:1rem auto 0;height:48px;line-height:48px;text-align:center;
+  background:var(--primary);color:#fff;font-weight:700;border-radius:12px;font-size:15px
+}
+
+footer{padding:1.5rem 1rem;text-align:center;font-size:12px;color:#999;border-top:1px solid #f0f0f0;margin-top:.5rem}
 </style>
 </head>
 <body>
 <header>
   <div class="hi">
-    <a class="logo" href="index.html"><span>●</span> zonaprop</a>
-    <div class="hi-right">
-      <a class="btn-ghost" href="listado.html">Listado</a>
-      <a class="btn-orange" href="listado.html">Ingresar</a>
+    <a class="logo" href="index.html"><span class="logo-pin">📍</span> zonaprop</a>
+    <div class="hi-icons">
+      <a href="listado.html" title="Buscar" aria-label="Buscar">🔔</a>
+      <a href="listado.html" title="Menú" aria-label="Menú">☰</a>
     </div>
   </div>
 </header>
 
 <section class="hero">
-  <div>
-    <h1>Encontrá tu hogar</h1>
-    <div class="search-card">
-      <div class="tabs">
-        <button type="button" class="tab active" data-op="alquilar">Alquilar</button>
-        <button type="button" class="tab" data-op="comprar">Comprar</button>
-        <button type="button" class="tab" data-op="emp">Emprendimientos</button>
-      </div>
-      <div class="field">
-        <label>Tipo de propiedad</label>
-        <select id="tipo">
-          <option value="departamento">Departamento</option>
-          <option value="casa">Casa</option>
-          <option value="ph">PH</option>
-          <option value="monoambiente">Monoambiente</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Ubicación</label>
-        <input type="search" id="ubicacion" placeholder="Ingresá ubicaciones o características (ej: pileta)" list="barriosList"/>
-        <datalist id="barriosList">
-          <option value="Palermo"/>
-          <option value="Belgrano"/>
-          <option value="Recoleta"/>
-          <option value="Caballito"/>
-          <option value="Flores"/>
-          <option value="Almagro"/>
-          <option value="Villa Urquiza"/>
-          <option value="Villa Crespo"/>
-          <option value="Núñez"/>
-          <option value="San Telmo"/>
-          <option value="Barracas"/>
-          <option value="Balvanera"/>
-          <option value="Colegiales"/>
-          <option value="Olivos"/>
-        </datalist>
-      </div>
-      <div class="field">
-        <label>Ambientes</label>
-        <select id="ambientes">
-          <option value="">Cualquiera</option>
-          <option value="1">1 ambiente</option>
-          <option value="2">2 ambientes</option>
-          <option value="3">3 ambientes</option>
-          <option value="4">4 o más</option>
-        </select>
-      </div>
-      <button type="button" class="btn-search" id="btnBuscar">Buscar</button>
+  <h1>Encontrá tu hogar</h1>
+  <div class="search-card">
+    <div class="tabs">
+      <button type="button" class="tab active" data-tab="alquilar">Alquilar</button>
+      <button type="button" class="tab" data-tab="comprar">Comprar</button>
+      <button type="button" class="tab" data-tab="emp">Emprendimientos</button>
+    </div>
+    <div class="field">
+      <select id="tipo" aria-label="Tipo de propiedad">
+        <option value="departamento">Departamento</option>
+        <option value="casa">Casa</option>
+        <option value="ph">PH</option>
+        <option value="mono">Monoambiente</option>
+      </select>
+    </div>
+    <div class="field">
+      <input type="search" id="q" placeholder="Ingresá ubicaciones o características (ej: pileta)" list="zonas" autocomplete="off"/>
+      <datalist id="zonas">
+        <option value="Palermo"><option value="Belgrano"><option value="Recoleta">
+        <option value="Caballito"><option value="Flores"><option value="Almagro">
+        <option value="Villa Urquiza"><option value="Villa Crespo"><option value="Núñez">
+        <option value="San Telmo"><option value="Colegiales"><option value="Olivos">
+      </datalist>
+    </div>
+    <button type="button" class="btn-buscar" id="btnBuscar">Buscar</button>
+  </div>
+</section>
+
+<div class="below">
+  <div class="ad-strip">
+    <div class="ad-logo">BBVA</div>
+    <div class="ad-text">
+      <div class="ad-label">Publicidad</div>
+      <strong>Créditos Hipotecarios BBVA</strong>
+      <span>Encontrá el tuyo</span>
     </div>
   </div>
-</section>
-
-<section class="section">
-  <h2>Zonas destacadas</h2>
-  <div class="quick-zones" id="quickZones">
-    <a class="zone-chip" href="listado.html">Todas</a>
-    <a class="zone-chip" href="listado.html">Palermo</a>
-    <a class="zone-chip" href="listado.html">Belgrano</a>
-    <a class="zone-chip" href="listado.html">Recoleta</a>
-    <a class="zone-chip" href="listado.html">Caballito</a>
-    <a class="zone-chip" href="listado.html">Villa Urquiza</a>
-    <a class="zone-chip" href="listado.html">Flores</a>
-    <a class="zone-chip" href="listado.html">Almagro</a>
+  <div class="ad-strip">
+    <div class="ad-logo hoggax">hoggax</div>
+    <div class="ad-text">
+      <div class="ad-label">Publicidad</div>
+      <strong>Garantías de alquiler</strong>
+      <span>100% online y con aprobación automática.</span>
+    </div>
   </div>
-
-  <h2>Publicaciones destacadas</h2>
-  <div class="cards" id="destacadas">
-    <a class="card" href="depto-pueyrredon.html">
-      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop')"></div>
-      <div class="card-body">
-        <div class="card-barrio">Recoleta</div>
-        <div class="card-title">2 amb. amueblado · Pueyrredón 1700</div>
-        <div class="card-specs">54 m² · 1 baño · Cochera</div>
-        <div class="card-price">$ 550.000 <span style="font-size:12px;font-weight:500;color:#5a5a5a">+ expensas</span></div>
-      </div>
-    </a>
-  </div>
-  <p style="text-align:center;margin-top:1rem">
-    <a class="btn-orange" href="listado.html" style="display:inline-block">Ver todos los departamentos</a>
-  </p>
-</section>
-
-<div class="cta-band">
-  <h3>Reservá con seña respaldada</h3>
-  <p>Calendario de disponibilidad · Mercado Pago · WhatsApp · Seña $ 300.000</p>
-  <a class="btn-orange" href="listado.html" style="display:inline-block">Explorar listado</a>
 </div>
 
 <section class="section">
-  <div class="ads-row">
-    <div class="ad-card"><strong>Garantías de alquiler</strong>Consultá opciones de garantía propietaria o seguro de caución al reservar.</div>
-    <div class="ad-card"><strong>¿Querés publicar?</strong>Contactanos por WhatsApp para sumar tu departamento al listado.</div>
+  <h2>Zonas populares</h2>
+  <div class="zones">
+    <a class="zone" href="listado.html?zona=Palermo">Palermo</a>
+    <a class="zone" href="listado.html?zona=Belgrano">Belgrano</a>
+    <a class="zone" href="listado.html?zona=Recoleta">Recoleta</a>
+    <a class="zone" href="listado.html?zona=Caballito">Caballito</a>
+    <a class="zone" href="listado.html?zona=Flores">Flores</a>
+    <a class="zone" href="listado.html?zona=Almagro">Almagro</a>
+    <a class="zone" href="listado.html?zona=Villa%20Urquiza">Villa Urquiza</a>
+    <a class="zone" href="listado.html">Todas</a>
   </div>
 </section>
 
+<section class="section">
+  <h2>Destacados</h2>
+  <div class="feat">
+    <a href="depto-pueyrredon.html">
+      <div class="ph" style="background-image:url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop')"></div>
+      <div class="bd">
+        <div class="br">Recoleta</div>
+        <div class="tt">2 amb. amueblado · Pueyrredón 1700</div>
+        <div class="sp">54 m² · cochera · amueblado</div>
+        <div class="pr">$ 550.000</div>
+      </div>
+    </a>
+  </div>
+  <a class="btn-all" href="listado.html">Ver todos los departamentos</a>
+  <a class="btn-all" href="publicar.html" style="background:#fff;color:var(--primary);border:1.5px solid var(--primary);margin-top:.55rem">Publicá tu departamento</a>
+</section>
+
 <footer>
-  zonaprop · Departamentos en alquiler · CABA y GBA<br/>
-  <a href="listado.html">Listado completo</a>
+  zonaprop · <a href="publicar.html">Publicá tu depto</a> · <a href="listado.html">Listado</a>
 </footer>
 
 <script>
-// Tabs
-document.querySelectorAll('.tab').forEach(function(tab){
-  tab.onclick=function(){
-    document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
-    tab.classList.add('active');
+document.querySelectorAll('.tab').forEach(function(t){
+  t.onclick=function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+    t.classList.add('active');
   };
 });
-
-// Search → listado with query params
-document.getElementById('btnBuscar').onclick=function(){
-  var zona=(document.getElementById('ubicacion').value||'').trim();
-  var amb=document.getElementById('ambientes').value||'';
-  var q=[];
-  if(zona) q.push('zona='+encodeURIComponent(zona));
-  if(amb) q.push('amb='+encodeURIComponent(amb));
-  var url='listado.html'+(q.length?'?'+q.join('&'):'');
+function goSearch(){
+  var q=(document.getElementById('q').value||'').trim();
+  var url='listado.html';
+  if(q) url+='?zona='+encodeURIComponent(q);
   location.href=url;
-};
-document.getElementById('ubicacion').addEventListener('keydown',function(e){
-  if(e.key==='Enter') document.getElementById('btnBuscar').click();
-});
-
-// Load a few cards from listado data if available - static fallbacks + fetch not needed
-// Add more featured from known files
-var extra=[
-  {href:'depto-real-001.html',img:'',barrio:'CABA',title:'Ver en listado',specs:'Fotos reales',price:'Consultar'},
-];
-// Wire zone chips to search
-document.querySelectorAll('.zone-chip').forEach(function(chip){
-  chip.addEventListener('click',function(e){
-    var z=chip.textContent.trim();
-    if(z==='Todas') return;
-    e.preventDefault();
-    location.href='listado.html?zona='+encodeURIComponent(z);
-  });
+}
+document.getElementById('btnBuscar').onclick=goSearch;
+document.getElementById('q').addEventListener('keydown',function(e){
+  if(e.key==='Enter') goSearch();
 });
 </script>
 </body>

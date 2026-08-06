@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
+<title>Publicá tu departamento · zonaprop</title>
+<meta name="description" content="Publicá tu departamento en alquiler. Contacto por WhatsApp y reserva con seña."/>
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--primary:#ff5500;--muted:#5a5a5a;--border:#e8e8e8;--wa:#25d366;--font:"Hind",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:#f5f5f5;color:#111;line-height:1.45;padding-bottom:2rem}
+a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;z-index:30;height:56px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.hi{width:min(720px,100%);margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:700;font-size:1.25rem}.logo span{color:var(--primary)}
+.nav a{font-size:13px;font-weight:600;color:var(--primary);padding:6px 12px;border-radius:999px;border:1.5px solid var(--primary);margin-left:.35rem}
+.wrap{width:min(720px,100%);margin:0 auto;padding:1.25rem 1rem}
+h1{font-size:1.45rem;font-weight:800;margin-bottom:.35rem}
+.sub{font-size:14px;color:var(--muted);margin-bottom:1.25rem}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;margin-bottom:.85rem}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.card p,.card li{font-size:14px;color:#333;line-height:1.5}
+.card ul{padding-left:1.15rem;margin-top:.35rem}
+.card li{margin-bottom:.3rem}
+.steps{counter-reset:s}
+.steps li{list-style:none;position:relative;padding:.55rem 0 .55rem 2rem;border-bottom:1px solid #f0f0f0}
+.steps li:last-child{border-bottom:none}
+.steps li::before{
+  counter-increment:s;content:counter(s);
+  position:absolute;left:0;top:.55rem;width:1.35rem;height:1.35rem;border-radius:50%;
+  background:var(--primary);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center
+}
+.btn-row{display:flex;flex-direction:column;gap:.55rem;margin-top:1rem}
+.btn{
+  display:flex;align-items:center;justify-content:center;height:48px;border-radius:28px;
+  font-weight:700;font-size:15px;border:none;cursor:pointer;font-family:inherit;text-align:center
+}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-outline{background:#fff;color:var(--primary);border:1.5px solid var(--primary)}
+.form-group{margin-bottom:.65rem}
+.form-group label{display:block;font-size:12px;font-weight:600;margin-bottom:.2rem;color:#444}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:.6rem .75rem;border:1.5px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit
+}
+.form-group textarea{min-height:90px;resize:vertical}
+.note{font-size:12.5px;color:var(--muted);margin-top:.5rem}
+</style>
+</head>
+<body>
+<header>
+  <div class="hi">
+    <a class="logo" href="index.html"><span>●</span> zonaprop</a>
+    <div class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="listado.html">Listado</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Publicá tu departamento</h1>
+  <p class="sub">Sumá tu propiedad al listado. Te contactamos por WhatsApp para cargar fotos, precio y disponibilidad.</p>
+
+  <div class="card">
+    <h2>¿Cómo funciona?</h2>
+    <ul class="steps">
+      <li>Completá el formulario o escribinos por WhatsApp.</li>
+      <li>Enviá fotos del departamento (ideal 8 o más).</li>
+      <li>Indicá precio, expensas, ambientes y barrio.</li>
+      <li>Publicamos la ficha con calendario y reserva.</li>
+      <li>Los interesados pagan seña por Mercado Pago y te contactan.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Datos de tu propiedad</h2>
+    <div class="form-group">
+      <label for="nombre">Tu nombre</label>
+      <input type="text" id="nombre" placeholder="Nombre completo" autocomplete="name"/>
+    </div>
+    <div class="form-group">
+      <label for="tel">WhatsApp</label>
+      <input type="tel" id="tel" placeholder="11 1234-5678" autocomplete="tel"/>
+    </div>
+    <div class="form-group">
+      <label for="barrio">Barrio / zona</label>
+      <input type="text" id="barrio" placeholder="Ej: Caballito, Palermo…"/>
+    </div>
+    <div class="form-group">
+      <label for="dir">Dirección (aprox.)</label>
+      <input type="text" id="dir" placeholder="Calle y altura"/>
+    </div>
+    <div class="form-group">
+      <label for="amb">Ambientes</label>
+      <select id="amb">
+        <option value="1">1 ambiente</option>
+        <option value="2" selected>2 ambientes</option>
+        <option value="3">3 ambientes</option>
+        <option value="4">4 o más</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="precio">Alquiler mensual ($)</label>
+      <input type="text" id="precio" placeholder="Ej: 550000"/>
+    </div>
+    <div class="form-group">
+      <label for="info">Comentarios</label>
+      <textarea id="info" placeholder="Expensas, amoblado, cochera, disponibilidad…"></textarea>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-wa" id="btnWA">Enviar por WhatsApp</button>
+      <a class="btn btn-outline" href="listado.html">Ver departamentos publicados</a>
+      <a class="btn btn-primary" href="index.html">Volver al inicio</a>
+    </div>
+    <p class="note">Al enviar se abre WhatsApp con tus datos armados. Número de contacto del sitio: +54 9 11 5379-7355.</p>
+  </div>
+
+  <div class="card">
+    <h2>También podés</h2>
+    <ul>
+      <li><a href="listado.html" style="color:var(--primary);font-weight:600">Explorar el listado</a> de departamentos</li>
+      <li><a href="depto-pueyrredon.html" style="color:var(--primary);font-weight:600">Ver el depto de Recoleta</a> (Pueyrredón 1700)</li>
+      <li>Reservar con seña de <strong>$ 300.000</strong> por Mercado Pago</li>
+    </ul>
+  </div>
+</main>
+
+<script>
+var WA = "5491153797355";
+document.getElementById("btnWA").onclick = function() {
+  var nombre = (document.getElementById("nombre").value || "").trim();
+  var tel = (document.getElementById("tel").value || "").trim();
+  var barrio = (document.getElementById("barrio").value || "").trim();
+  var dir = (document.getElementById("dir").value || "").trim();
+  var amb = document.getElementById("amb").value;
+  var precio = (document.getElementById("precio").value || "").trim();
+  var info = (document.getElementById("info").value || "").trim();
+  if (!nombre && !tel) {
+    alert("Completá al menos tu nombre o WhatsApp.");
+    return;
+  }
+  var msg = "Hola! Quiero publicar mi departamento en la web.\n\n" +
+    "Nombre: " + (nombre || "-") + "\n" +
+    "WhatsApp: " + (tel || "-") + "\n" +
+    "Barrio: " + (barrio || "-") + "\n" +
+    "Dirección: " + (dir || "-") + "\n" +
+    "Ambientes: " + amb + "\n" +
+    "Precio: " + (precio || "-") + "\n" +
+    "Info: " + (info || "-");
+  window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(msg), "_blank");
+};
+</script>
+</body>
+</html>
