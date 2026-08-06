@@ -82,6 +82,19 @@ h1{font-size:1.3rem;font-weight:800;line-height:1.25;margin-bottom:.25rem}
 .btn-wa-modal{display:block;width:100%;height:48px;border-radius:28px;background:var(--wa);color:#fff;font-weight:700;font-size:15px;border:none;margin-top:.5rem;cursor:pointer;font-family:inherit}
 .hint{font-size:12.5px;color:var(--muted);margin-top:.55rem;line-height:1.4}
 
+
+.detail-grid{display:grid;gap:.55rem;margin-top:.5rem}
+.detail-row{display:flex;justify-content:space-between;gap:1rem;font-size:13.5px;padding:.35rem 0;border-bottom:1px solid #eee}
+.detail-row:last-child{border-bottom:none}
+.detail-row .k{color:var(--muted)}
+.detail-row .v{font-weight:600;text-align:right}
+.reserve-steps{margin-top:.55rem;padding:0;list-style:none}
+.reserve-steps li{position:relative;padding:.45rem 0 .45rem 1.75rem;font-size:13.5px;color:#333;line-height:1.4;border-bottom:1px solid #eee}
+.reserve-steps li:last-child{border-bottom:none}
+.reserve-steps li::before{content:attr(data-n);position:absolute;left:0;top:.45rem;width:1.25rem;height:1.25rem;border-radius:50%;background:var(--primary);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.sena-box{margin-top:.65rem;background:#fff8f5;border:1px solid #ffd9c2;border-radius:10px;padding:.7rem .85rem;font-size:13.5px}
+.sena-box strong{font-size:1.05rem}
+
 </style>
 </head>
 <body>
@@ -114,7 +127,37 @@ h1{font-size:1.3rem;font-weight:800;line-height:1.25;margin-bottom:.25rem}
   <p class="hint" id="calSelected" style="margin-top:.55rem;">Elegí una fecha de ingreso disponible.</p>
 </div>
 
-<div class="block"><h3>Descripción</h3><p>Departamento en alquiler en CABA. 1 amb. · Ituzaingo 3335. Precio: $ 180.000. Galería con 15 fotos reales.</p></div>
+<div class="block"><h3>Descripción</h3><p>Departamento en alquiler en CABA. 1 amb. · Ituzaingo 3335. Alquiler: $ 180.000. Consultá el calendario de disponibilidad y reservá con seña.</p></div>
+
+<div class="block">
+  <h3>Detalle del inmueble</h3>
+  <div class="detail-grid">
+    <div class="detail-row"><span class="k">Tipo</span><span class="v">Departamento en alquiler</span></div>
+    <div class="detail-row"><span class="k">Dirección</span><span class="v">Ituzaingo 3335, CABA</span></div>
+    <div class="detail-row"><span class="k">Barrio / zona</span><span class="v">CABA</span></div>
+    <div class="detail-row"><span class="k">Ambientes</span><span class="v">1 amb.</span></div>
+    <div class="detail-row"><span class="k">Superficie</span><span class="v">43 m²</span></div>
+    <div class="detail-row"><span class="k">Alquiler mensual</span><span class="v">$ 180.000</span></div>
+    <div class="detail-row"><span class="k">Expensas</span><span class="v">Consultar</span></div>
+    <div class="detail-row"><span class="k">Fotos</span><span class="v">15 fotos</span></div>
+  </div>
+</div>
+<div class="block">
+  <h3>Detalle de la reserva</h3>
+  <ul class="reserve-steps">
+    <li data-n="1">Elegí la <strong>fecha de ingreso</strong> en el calendario (días en verde = disponibles).</li>
+    <li data-n="2">Tocá <strong>Reservar fechas</strong> o <strong>WhatsApp</strong>.</li>
+    <li data-n="3">Completá <strong>nombre completo y DNI</strong>.</li>
+    <li data-n="4">Pagá la seña por <strong>Mercado Pago</strong>.</li>
+    <li data-n="5">Enviá el <strong>comprobante por WhatsApp</strong> para confirmar.</li>
+  </ul>
+  <div class="sena-box">
+    <div>Seña de reserva</div>
+    <strong>$ 300.000 ARS</strong>
+    <div style="margin-top:.25rem;color:#5a5a5a;font-size:12.5px">Se descuenta del primer mes de alquiler. Válida una vez acreditada y confirmada.</div>
+  </div>
+</div>
+
 <div class="source">Publicación en esta web. Consultá disponibilidad y reservá por WhatsApp.</div>
 </main>
 
