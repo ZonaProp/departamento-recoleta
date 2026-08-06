@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
+<title>2 amb. · Triunvirato 4532 | Villa Urquiza</title>
+<meta name="description" content="Departamento en alquiler en Villa Urquiza. 2 amb. · Triunvirato 4532. Consultá disponibilidad y reservá fechas por WhatsApp."/>
+<meta property="og:image" content="https://www.bullano.com.ar/files/06-2026/ad18142/cKCFoyriZWPr.webp"/>
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--primary:#ff5500;--muted:#5a5a5a;--border:#e8e8e8;--wa:#25d366;--font:"Hind",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:#fff;color:#111;line-height:1.45;padding-bottom:5.5rem}
+a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;z-index:30;height:56px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.hi{width:min(720px,100%);margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:700;font-size:1.2rem}.logo span{color:var(--primary)}
+.hi a.b{font-size:13px;font-weight:600;color:var(--primary);padding:6px 12px;border-radius:999px;border:1.5px solid var(--primary)}
+.wrap{width:min(720px,100%);margin:0 auto;padding:0 1rem 1rem}
+.gallery{margin:0 -1rem;position:relative;background:#111}
+.main-photo{aspect-ratio:4/3;overflow:hidden;background:#222}
+.main-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.nav-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgb(0 0 0/.55);color:#fff;font-size:22px;display:grid;place-items:center;z-index:2;border:none;cursor:pointer}
+.nav-btn.prev{left:10px}.nav-btn.next{right:10px}
+.counter{position:absolute;bottom:12px;right:12px;background:rgb(0 0 0/.65);color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:8px;z-index:2}
+.thumbs{display:flex;gap:6px;overflow-x:auto;padding:8px 1rem;background:#f5f5f5}
+.thumbs img{width:64px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0;border:2px solid transparent;cursor:pointer;opacity:.75}
+.thumbs img.active{border-color:var(--primary);opacity:1}
+.tag{position:absolute;top:12px;left:12px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px;z-index:2}
+.meta{font-size:13px;color:var(--muted);margin:.85rem 0 .25rem}
+h1{font-size:1.3rem;font-weight:800;line-height:1.25;margin-bottom:.25rem}
+.addr{font-size:14px;color:var(--muted);margin-bottom:.75rem}
+.price{font-size:1.55rem;font-weight:800}.price span{font-size:14px;font-weight:500;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.85rem 0 1rem}
+.chip{background:#f3f3f3;border-radius:999px;padding:.35rem .75rem;font-size:13px;font-weight:600}
+.block{margin-top:.85rem;padding:.9rem 1rem;background:#f8f8f8;border-radius:12px;border:1px solid var(--border)}
+.block h3{font-size:14px;font-weight:700;margin-bottom:.4rem}
+.block p{font-size:13.5px;color:var(--muted);line-height:1.5}
+.source{margin-top:.85rem;padding:.75rem 1rem;background:#fff8f5;border:1px solid #ffd9c2;border-radius:12px;font-size:12.5px;color:var(--muted)}
+.fab{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:.6rem;padding:.65rem .85rem calc(.65rem + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e8e8e8;box-shadow:0 -4px 20px rgb(0 0 0/.06)}
+.fab a,.fab button.src{flex:1;height:48px;border-radius:28px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff}
+.fab .src{background:var(--primary)}.fab .list{background:var(--wa)}
+
+.cal-box{margin-top:.85rem;padding:.9rem 1rem;background:#f8f8f8;border-radius:12px;border:1px solid var(--border)}
+.cal-box h3{font-size:14px;font-weight:700;margin-bottom:.55rem}
+.cal-legend{display:flex;gap:.85rem;font-size:12px;color:var(--muted);margin-bottom:.55rem}
+.cal-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.cal-dot.ok{background:#22c55e}.cal-dot.no{background:#d1d5db}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-grid .dow{font-size:11px;font-weight:600;color:var(--muted);padding:.25rem 0}
+.cal-day{aspect-ratio:1;border-radius:8px;font-size:13px;font-weight:600;border:none;background:#fff;cursor:pointer;display:grid;place-items:center}
+.cal-day.ok{background:#dcfce7;color:#166534}
+.cal-day.ok.selected{background:#22c55e;color:#fff}
+.cal-day.no{background:#f3f4f6;color:#9ca3af;cursor:not-allowed}
+.cal-day.mute{visibility:hidden}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem}
+.cal-nav button{border:1px solid var(--border);background:#fff;border-radius:8px;padding:4px 10px;font-weight:700;cursor:pointer}
+.cal-title{font-size:14px;font-weight:700}
+.modal-overlay{position:fixed;inset:0;background:rgb(0 0 0/.45);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;width:100%;max-width:480px;max-height:92vh;overflow:auto;border-radius:16px 16px 0 0;padding:1rem 1rem 1.25rem}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.modal-header h2{font-size:1.15rem;font-weight:800}
+.modal-close{border:none;background:#f3f3f3;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer}
+.pay-summary{background:#fff8f5;border:1px solid #ffd9c2;border-radius:12px;padding:.85rem 1rem;margin-bottom:.85rem}
+.pay-summary .label{font-size:12px;color:var(--muted)}
+.pay-summary .amount{font-size:1.4rem;font-weight:800}
+.pay-summary .amount span{font-size:13px;font-weight:500;color:var(--muted)}
+.pay-summary .desc,.pay-summary .date-line{font-size:13px;color:var(--muted);margin-top:.2rem}
+.personal-form h4{font-size:14px;margin-bottom:.5rem}
+.personal-form label{display:block;font-size:12px;font-weight:600;margin:.4rem 0 .15rem}
+.personal-form input{width:100%;padding:.55rem .7rem;border:1.5px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit}
+.form-error{display:none;color:#b91c1c;font-size:12.5px;margin-top:.35rem}
+.form-error.show{display:block}
+.pay-methods{display:flex;flex-direction:column;gap:.45rem;margin:.75rem 0}
+.pay-method{display:flex;align-items:center;gap:.65rem;padding:.65rem .75rem;border:1.5px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;text-align:left;width:100%;font-family:inherit}
+.pay-method.active{border-color:var(--primary);background:#fff8f5}
+.pay-method .icon{font-size:20px}
+.pay-method .info{flex:1}
+.pay-method strong{display:block;font-size:14px}
+.pay-method span{font-size:12px;color:var(--muted)}
+.btn-pay{display:block;width:100%;height:48px;border-radius:28px;background:#009ee3;color:#fff;font-weight:700;font-size:15px;border:none;text-align:center;line-height:48px;text-decoration:none;margin-top:.5rem}
+.btn-wa-modal{display:block;width:100%;height:48px;border-radius:28px;background:var(--wa);color:#fff;font-weight:700;font-size:15px;border:none;margin-top:.5rem;cursor:pointer;font-family:inherit}
+.hint{font-size:12.5px;color:var(--muted);margin-top:.55rem;line-height:1.4}
+
+</style>
+</head>
+<body>
+<header><div class="hi"><a class="logo" href="listado.html"><span>●</span> zonaprop</a><a class="b" href="listado.html">← Listado</a></div></header>
+<main class="wrap">
+<div class="gallery">
+  <span class="tag">Alquiler</span>
+  <button type="button" class="nav-btn prev" id="prev">‹</button>
+  <button type="button" class="nav-btn next" id="next">›</button>
+  <div class="main-photo"><img id="mainImg" src="https://www.bullano.com.ar/files/06-2026/ad18142/cKCFoyriZWPr.webp" alt="2 amb. · Triunvirato 4532"/></div>
+  <div class="counter" id="counter">1 / 10</div>
+</div>
+<div class="thumbs" id="thumbs"><img src="https://www.bullano.com.ar/files/06-2026/ad18142/cKCFoyriZWPr.webp" class="active" alt="Foto 1"/><img src="https://www.bullano.com.ar/files/06-2026/ad18142/kqjHQQmvUNvH.webp" class="" alt="Foto 2"/><img src="https://www.bullano.com.ar/files/06-2026/ad18142/BbrCUbGAcmxL.webp" class="" alt="Foto 3"/><img src="https://www.bullano.com.ar/files/06-2026/ad18142/BnNTtTtxpnsH.webp" class="" alt="Foto 4"/><img src="https://www.bullano.com.ar/files/06-2026/ad18142/zjwqKptAptth.webp" class="" alt="Foto 5"/><img src="https://www.bullano.com.ar/files/06-2026/ad18142/TwpKkMzUFiJs.webp" class="" alt="Foto 6"/><img src="https://www.bullano.com.ar/files/06-2026/ad18142/MWuRuoRCogOn.webp" class="" alt="Foto 7"/><img src="https://www.bullano.com.ar/files/06-2026/ad18142/xkdYgxegtIZn.webp" class="" alt="Foto 8"/><img src="https://www.bullano.com.ar/files/06-2026/ad18142/UKHKSvTBEfEK.webp" class="" alt="Foto 9"/><img src="https://www.bullano.com.ar/files/06-2026/ad18142/XpqUnBXFfyYo.webp" class="" alt="Foto 10"/></div>
+<p class="meta">Departamento · Villa Urquiza</p>
+<h1>2 amb. · Triunvirato 4532</h1>
+<p class="addr">Triunvirato 4532, Villa Urquiza</p>
+<div class="price">$ 600.000 <span></span></div>
+<div class="chips"><span class="chip">40 m²</span><span class="chip">2 amb.</span><span class="chip">10 fotos</span></div>
+
+<div class="cal-box">
+  <div class="cal-nav">
+    <button type="button" id="calPrev">‹</button>
+    <div class="cal-title" id="calTitle">—</div>
+    <button type="button" id="calNext">›</button>
+  </div>
+  <div class="cal-legend"><span><i class="cal-dot ok"></i> Disponible</span><span><i class="cal-dot no"></i> No disponible</span></div>
+  <div class="cal-grid" id="calGrid"></div>
+  <p class="hint" id="calSelected" style="margin-top:.55rem;">Elegí una fecha de ingreso disponible.</p>
+</div>
+
+<div class="block"><h3>Descripción</h3><p>Departamento en alquiler en Villa Urquiza. 2 amb. · Triunvirato 4532. Consultá disponibilidad y reservá fechas por WhatsApp.</p></div>
+<div class="source">Publicación en esta web. Consultá disponibilidad y reservá por WhatsApp.</div>
+</main>
+
+<div class="modal-overlay" id="payModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Reservar departamento</h2>
+      <button type="button" class="modal-close" id="payClose">×</button>
+    </div>
+    <div class="pay-summary">
+      <div class="label">Seña de reserva</div>
+      <div class="amount">$ 300.000 <span>ARS</span></div>
+      <div class="desc">2 amb. · Triunvirato 4532 · Villa Urquiza</div>
+      <div class="date-line">Ingreso: <span id="modalDateText">—</span></div>
+    </div>
+    <div class="personal-form" id="personalForm">
+      <h4>📝 Tus datos (obligatorio)</h4>
+      <label for="inputNombre">Nombre completo</label>
+      <input type="text" id="inputNombre" placeholder="Ej: Juan Pérez" autocomplete="name" required>
+      <label for="inputDNI">DNI</label>
+      <input type="text" id="inputDNI" placeholder="Ej: 32145678" inputmode="numeric" required>
+      <div class="form-error" id="formError">Completá nombre y DNI para continuar.</div>
+    </div>
+    <p style="font-size:14px;color:var(--muted);margin:.5rem 0;">Elegí el método de pago:</p>
+    <div class="pay-methods">
+      <button type="button" class="pay-method active" data-method="mp">
+        <div class="icon">💙</div>
+        <div class="info"><strong>Mercado Pago</strong><span>Dinero en cuenta o tarjeta</span></div>
+      </button>
+      <button type="button" class="pay-method" data-method="transfer">
+        <div class="icon">🏦</div>
+        <div class="info"><strong>Transferencia</strong><span>Alias / CBU por WhatsApp</span></div>
+      </button>
+    </div>
+    <a class="btn-pay" id="btnMp" href="https://mpago.la/1Jvg2Zv" target="_blank" rel="noopener">Pagar seña con Mercado Pago</a>
+    <button type="button" class="btn-wa-modal" id="btnWaModal">Enviar datos por WhatsApp</button>
+    <p class="hint">Después de pagar, enviá el comprobante por WhatsApp para confirmar la reserva. Seña: $ 300.000 (se descuenta del primer mes).</p>
+  </div>
+</div>
+
+<div class="fab">
+<button type="button" class="src" id="btnReserve" style="border:none;cursor:pointer;font-family:inherit">Reservar fechas</button>
+<a class="list" href="https://wa.me/5491153797355?text=Hola%21%20Vi%20el%202%20amb.%20%C2%B7%20Triunvirato%204532%20%28%24%20600.000%29%20en%20tu%20p%C3%A1gina%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener">WhatsApp</a>
+</div>
+<script>
+var photos = ["https://www.bullano.com.ar/files/06-2026/ad18142/cKCFoyriZWPr.webp","https://www.bullano.com.ar/files/06-2026/ad18142/kqjHQQmvUNvH.webp","https://www.bullano.com.ar/files/06-2026/ad18142/BbrCUbGAcmxL.webp","https://www.bullano.com.ar/files/06-2026/ad18142/BnNTtTtxpnsH.webp","https://www.bullano.com.ar/files/06-2026/ad18142/zjwqKptAptth.webp","https://www.bullano.com.ar/files/06-2026/ad18142/TwpKkMzUFiJs.webp","https://www.bullano.com.ar/files/06-2026/ad18142/MWuRuoRCogOn.webp","https://www.bullano.com.ar/files/06-2026/ad18142/xkdYgxegtIZn.webp","https://www.bullano.com.ar/files/06-2026/ad18142/UKHKSvTBEfEK.webp","https://www.bullano.com.ar/files/06-2026/ad18142/XpqUnBXFfyYo.webp"];
+var idx = 0;
+var mainImg = document.getElementById("mainImg");
+var counter = document.getElementById("counter");
+var thumbEls = document.querySelectorAll("#thumbs img");
+function show(i) {
+  idx = (i + photos.length) % photos.length;
+  mainImg.src = photos[idx];
+  counter.textContent = (idx + 1) + " / " + photos.length;
+  thumbEls.forEach(function(t, j) { t.classList.toggle("active", j === idx); });
+}
+document.getElementById("prev").onclick = function() { show(idx - 1); };
+document.getElementById("next").onclick = function() { show(idx + 1); };
+thumbEls.forEach(function(t, j) { t.onclick = function() { show(j); }; });
+
+/* Calendario + reserva + pago */
+(function(){
+  var months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  var view = new Date(); view.setDate(1);
+  var selected = null;
+  var blocked = {}; // días bloqueados de ejemplo (fines de semana parciales se marcan ok)
+  function isAvailable(y,m,d){
+    var dt = new Date(y,m,d);
+    var today = new Date(); today.setHours(0,0,0,0);
+    if(dt < today) return false;
+    // bloquear algunos días aleatorios deterministas por listing
+    var key = y+"-"+m+"-"+d;
+    var hash = (y*10000+m*100+d+72) % 7;
+    if(hash === 0) return false;
+    return true;
+  }
+  function renderCal(){
+    var y = view.getFullYear(), m = view.getMonth();
+    document.getElementById("calTitle").textContent = months[m]+" "+y;
+    var grid = document.getElementById("calGrid");
+    grid.innerHTML = "";
+    ["L","M","M","J","V","S","D"].forEach(function(d){
+      var e=document.createElement("div"); e.className="dow"; e.textContent=d; grid.appendChild(e);
+    });
+    var first = new Date(y,m,1);
+    var start = (first.getDay()+6)%7; // lunes=0
+    for(var i=0;i<start;i++){ var e=document.createElement("div"); e.className="cal-day mute"; grid.appendChild(e); }
+    var days = new Date(y,m+1,0).getDate();
+    for(var d=1;d<=days;d++){
+      var btn=document.createElement("button");
+      btn.type="button"; btn.textContent=d;
+      var ok = isAvailable(y,m,d);
+      btn.className = "cal-day "+(ok?"ok":"no");
+      if(selected && selected.y===y && selected.m===m && selected.d===d) btn.classList.add("selected");
+      if(ok){
+        (function(dd){ btn.onclick=function(){
+          selected={y:y,m:m,d:dd};
+          renderCal();
+          var txt = dd+" de "+months[m]+" "+y;
+          document.getElementById("calSelected").textContent = "Ingreso elegido: "+txt;
+          var mt=document.getElementById("modalDateText"); if(mt) mt.textContent=txt;
+        }; })(d);
+      }
+      grid.appendChild(btn);
+    }
+  }
+  document.getElementById("calPrev").onclick=function(){ view.setMonth(view.getMonth()-1); renderCal(); };
+  document.getElementById("calNext").onclick=function(){ view.setMonth(view.getMonth()+1); renderCal(); };
+  renderCal();
+
+  var modal=document.getElementById("payModal");
+  function openModal(){ modal.classList.add("open"); document.body.style.overflow="hidden"; }
+  function closeModal(){ modal.classList.remove("open"); document.body.style.overflow=""; }
+  var btnR=document.getElementById("btnReserve");
+  if(btnR) btnR.onclick=openModal;
+  document.getElementById("payClose").onclick=closeModal;
+  modal.addEventListener("click", function(e){ if(e.target===modal) closeModal(); });
+
+  document.querySelectorAll(".pay-method").forEach(function(b){
+    b.onclick=function(){
+      document.querySelectorAll(".pay-method").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+      var method=b.getAttribute("data-method");
+      var btnMp=document.getElementById("btnMp");
+      if(method==="mp"){ btnMp.style.display="block"; btnMp.href="https://mpago.la/1Jvg2Zv"; btnMp.textContent="Pagar seña con Mercado Pago"; }
+      else { btnMp.style.display="block"; btnMp.href="https://wa.me/5491153797355?text="+encodeURIComponent("Hola! Quiero los datos para transferir la seña de $ 300.000 del 2 amb. · Triunvirato 4532"); btnMp.textContent="Pedir datos por WhatsApp"; }
+    };
+  });
+
+  function personalDataText(){
+    var n=(document.getElementById("inputNombre").value||"").trim();
+    var d=(document.getElementById("inputDNI").value||"").trim();
+    if(!n||!d) return "";
+    return "\nMis datos para la reserva:\nNombre completo: "+n+"\nDNI: "+d;
+  }
+  function validate(){
+    var n=(document.getElementById("inputNombre").value||"").trim();
+    var d=(document.getElementById("inputDNI").value||"").trim();
+    var err=document.getElementById("formError");
+    if(!n||!d){ err.classList.add("show"); return false; }
+    err.classList.remove("show"); return true;
+  }
+  document.getElementById("btnWaModal").onclick=function(){
+    if(!validate()) return;
+    var fecha = selected ? ("\nFecha de ingreso: "+selected.d+" de "+months[selected.m]+" "+selected.y) : "";
+    var msg = "Hola! Quiero reservar el 2 amb. · Triunvirato 4532 ($ 600.000)."+fecha+personalDataText()+"\nSeña: $ 300.000";
+    window.open("https://wa.me/5491153797355?text="+encodeURIComponent(msg), "_blank");
+  };
+  document.getElementById("btnMp").addEventListener("click", function(e){
+    // allow navigation; optionally require form
+  });
+})();
+
+</script>
+</body>
+</html>
