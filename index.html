@@ -3,225 +3,355 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
-<title>Zonaprop · Encontrá tu hogar</title>
-<meta name="description" content="Encontrá departamentos en alquiler en CABA y GBA. Reservá con seña por Mercado Pago."/>
-<meta property="og:title" content="Zonaprop · Encontrá tu hogar"/>
+<title>Booking · Reserva de departamento</title>
+<meta name="description" content="Reservá tu departamento. Seña $300.000 por Mercado Pago. Confirmación por WhatsApp."/>
+<meta property="og:title" content="Booking · Reserva de departamento"/>
+<meta property="og:description" content="Elegí fecha, pagá la seña y confirmá por WhatsApp."/>
 <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--primary:#ff5500;--muted:#6b6b6b;--border:#e5e5e5;--font:"Hind",system-ui,-apple-system,sans-serif}
+:root{
+  --primary:#ff5500;--primary-dark:#e64a00;--wa:#25d366;--bg:#f4f6f8;
+  --card:#fff;--muted:#5a5a5a;--border:#e6e6e6;--ok:#16a34a;
+  --font:"Hind",system-ui,-apple-system,sans-serif
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:#fff;color:#1a1a1a;line-height:1.4}
+body{font-family:var(--font);background:var(--bg);color:#111;line-height:1.45;padding-bottom:5.5rem}
 a{color:inherit;text-decoration:none}
-button,input,select{font-family:inherit}
+button,input{font-family:inherit}
 
-/* Header like Zonaprop */
-header{position:sticky;top:0;z-index:50;height:56px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}
-.hi{width:min(100%,720px);margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:.4rem;font-weight:700;font-size:1.35rem;letter-spacing:-.02em}
-.logo-pin{color:var(--primary);font-size:1.15rem;line-height:1}
-.hi-icons{display:flex;align-items:center;gap:.15rem}
-.hi-icons a,.hi-icons button{
-  width:40px;height:40px;border:none;background:transparent;border-radius:50%;
-  display:grid;place-items:center;cursor:pointer;color:#333;font-size:1.25rem
+header{
+  position:sticky;top:0;z-index:40;height:56px;background:#fff;
+  border-bottom:1px solid var(--border);display:flex;align-items:center
 }
+.hi{width:min(560px,100%);margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:800;font-size:1.2rem;display:flex;align-items:center;gap:.4rem}
+.logo i{color:var(--primary);font-style:normal}
+.badge{font-size:11px;font-weight:700;background:#e8f8ee;color:var(--ok);padding:3px 8px;border-radius:999px}
 
-/* Hero */
 .hero{
-  position:relative;min-height:min(78vh,560px);display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:2.5rem 1rem 3rem;text-align:center;color:#fff;
-  background:#2a2a2a center/cover no-repeat;
-  background-image:
-    linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.5) 100%),
-    url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1400&h=900&fit=crop");
+  background:linear-gradient(160deg,#1a1a1a,#3d2918);
+  color:#fff;padding:1.75rem 1rem 2rem;text-align:center
 }
-.hero h1{
-  font-size:clamp(1.85rem,6vw,2.55rem);font-weight:700;margin-bottom:1.35rem;
-  text-shadow:0 2px 16px rgba(0,0,0,.35);letter-spacing:-.01em
+.hero h1{font-size:1.55rem;font-weight:800;margin-bottom:.35rem}
+.hero p{font-size:14px;opacity:.9;max-width:360px;margin:0 auto}
+
+.wrap{width:min(560px,100%);margin:0 auto;padding:1rem}
+
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:1rem 1.05rem;margin-bottom:.85rem
+}
+.card h2{font-size:1rem;font-weight:800;margin-bottom:.65rem;display:flex;align-items:center;gap:.4rem}
+.card h2 span{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:12px}
+
+.depto-row{display:grid;grid-template-columns:96px 1fr;gap:.75rem;align-items:center}
+.depto-img{width:96px;height:80px;border-radius:10px;background:#ddd center/cover no-repeat}
+.depto-info .barrio{font-size:12px;color:var(--muted)}
+.depto-info .title{font-size:15px;font-weight:700}
+.depto-info .price{font-size:1.05rem;font-weight:800;margin-top:.15rem}
+.depto-info .price small{font-size:12px;font-weight:500;color:var(--muted)}
+
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.75rem}
+.chip{font-size:12px;font-weight:600;background:#f3f3f3;padding:4px 10px;border-radius:999px;color:#333}
+
+/* Calendar */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem}
+.cal-nav button{border:none;background:#f3f3f3;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
+.cal-nav strong{font-size:15px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-grid .dow{font-size:11px;color:var(--muted);font-weight:600;padding:.25rem 0}
+.cal-grid .day{
+  aspect-ratio:1;border-radius:10px;border:none;background:transparent;
+  font-size:13px;font-weight:600;cursor:pointer;color:#111
+}
+.cal-grid .day.muted{color:#ccc;cursor:default}
+.cal-grid .day.busy{background:#f1f1f1;color:#aaa;text-decoration:line-through;cursor:not-allowed}
+.cal-grid .day.free{background:#e8f8ee;color:var(--ok)}
+.cal-grid .day.selected{background:var(--primary);color:#fff}
+.cal-legend{display:flex;gap:1rem;margin-top:.65rem;font-size:12px;color:var(--muted)}
+.cal-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:middle}
+.cal-legend .l-free{background:#e8f8ee}
+.cal-legend .l-busy{background:#f1f1f1}
+.cal-legend .l-sel{background:var(--primary)}
+.fecha-sel{margin-top:.65rem;font-size:13.5px;font-weight:600;color:var(--primary);min-height:1.2em}
+
+.form-group{margin-bottom:.65rem}
+.form-group label{display:block;font-size:12px;font-weight:600;margin-bottom:.2rem;color:#444}
+.form-group input{
+  width:100%;height:46px;padding:0 .8rem;border:1.5px solid var(--border);
+  border-radius:10px;font-size:15px;background:#fff
+}
+.form-group input:focus{outline:none;border-color:var(--primary)}
+.err{display:none;color:#b91c1c;font-size:12.5px;margin-top:.35rem}
+.err.show{display:block}
+
+.sena-box{
+  background:#fff8f5;border:1px solid #ffd9c2;border-radius:12px;
+  padding:.85rem 1rem;margin-bottom:.85rem
+}
+.sena-box .label{font-size:12px;color:var(--muted)}
+.sena-box .monto{font-size:1.35rem;font-weight:800;color:#111}
+.sena-box .hint{font-size:12.5px;color:var(--muted);margin-top:.2rem}
+
+.steps{list-style:none}
+.steps li{
+  position:relative;padding:.45rem 0 .45rem 1.7rem;font-size:13.5px;
+  border-bottom:1px solid #f0f0f0
+}
+.steps li:last-child{border-bottom:none}
+.steps li::before{
+  content:attr(data-n);position:absolute;left:0;top:.45rem;
+  width:1.2rem;height:1.2rem;border-radius:50%;background:var(--primary);
+  color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center
 }
 
-/* Search card */
-.search-card{
-  width:min(400px,100%);background:#fff;border-radius:16px;padding:1.1rem 1rem 1.15rem;
-  box-shadow:0 16px 48px rgba(0,0,0,.28);text-align:left;color:#1a1a1a
+.bar{
+  position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);
+  padding:.65rem 1rem calc(.65rem + env(safe-area-inset-bottom));z-index:50
 }
-.tabs{display:flex;margin-bottom:1rem;border-bottom:1px solid #eee}
-.tab{
-  flex:1;padding:.7rem .25rem;font-size:13.5px;font-weight:600;color:#777;
-  background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-1px;cursor:pointer
+.bar-inner{width:min(560px,100%);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.btn{
+  height:48px;border:none;border-radius:28px;font-weight:700;font-size:14.5px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.35rem
 }
-.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
-.field{margin-bottom:.7rem}
-.field select,.field input{
-  width:100%;height:48px;padding:0 .95rem;border:1.5px solid #ddd;border-radius:10px;
-  font-size:15px;background:#fff;color:#333
-}
-.field select{
-  appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center
-}
-.field input::placeholder{color:#999}
-.btn-buscar{
-  width:100%;height:50px;margin-top:.25rem;border:none;border-radius:12px;
-  background:var(--primary);color:#fff;font-size:16px;font-weight:700;cursor:pointer
-}
-.btn-buscar:active{opacity:.92;transform:scale(.99)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-pay{background:var(--primary);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
 
-/* Below hero - ad style strips */
-.below{background:#fff;padding:0 0 1.5rem}
-.ad-strip{
-  display:flex;align-items:center;gap:.85rem;padding:1rem 1.15rem;
-  border-bottom:1px solid #f0f0f0;max-width:720px;margin:0 auto
+.modal-bg{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;
+  align-items:flex-end;justify-content:center
 }
-.ad-logo{
-  flex-shrink:0;width:52px;height:36px;border-radius:6px;background:#004481;color:#fff;
-  display:grid;place-items:center;font-size:11px;font-weight:800;letter-spacing:.02em
+.modal-bg.open{display:flex}
+.modal{
+  background:#fff;width:100%;max-width:420px;border-radius:16px 16px 0 0;
+  padding:1.15rem 1rem 1.5rem;max-height:90vh;overflow:auto
 }
-.ad-logo.hoggax{background:#ff2d7b;font-size:10px}
-.ad-text{flex:1;min-width:0}
-.ad-text strong{display:block;font-size:14px;font-weight:700}
-.ad-text span{font-size:12.5px;color:var(--muted)}
-.ad-label{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.modal h3{font-size:1.1rem;font-weight:800;margin-bottom:.75rem}
+.modal-close{float:right;border:none;background:#f3f3f3;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer}
 
-.section{max-width:720px;margin:0 auto;padding:1.25rem 1rem}
-.section h2{font-size:1.15rem;font-weight:700;margin-bottom:.75rem}
-.zones{display:flex;flex-wrap:wrap;gap:.4rem}
-.zone{
-  padding:.4rem .85rem;border-radius:999px;background:#f4f4f4;font-size:13px;font-weight:600;color:#333
-}
-
-.feat{
-  display:grid;grid-template-columns:1fr;gap:.75rem
-}
-.feat a{
-  display:grid;grid-template-columns:110px 1fr;border:1px solid var(--border);border-radius:12px;overflow:hidden;min-height:100px
-}
-.feat .ph{background:#e8e8e8 center/cover no-repeat;min-height:100px}
-.feat .bd{padding:.65rem .75rem;display:flex;flex-direction:column;justify-content:center;gap:.1rem}
-.feat .br{font-size:11.5px;color:var(--muted)}
-.feat .tt{font-size:14px;font-weight:700}
-.feat .sp{font-size:12px;color:var(--muted)}
-.feat .pr{font-size:15px;font-weight:800;margin-top:.15rem}
-
-.btn-all{
-  display:block;width:100%;max-width:320px;margin:1rem auto 0;height:48px;line-height:48px;text-align:center;
-  background:var(--primary);color:#fff;font-weight:700;border-radius:12px;font-size:15px
-}
-
-footer{padding:1.5rem 1rem;text-align:center;font-size:12px;color:#999;border-top:1px solid #f0f0f0;margin-top:.5rem}
+footer{text-align:center;font-size:12px;color:var(--muted);padding:1rem;margin-top:.5rem}
 </style>
 </head>
 <body>
 <header>
   <div class="hi">
-    <a class="logo" href="index.html"><span class="logo-pin">📍</span> zonaprop</a>
-    <div class="hi-icons">
-      <a href="listado.html" title="Buscar" aria-label="Buscar">🔔</a>
-      <a href="listado.html" title="Menú" aria-label="Menú">☰</a>
-    </div>
+    <div class="logo"><i>●</i> Booking</div>
+    <span class="badge">Reserva online</span>
   </div>
 </header>
 
 <section class="hero">
-  <h1>Encontrá tu hogar</h1>
-  <div class="search-card">
-    <div class="tabs">
-      <button type="button" class="tab active" data-tab="alquilar">Alquilar</button>
-      <button type="button" class="tab" data-tab="comprar">Comprar</button>
-      <button type="button" class="tab" data-tab="emp">Emprendimientos</button>
-    </div>
-    <div class="field">
-      <select id="tipo" aria-label="Tipo de propiedad">
-        <option value="departamento">Departamento</option>
-        <option value="casa">Casa</option>
-        <option value="ph">PH</option>
-        <option value="mono">Monoambiente</option>
-      </select>
-    </div>
-    <div class="field">
-      <input type="search" id="q" placeholder="Ingresá ubicaciones o características (ej: pileta)" list="zonas" autocomplete="off"/>
-      <datalist id="zonas">
-        <option value="Palermo"><option value="Belgrano"><option value="Recoleta">
-        <option value="Caballito"><option value="Flores"><option value="Almagro">
-        <option value="Villa Urquiza"><option value="Villa Crespo"><option value="Núñez">
-        <option value="San Telmo"><option value="Colegiales"><option value="Olivos">
-      </datalist>
-    </div>
-    <button type="button" class="btn-buscar" id="btnBuscar">Buscar</button>
-  </div>
+  <h1>Reservá tu departamento</h1>
+  <p>Elegí la fecha, pagá la seña y confirmá por WhatsApp. Proceso simple y respaldado.</p>
 </section>
 
-<div class="below">
-  <div class="ad-strip">
-    <div class="ad-logo">BBVA</div>
-    <div class="ad-text">
-      <div class="ad-label">Publicidad</div>
-      <strong>Créditos Hipotecarios BBVA</strong>
-      <span>Encontrá el tuyo</span>
+<main class="wrap">
+  <!-- Depto -->
+  <div class="card">
+    <h2><span>1</span> Departamento</h2>
+    <div class="depto-row">
+      <div class="depto-img" style="background-image:url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop')"></div>
+      <div class="depto-info">
+        <div class="barrio">Recoleta · CABA</div>
+        <div class="title">Amueblado · Pueyrredón 1700</div>
+        <div class="price">$ 550.000 <small>/ mes + expensas</small></div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip">54 m²</span>
+      <span class="chip">2 ambientes</span>
+      <span class="chip">1 baño</span>
+      <span class="chip">Cochera</span>
+      <span class="chip">Amueblado</span>
     </div>
   </div>
-  <div class="ad-strip">
-    <div class="ad-logo hoggax">hoggax</div>
-    <div class="ad-text">
-      <div class="ad-label">Publicidad</div>
-      <strong>Garantías de alquiler</strong>
-      <span>100% online y con aprobación automática.</span>
+
+  <!-- Calendario -->
+  <div class="card">
+    <h2><span>2</span> Fecha de ingreso</h2>
+    <div class="cal-nav">
+      <button type="button" id="prevM" aria-label="Mes anterior">‹</button>
+      <strong id="calTitle">—</strong>
+      <button type="button" id="nextM" aria-label="Mes siguiente">›</button>
     </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-legend">
+      <span><i class="l-free"></i> Libre</span>
+      <span><i class="l-busy"></i> Ocupado</span>
+      <span><i class="l-sel"></i> Elegido</span>
+    </div>
+    <div class="fecha-sel" id="fechaSel">Seleccioná un día en verde</div>
+  </div>
+
+  <!-- Datos -->
+  <div class="card">
+    <h2><span>3</span> Tus datos</h2>
+    <div class="form-group">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" placeholder="Juan Pérez" autocomplete="name"/>
+    </div>
+    <div class="form-group">
+      <label for="dni">DNI</label>
+      <input type="text" id="dni" placeholder="12345678" inputmode="numeric" autocomplete="off"/>
+    </div>
+    <div class="form-group">
+      <label for="tel">WhatsApp (opcional)</label>
+      <input type="tel" id="tel" placeholder="11 1234-5678" autocomplete="tel"/>
+    </div>
+    <div class="err" id="formErr">Completá nombre, DNI y elegí una fecha libre.</div>
+  </div>
+
+  <!-- Seña -->
+  <div class="sena-box">
+    <div class="label">Seña de reserva</div>
+    <div class="monto">$ 300.000</div>
+    <div class="hint">Se descuenta del primer mes. Pagá por Mercado Pago y enviá el comprobante por WhatsApp.</div>
+  </div>
+
+  <!-- Proceso -->
+  <div class="card">
+    <h2>Proceso de reserva</h2>
+    <ul class="steps">
+      <li data-n="1">Elegí la fecha de ingreso (días en verde).</li>
+      <li data-n="2">Completá nombre y DNI.</li>
+      <li data-n="3">Pagá la seña de $ 300.000 con Mercado Pago.</li>
+      <li data-n="4">Enviá el comprobante por WhatsApp (los datos van incluidos).</li>
+      <li data-n="5">Te confirmamos la reserva y coordinamos la entrega de llaves.</li>
+    </ul>
+  </div>
+</main>
+
+<footer>Booking · Reserva respaldada · CABA</footer>
+
+<!-- Barra fija -->
+<div class="bar">
+  <div class="bar-inner">
+    <button type="button" class="btn btn-pay" id="btnPay">Mercado Pago</button>
+    <button type="button" class="btn btn-wa" id="btnWA">WhatsApp</button>
   </div>
 </div>
 
-<section class="section">
-  <h2>Zonas populares</h2>
-  <div class="zones">
-    <a class="zone" href="listado.html?zona=Palermo">Palermo</a>
-    <a class="zone" href="listado.html?zona=Belgrano">Belgrano</a>
-    <a class="zone" href="listado.html?zona=Recoleta">Recoleta</a>
-    <a class="zone" href="listado.html?zona=Caballito">Caballito</a>
-    <a class="zone" href="listado.html?zona=Flores">Flores</a>
-    <a class="zone" href="listado.html?zona=Almagro">Almagro</a>
-    <a class="zone" href="listado.html?zona=Villa%20Urquiza">Villa Urquiza</a>
-    <a class="zone" href="listado.html">Todas</a>
-  </div>
-</section>
-
-<section class="section">
-  <h2>Destacados</h2>
-  <div class="feat">
-    <a href="depto-pueyrredon.html">
-      <div class="ph" style="background-image:url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop')"></div>
-      <div class="bd">
-        <div class="br">Recoleta</div>
-        <div class="tt">2 amb. amueblado · Pueyrredón 1700</div>
-        <div class="sp">54 m² · cochera · amueblado</div>
-        <div class="pr">$ 550.000</div>
-      </div>
-    </a>
-  </div>
-  <a class="btn-all" href="listado.html">Ver todos los departamentos</a>
-  <a class="btn-all" href="publicar.html" style="background:#fff;color:var(--primary);border:1.5px solid var(--primary);margin-top:.55rem">Publicá tu departamento</a>
-</section>
-
-<footer>
-  zonaprop · <a href="publicar.html">Publicá tu depto</a> · <a href="listado.html">Listado</a>
-</footer>
-
 <script>
-document.querySelectorAll('.tab').forEach(function(t){
-  t.onclick=function(){
-    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
-    t.classList.add('active');
+(function(){
+  var MP_LINK = "https://mpago.la/1Jvg2Zv";
+  var WA_NUM = "5491153797355"; // +54 9 11 5379-7355
+  var view = new Date();
+  view.setDate(1);
+  var selected = null;
+
+  // días ocupados de ejemplo (mes actual + siguiente) — ajustables
+  function busyKey(y,m,d){ return y+"-"+m+"-"+d; }
+  var busy = {};
+  (function seed(){
+    var t = new Date();
+    for (var i=0;i<45;i++){
+      var d = new Date(t.getFullYear(), t.getMonth(), t.getDate()+i);
+      // ~30% ocupados de forma determinística
+      if ((d.getDate()*3 + d.getMonth()) % 7 === 0 || (d.getDate()*3 + d.getMonth()) % 7 === 3){
+        busy[busyKey(d.getFullYear(), d.getMonth(), d.getDate())] = true;
+      }
+    }
+  })();
+
+  var months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  var dows = ["Do","Lu","Ma","Mi","Ju","Vi","Sá"];
+
+  function renderCal(){
+    var y = view.getFullYear(), m = view.getMonth();
+    document.getElementById("calTitle").textContent = months[m] + " " + y;
+    var grid = document.getElementById("calGrid");
+    grid.innerHTML = "";
+    dows.forEach(function(d){
+      var el = document.createElement("div");
+      el.className = "dow"; el.textContent = d;
+      grid.appendChild(el);
+    });
+    var first = new Date(y,m,1).getDay();
+    var daysIn = new Date(y,m+1,0).getDate();
+    var today = new Date(); today.setHours(0,0,0,0);
+    for (var i=0;i<first;i++){
+      var e = document.createElement("button");
+      e.type="button"; e.className="day muted"; e.disabled=true; e.textContent="";
+      grid.appendChild(e);
+    }
+    for (var day=1; day<=daysIn; day++){
+      var btn = document.createElement("button");
+      btn.type="button"; btn.className="day";
+      btn.textContent = day;
+      var dt = new Date(y,m,day);
+      var isPast = dt < today;
+      var isBusy = !!busy[busyKey(y,m,day)];
+      if (isPast){ btn.classList.add("muted"); btn.disabled=true; }
+      else if (isBusy){ btn.classList.add("busy"); btn.disabled=true; }
+      else {
+        btn.classList.add("free");
+        if (selected && selected.y===y && selected.m===m && selected.d===day) btn.classList.add("selected");
+        (function(yy,mm,dd){
+          btn.onclick = function(){
+            selected = {y:yy,m:mm,d:dd};
+            renderCal();
+            document.getElementById("fechaSel").textContent =
+              "Ingreso: " + dd + " de " + months[mm] + " de " + yy;
+            document.getElementById("formErr").classList.remove("show");
+          };
+        })(y,m,day);
+      }
+      grid.appendChild(btn);
+    }
+  }
+
+  document.getElementById("prevM").onclick = function(){
+    view.setMonth(view.getMonth()-1); renderCal();
   };
-});
-function goSearch(){
-  var q=(document.getElementById('q').value||'').trim();
-  var url='listado.html';
-  if(q) url+='?zona='+encodeURIComponent(q);
-  location.href=url;
-}
-document.getElementById('btnBuscar').onclick=goSearch;
-document.getElementById('q').addEventListener('keydown',function(e){
-  if(e.key==='Enter') goSearch();
-});
+  document.getElementById("nextM").onclick = function(){
+    view.setMonth(view.getMonth()+1); renderCal();
+  };
+  renderCal();
+
+  function personalData(){
+    var n = (document.getElementById("nombre").value||"").trim();
+    var d = (document.getElementById("dni").value||"").trim();
+    var t = (document.getElementById("tel").value||"").trim();
+    if (!n || !d || !selected) return null;
+    var fecha = selected.d + "/" + (selected.m+1) + "/" + selected.y;
+    return {
+      nombre:n, dni:d, tel:t, fecha:fecha,
+      text:
+        "Hola! Quiero reservar el departamento de Pueyrredón 1700 (Recoleta).\n" +
+        "Fecha de ingreso: " + fecha + "\n" +
+        "Mis datos para la reserva:\n" +
+        "Nombre completo: " + n + "\n" +
+        "DNI: " + d +
+        (t ? "\nWhatsApp: " + t : "") +
+        "\nSeña: $ 300.000"
+    };
+  }
+
+  function validate(){
+    var p = personalData();
+    if (!p){
+      document.getElementById("formErr").classList.add("show");
+      document.getElementById("nombre").focus();
+      return null;
+    }
+    document.getElementById("formErr").classList.remove("show");
+    return p;
+  }
+
+  document.getElementById("btnPay").onclick = function(){
+    var p = validate();
+    if (!p) return;
+    // abrir MP y luego sugerir WA
+    window.open(MP_LINK, "_blank");
+  };
+
+  document.getElementById("btnWA").onclick = function(){
+    var p = validate();
+    if (!p) return;
+    window.open("https://wa.me/" + WA_NUM + "?text=" + encodeURIComponent(p.text), "_blank");
+  };
+})();
 </script>
 </body>
 </html>
