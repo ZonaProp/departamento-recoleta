@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+  <title>Monoambiente Fitz Roy · Palermo Hollywood | Palermo</title>
+  <meta name="description" content="Monoambiente en Fitz Roy 1500, Palermo Hollywood. 38 m²." />
+  <meta property="og:title" content="Monoambiente Fitz Roy · Palermo Hollywood · $ 700.000" />
+  <meta property="og:description" content="Monoambiente en Fitz Roy 1500, Palermo Hollywood. 38 m²." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=900&h=700&fit=crop" />
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #ff5500; --bg: #f5f5f5; --fg: #111; --muted: #5a5a5a;
+      --border: #e8e8e8; --wa: #25d366; --font: "Hind", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: #fff; color: var(--fg); line-height: 1.45; padding-bottom: 5.5rem; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+    header {
+      position: sticky; top: 0; z-index: 30; height: 56px;
+      background: #fff; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+    }
+    .hi {
+      width: min(720px, 100%); margin: 0 auto; padding: 0 1rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: .3rem; font-weight: 700; font-size: 1.2rem; }
+    .logo span { color: var(--primary); }
+    .hi-actions { display: flex; gap: .45rem; }
+    .hi-actions a {
+      font-size: 13px; font-weight: 600; color: var(--primary);
+      padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--primary);
+    }
+    .wrap { width: min(720px, 100%); margin: 0 auto; padding: 0 1rem 1rem; }
+    .gallery {
+      margin: 0 -1rem; aspect-ratio: 4/3; background: #222 center/cover no-repeat;
+      background-image: url('https://images.unsplash.com/photo-1484154218962-a197022b5858?w=900&h=700&fit=crop');
+      position: relative;
+    }
+    .gallery .tag {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--primary); color: #fff; font-size: 12px; font-weight: 700;
+      padding: 4px 10px; border-radius: 8px;
+    }
+    .meta { font-size: 13px; color: var(--muted); margin: .85rem 0 .25rem; }
+    h1 { font-size: 1.4rem; font-weight: 800; line-height: 1.25; margin-bottom: .25rem; }
+    .addr { font-size: 14px; color: var(--muted); margin-bottom: .75rem; }
+    .price { font-size: 1.6rem; font-weight: 800; }
+    .price span { font-size: 14px; font-weight: 500; color: var(--muted); }
+    .chips { display: flex; flex-wrap: wrap; gap: .4rem; margin: .85rem 0 1rem; }
+    .chip {
+      background: #f3f3f3; border-radius: 999px; padding: .35rem .75rem;
+      font-size: 13px; font-weight: 600;
+    }
+    .block {
+      margin-top: .85rem; padding: .9rem 1rem;
+      background: #f8f8f8; border-radius: 12px; border: 1px solid var(--border);
+    }
+    .block h3 { font-size: 14px; font-weight: 700; margin-bottom: .4rem; }
+    .block p, .block li { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+    .block ul { list-style: none; }
+    .block li { padding: .2rem 0; }
+    .block li::before { content: "• "; color: var(--primary); font-weight: 700; }
+    .fab-wrap {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+      display: flex; align-items: center; gap: .6rem;
+      padding: .65rem .85rem calc(.65rem + env(safe-area-inset-bottom));
+      background: #fff; border-top: 1px solid #e8e8e8;
+      box-shadow: 0 -4px 20px rgb(0 0 0 / .06);
+    }
+    .fab-wa {
+      flex: 1; height: 48px; border-radius: 28px;
+      background: var(--wa); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+      font-size: 15px; font-weight: 700;
+    }
+    .fab-list {
+      flex: 1; height: 48px; border-radius: 28px;
+      background: var(--primary); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hi">
+      <a class="logo" href="listado.html"><span>●</span> zonaprop</a>
+      <div class="hi-actions">
+        <a href="listado.html">← Listado</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="gallery">
+      <span class="tag">Alquiler</span>
+    </div>
+    <p class="meta">Departamento · Palermo · Capital Federal</p>
+    <h1>Monoambiente Fitz Roy · Palermo Hollywood</h1>
+    <p class="addr">Fitz Roy al 1500, Palermo Hollywood</p>
+    <div class="price">$ 700.000 <span>+ $ 190.000 expensas</span></div>
+    <div class="chips">
+      <span class="chip">38 m²</span><span class="chip">1 amb.</span><span class="chip">1 baño</span>
+    </div>
+
+    <div class="block">
+      <h3>Descripción</h3>
+      <p>Monoambiente en alquiler en Fitz Roy al 1500, pleno Palermo Hollywood. Zona de bares, restaurantes y productoras. Ideal para profesionales o parejas jóvenes. Muy bien conectado.</p>
+    </div>
+
+    <div class="block">
+      <h3>Características</h3>
+      <ul>
+        <li>38 m²</li><li>Monoambiente</li><li>Palermo Hollywood</li><li>Cerca de bares y restaurantes</li><li>Buena conectividad</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h3>Condiciones</h3>
+      <ul>
+        <li>Precio: $ 700.000 mensuales + $ 190.000 expensas</li>
+        <li>Seña de reserva: $ 300.000 (se descuenta del primer mes)</li>
+        <li>Contrato según ley vigente</li>
+        <li>Garantía propietaria o seguro de caución</li>
+      </ul>
+    </div>
+  </main>
+
+  <div class="fab-wrap">
+    <a class="fab-wa" href="https://wa.me/5491153797355?text=Hola%21%20Me%20interesa%20el%20monoambiente%20en%20Fitz%20Roy%201500,%20Palermo%20($700.000).%20%C2%BFSigue%20disponible%3F" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="fab-list" href="listado.html">Ver más deptos</a>
+  </div>
+</body>
+</html>
