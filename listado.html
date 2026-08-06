@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+  <title>Departamentos en alquiler · CABA | Zonaprop</title>
+  <meta name="description" content="Lista de departamentos en alquiler en Recoleta, Palermo, Belgrano, Caballito y más barrios de CABA. Precios reales de mercado." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #ff5500;
+      --bg: #f5f5f5;
+      --fg: #111;
+      --muted: #5a5a5a;
+      --border: #e8e8e8;
+      --wa: #25d366;
+      --font: "Hind", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 2rem;
+    }
+    a { color: inherit; text-decoration: none; }
+    header {
+      position: sticky; top: 0; z-index: 30; height: 56px;
+      background: #fff; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+    }
+    .hi {
+      width: min(720px, 100%); margin: 0 auto; padding: 0 1rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: .3rem; font-weight: 700; font-size: 1.25rem; }
+    .logo span { color: var(--primary); }
+    .back {
+      font-size: 13px; font-weight: 600; color: var(--primary);
+      padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--primary);
+    }
+    .wrap { width: min(720px, 100%); margin: 0 auto; padding: 1rem 1rem 2rem; }
+    h1 { font-size: 1.35rem; font-weight: 700; margin-bottom: .35rem; }
+    .subtitle { font-size: 13.5px; color: var(--muted); margin-bottom: 1.1rem; }
+    .filters {
+      display: flex; gap: .45rem; overflow-x: auto; padding-bottom: .75rem;
+      margin-bottom: .5rem; -webkit-overflow-scrolling: touch;
+    }
+    .filter-chip {
+      flex-shrink: 0; padding: .4rem .85rem; border-radius: 999px;
+      background: #fff; border: 1.5px solid var(--border);
+      font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer;
+    }
+    .filter-chip.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .card-list { display: flex; flex-direction: column; gap: .85rem; }
+    .dept-card {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgb(0 0 0 / .05);
+      display: grid; grid-template-columns: 120px 1fr;
+      min-height: 118px;
+    }
+    .dept-card:active { transform: scale(.99); }
+    .dept-photo {
+      background: #ddd center/cover no-repeat;
+      min-height: 118px;
+      position: relative;
+    }
+    .dept-photo .badge {
+      position: absolute; top: 8px; left: 8px;
+      background: rgb(0 0 0 / .65); color: #fff;
+      font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 6px;
+    }
+    .dept-body { padding: .7rem .85rem; display: flex; flex-direction: column; justify-content: center; gap: .15rem; }
+    .dept-barrio { font-size: 12px; color: var(--muted); font-weight: 500; }
+    .dept-title { font-size: 14px; font-weight: 700; line-height: 1.25; }
+    .dept-specs { font-size: 12.5px; color: var(--muted); }
+    .dept-price { font-size: 15.5px; font-weight: 800; color: var(--fg); margin-top: .2rem; }
+    .dept-price span { font-size: 12px; font-weight: 500; color: var(--muted); }
+    .source {
+      margin-top: 1.25rem; padding: .85rem 1rem;
+      background: #fff8f5; border: 1px solid #ffd9c2; border-radius: 12px;
+      font-size: 12.5px; color: var(--muted); line-height: 1.45;
+    }
+    .source a { color: var(--primary); font-weight: 600; }
+    .featured {
+      background: linear-gradient(135deg, #fff8f5, #fff);
+      border: 2px solid var(--primary);
+    }
+    .featured .dept-photo { background-color: #ffeee5; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hi">
+      <a class="logo" href="index.html"><span>●</span> zonaprop</a>
+      <a class="back" href="index.html">← Mi depto</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Departamentos en alquiler</h1>
+    <p class="subtitle">Precios reales publicados en portales · CABA · Agosto 2026</p>
+
+    <div class="filters" id="filters">
+      <button type="button" class="filter-chip active" data-barrio="todos">Todos</button>
+      <button type="button" class="filter-chip" data-barrio="Recoleta">Recoleta</button>
+      <button type="button" class="filter-chip" data-barrio="Palermo">Palermo</button>
+      <button type="button" class="filter-chip" data-barrio="Belgrano">Belgrano</button>
+      <button type="button" class="filter-chip" data-barrio="Caballito">Caballito</button>
+      <button type="button" class="filter-chip" data-barrio="Núñez">Núñez</button>
+      <button type="button" class="filter-chip" data-barrio="Villa Crespo">Villa Crespo</button>
+    </div>
+
+    <div class="card-list" id="cardList">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <div class="source">
+      Datos orientativos basados en publicaciones públicas de
+      <a href="https://www.zonaprop.com.ar/departamentos-alquiler-capital-federal.html" target="_blank" rel="noopener">Zonaprop</a> y
+      <a href="https://www.argenprop.com/departamentos/alquiler/capital-federal" target="_blank" rel="noopener">Argenprop</a>
+      (agosto 2026). Tocá cada tarjeta para ver más opciones en el barrio.
+    </div>
+  </main>
+
+  <script>
+    var listings = [
+      {
+        barrio: "Recoleta",
+        title: "2 ambientes amueblado · Pueyrredón 1700",
+        specs: "54 m² · 1 baño · Cochera",
+        price: "$ 550.000",
+        exp: "+ $ 150.000 exp.",
+        img: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop",
+        link: "index.html",
+        featured: true,
+        badge: "Tu publicación"
+      },
+      {
+        barrio: "Recoleta",
+        title: "1 dormitorio · Montevideo 1100",
+        specs: "34 m² · 1 dorm.",
+        price: "$ 550.000",
+        exp: "+ $ 187.000 exp.",
+        img: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop",
+        link: "https://www.argenprop.com/departamentos/alquiler/recoleta/pesos-300000-600000"
+      },
+      {
+        barrio: "Recoleta",
+        title: "Monoambiente · Juncal 1600",
+        specs: "23 m² · Monoambiente",
+        price: "$ 590.000",
+        exp: "+ $ 210.000 exp.",
+        img: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400&h=300&fit=crop",
+        link: "https://www.argenprop.com/departamentos/alquiler/recoleta"
+      },
+      {
+        barrio: "Recoleta",
+        title: "1 dormitorio · Azcuénaga 1000",
+        specs: "42 m² · 1 dorm.",
+        price: "$ 550.000",
+        exp: "+ $ 200.000 exp.",
+        img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-recoleta.html"
+      },
+      {
+        barrio: "Palermo",
+        title: "2 ambientes · Fitz Roy 1500",
+        specs: "38 m² · 1 baño · Hollywood",
+        price: "$ 700.000",
+        exp: "+ $ 190.000 exp.",
+        img: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-palermo.html"
+      },
+      {
+        barrio: "Palermo",
+        title: "2 ambientes con balcón · Las Cañitas",
+        specs: "50 m² · 1 dorm. · 1 baño",
+        price: "$ 990.000",
+        exp: "+ $ 191.000 exp.",
+        img: "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-las-canitas.html"
+      },
+      {
+        barrio: "Palermo",
+        title: "2 ambientes · Fray Justo S. M. de Oro",
+        specs: "46 m² · 1 dorm. · Cochera",
+        price: "$ 820.000",
+        exp: "+ $ 167.000 exp.",
+        img: "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-palermo-1-habitacion.html"
+      },
+      {
+        barrio: "Palermo",
+        title: "Monoambiente · Migueletes 1200",
+        specs: "18 m² · Las Cañitas",
+        price: "$ 450.000",
+        exp: "+ $ 120.000 exp.",
+        img: "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-las-canitas-orden-precio-ascendente.html"
+      },
+      {
+        barrio: "Belgrano",
+        title: "2 ambientes · Av. Congreso 2500",
+        specs: "42 m² · 1 dorm. · 1 baño",
+        price: "$ 650.000",
+        exp: "+ $ 140.000 exp.",
+        img: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-belgrano.html"
+      },
+      {
+        barrio: "Belgrano",
+        title: "3 ambientes · Cramer 2400",
+        specs: "70 m² · 2 dorm. · Cochera",
+        price: "$ 1.900.000",
+        exp: "+ $ 200.000 exp.",
+        img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-belgrano.html"
+      },
+      {
+        barrio: "Caballito",
+        title: "2 ambientes con patio · Valle 500",
+        specs: "38 m² · 1 dorm. · 1 baño",
+        price: "$ 350.000",
+        exp: "+ $ 150.000 exp.",
+        img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-caballito.html"
+      },
+      {
+        barrio: "Caballito",
+        title: "2 ambientes · Falcón 1618",
+        specs: "32 m² · Lateral · Parquet",
+        price: "$ 420.000",
+        exp: "+ $ 98.000 exp.",
+        img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-caballito.html"
+      },
+      {
+        barrio: "Núñez",
+        title: "2 ambientes · zona Núñez",
+        specs: "Promedio mercado · 2 amb.",
+        price: "$ 834.000",
+        exp: "promedio barrio",
+        img: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-nunez.html"
+      },
+      {
+        barrio: "Villa Crespo",
+        title: "2 ambientes · Villa Crespo",
+        specs: "Promedio mercado · 2 amb.",
+        price: "$ 750.000",
+        exp: "promedio barrio",
+        img: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cd0a?w=400&h=300&fit=crop",
+        link: "https://www.zonaprop.com.ar/departamentos-alquiler-villa-crespo.html"
+      }
+    ];
+
+    var listEl = document.getElementById("cardList");
+    var current = "todos";
+
+    function render() {
+      listEl.innerHTML = "";
+      listings.forEach(function(item) {
+        if (current !== "todos" && item.barrio !== current) return;
+        var a = document.createElement("a");
+        a.className = "dept-card" + (item.featured ? " featured" : "");
+        a.href = item.link;
+        if (item.link.indexOf("http") === 0) {
+          a.target = "_blank";
+          a.rel = "noopener";
+        }
+        a.innerHTML =
+          '<div class="dept-photo" style="background-image:url(\'' + item.img + '\')">' +
+            (item.badge ? '<span class="badge">' + item.badge + '</span>' : '') +
+          '</div>' +
+          '<div class="dept-body">' +
+            '<div class="dept-barrio">' + item.barrio + '</div>' +
+            '<div class="dept-title">' + item.title + '</div>' +
+            '<div class="dept-specs">' + item.specs + '</div>' +
+            '<div class="dept-price">' + item.price + ' <span>' + item.exp + '</span></div>' +
+          '</div>';
+        listEl.appendChild(a);
+      });
+    }
+
+    document.querySelectorAll(".filter-chip").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll(".filter-chip").forEach(function(b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        current = btn.getAttribute("data-barrio");
+        render();
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>
