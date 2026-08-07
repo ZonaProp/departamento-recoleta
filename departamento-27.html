@@ -1,8 +1,12 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="referrer" content="no-referrer"/>
-<title>Tucumán 550 · San Nicolás</title><style>@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap');
+<title>Tucumán 550 · San Nicolás · Alquiler</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap');
 :root{--primary:#ff6a00;--wa:#25d366;--bg:#f0f0f0;--muted:#757575;--border:#e0e0e0;--font:"Nunito Sans",system-ui,sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font);background:var(--bg);color:#222}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font);background:var(--bg);color:#222;line-height:1.35}
 a{color:inherit;text-decoration:none}
 .header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
 .header-inner{max-width:720px;margin:0 auto;padding:0 12px;height:52px;display:flex;align-items:center;justify-content:space-between}
@@ -12,32 +16,102 @@ a{color:inherit;text-decoration:none}
 .btn-outline{border:1.5px solid var(--primary);color:var(--primary);padding:6px 14px;border-radius:20px}
 .wrap{max-width:720px;margin:0 auto;padding:14px 12px 80px}
 .back{font-size:13px;font-weight:700;color:#555;display:inline-block;margin-bottom:12px}
-.photo{width:100%;height:240px;object-fit:cover;border-radius:14px;background:#ddd;display:block}
-.gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
-.gallery img{width:100%;height:120px;object-fit:cover;border-radius:10px;background:#eee}
+.carousel{position:relative;background:#111;border-radius:14px;overflow:hidden;aspect-ratio:4/3}
+.carousel img{width:100%;height:100%;object-fit:cover;display:none;background:#222}
+.carousel img.active{display:block}
+.carousel .nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border:none;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:24px;cursor:pointer;z-index:2}
+.carousel .prev{left:8px}.carousel .next{right:8px}
+.carousel .counter{position:absolute;bottom:10px;right:12px;background:rgba(0,0,0,.65);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;z-index:2}
+.thumbs{display:flex;gap:6px;overflow-x:auto;padding:10px 0}
+.thumbs img{width:64px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0;cursor:pointer;opacity:.65;border:2px solid transparent;background:#ddd}
+.thumbs img.active{opacity:1;border-color:var(--primary)}
 .hero-mini{background:#fff;border-radius:14px;padding:16px;margin:12px 0;border:1px solid #e8e8e8}
 .badge{display:inline-block;background:#fff3e8;color:var(--primary);padding:5px 10px;border-radius:999px;font-weight:800;font-size:12px;margin-bottom:8px}
-.hero-mini h1{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+.hero-mini h1{font-size:1.25rem;font-weight:800;margin-bottom:4px}
 .loc{font-size:14px;font-weight:700;color:#666}
 .price{font-size:1.4rem;font-weight:800;margin-top:8px}
 .specs{font-size:13px;font-weight:600;color:#666;margin-top:4px}
+.chars{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.char{background:#f5f5f5;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;color:#444}
+.char.amob{background:#e8f5e9;color:#2e7d32}
 .panel{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #e8e8e8}
 .panel h2{font-size:1rem;font-weight:800;margin-bottom:10px}
-.panel p{font-size:14px;color:#555;font-weight:600;line-height:1.5;margin-bottom:10px}
-.btn{display:block;background:var(--primary);color:#fff;text-align:center;padding:13px 16px;border-radius:10px;font-weight:800;font-size:14px;margin-top:8px}
+.panel p{font-size:14px;color:#555;font-weight:600;line-height:1.5;margin-bottom:8px}
+.btn{display:block;background:var(--primary);color:#fff;text-align:center;padding:13px 16px;border-radius:10px;font-weight:800;font-size:14px;margin-top:8px;border:none;width:100%;cursor:pointer}
 .btn.wa{background:var(--wa)}.btn.ghost{background:#fff;color:var(--primary);border:1.5px solid var(--primary)}
 .footer{background:#fff;border-top:1px solid var(--border);padding:20px 14px;text-align:center;font-size:13px;color:var(--muted);font-weight:600}
-.footer a{color:var(--primary);font-weight:800}</style></head><body>
-<header class="header"><div class="header-inner"><a class="logo" href="index.html"><span class="dot"></span> zonaprop</a><div class="header-actions"><a href="mailto:informeZonaProp@gmail.com">Contacto</a><a class="btn-outline" href="index.html">Inicio</a></div></div></header><div class="wrap"><a class="back" href="index.html">← Volver al listado</a>
-<img class="photo" src="https://www.bullano.com.ar/files/05-2026/ad17876/FyquyhEUlzbe.webp" alt="Tucumán 550" referrerpolicy="no-referrer" onerror="this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=480&h=320&fit=crop&q=72'"/>
-<div class="gallery"><img src="https://www.bullano.com.ar/files/05-2026/ad17876/FyquyhEUlzbe.webp" alt="Foto 1" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/YUWvTuYHPrMY.webp" alt="Foto 2" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/DEnfQKRYznZD.webp" alt="Foto 3" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/iZVdKxtUQnbT.webp" alt="Foto 4" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/aojxgrpYwlpj.webp" alt="Foto 5" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/NKIOhNPOooXF.webp" alt="Foto 6" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"/></div>
-<div class="hero-mini"><span class="badge">Publicación propia</span>
-<h1>Tucumán 550</h1><div class="loc">San Nicolás · CABA</div>
-<div class="price">$ 990.000 <span style="font-size:14px;color:#888">/ mes</span></div>
-<div class="specs">58 m² · 3 amb. · 1 dorm. · 1 baño</div></div>
-<div class="panel"><h2>Reservar / consultar</h2>
-<p>Publicación con dirección real. Coordiná visita o reserva. Seña con tarjeta en Mercado Pago.</p>
+.footer a{color:var(--primary);font-weight:800}
+.reserva-box{background:#fff8f0;border:1px solid #ffe0c2;border-radius:12px;padding:14px;margin-top:8px}
+.reserva-box strong{color:#c45a00}
+</style></head><body>
+<header class="header"><div class="header-inner"><a class="logo" href="index.html"><span class="dot"></span> zonaprop</a><div class="header-actions"><a href="mailto:informeZonaProp@gmail.com">Contacto</a><a class="btn-outline" href="index.html">Inicio</a></div></div></header>
+<div class="wrap">
+<a class="back" href="index.html">← Volver al listado</a>
+<div class="carousel">
+<img src="https://www.bullano.com.ar/files/05-2026/ad17876/FyquyhEUlzbe.webp" alt="Foto 1" loading="eager" referrerpolicy="no-referrer" class="active"/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/YUWvTuYHPrMY.webp" alt="Foto 2" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/DEnfQKRYznZD.webp" alt="Foto 3" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/iZVdKxtUQnbT.webp" alt="Foto 4" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/aojxgrpYwlpj.webp" alt="Foto 5" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/NKIOhNPOooXF.webp" alt="Foto 6" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/mQRTnkFbXCZi.webp" alt="Foto 7" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/xOkWqiUbIcHw.webp" alt="Foto 8" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/OBxSIVXPCYOn.webp" alt="Foto 9" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/rEtOTrBagJol.webp" alt="Foto 10" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/HyJytXZxpXnl.webp" alt="Foto 11" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/hxOOeSoJadtQ.webp" alt="Foto 12" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/NUlMUbKEUPxq.webp" alt="Foto 13" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/xYvbcuWtBbJP.webp" alt="Foto 14" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/eWuubeKRPxck.webp" alt="Foto 15" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/02-2022/ad6149/listing-602795149.jpg" alt="Foto 16" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/03-2022/ad6187/listing-292023480.jpeg" alt="Foto 17" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/03-2022/ad6213/listing-918624589.jpeg" alt="Foto 18" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/03-2022/ad6268/listing-676497105.jpg" alt="Foto 19" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/03-2022/ad6404/listing-2029088522.jpg" alt="Foto 20" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/04-2022/ad6434/listing-1144880004.jpg" alt="Foto 21" loading="lazy" referrerpolicy="no-referrer" class=""/>
+<button type="button" class="nav prev" aria-label="Anterior">‹</button>
+<button type="button" class="nav next" aria-label="Siguiente">›</button>
+<div class="counter" id="counter">1 / 21</div>
+</div>
+<div class="thumbs"><img src="https://www.bullano.com.ar/files/05-2026/ad17876/FyquyhEUlzbe.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class="active"/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/YUWvTuYHPrMY.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/DEnfQKRYznZD.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/iZVdKxtUQnbT.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/aojxgrpYwlpj.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/NKIOhNPOooXF.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/mQRTnkFbXCZi.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/xOkWqiUbIcHw.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/OBxSIVXPCYOn.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/rEtOTrBagJol.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/HyJytXZxpXnl.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/hxOOeSoJadtQ.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/NUlMUbKEUPxq.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/xYvbcuWtBbJP.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/05-2026/ad17876/eWuubeKRPxck.webp" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/02-2022/ad6149/listing-602795149.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/03-2022/ad6187/listing-292023480.jpeg" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/03-2022/ad6213/listing-918624589.jpeg" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/03-2022/ad6268/listing-676497105.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/03-2022/ad6404/listing-2029088522.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/><img src="https://www.bullano.com.ar/files/04-2022/ad6434/listing-1144880004.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" class=""/></div>
+<p style="font-size:12px;font-weight:700;color:#888;margin-bottom:8px">21 fotos de este departamento · flechas, miniaturas o deslizá</p>
+<div class="hero-mini">
+<span class="badge">Publicación propia</span>
+<h1>Tucumán 550</h1>
+<div class="loc">San Nicolás · CABA</div>
+<div class="price">$ 990.000 <span style="font-size:14px;color:#888;font-weight:600">/ mes</span></div>
+<div class="specs">58 m² · 3 amb. · 1 dorm. · 1 baño</div>
+<div class="chars"><span class="char">Terraza</span><span class="char">Balcón</span><span class="char">Cochera</span><span class="char amob">Amoblado</span><span class="char">Ascensor</span><span class="char">Piscina</span><span class="char">SUM</span><span class="char">Lavadero</span><span class="char">Seguridad</span><span class="char">Luminoso</span><span class="char">Dueño directo</span><span class="char">Parrilla</span></div>
+</div>
+<div class="panel">
+<h2>Características</h2>
+<p><strong>Ambientes / superficie:</strong> 58 m² · 3 amb. · 1 dorm. · 1 baño</p>
+<p><strong>Amoblamiento:</strong> Amoblado / equipado</p>
+<p><strong>Precio:</strong> $ 990.000 </p>
+<p><strong>Ubicación:</strong> Tucumán 550, San Nicolás, CABA</p>
+<p>¡Excelente oportunidad! Departamento en Alquiler en San Nicolás - Tucuman 550 - $990.000  - 1 dorm - 3 amb - 55 m2 - 58 m2 tot. - Excelente ubicación ¡Haz clic para ver más detalles!</p>
+</div>
+<div class="panel">
+<h2>Detalle de la reserva</h2>
+<div class="reserva-box">
+<p><strong>1.</strong> Consultá disponibilidad por WhatsApp o email.</p>
+<p><strong>2.</strong> Coordinamos visita (si aplica) y fechas de ingreso / egreso.</p>
+<p><strong>3.</strong> Para asegurar la reserva abonás una <strong>seña con tarjeta</strong> (crédito o débito) por Mercado Pago.</p>
+<p><strong>4.</strong> No se cobra el total del alquiler sin tu consentimiento: la seña solo reserva.</p>
+<p><strong>5.</strong> Amoblamiento: <strong>Amoblado / equipado</strong>.</p>
+<p><strong>6.</strong> WhatsApp: <strong>11 7136-5501</strong>.</p>
+</div>
 <a class="btn" href="https://mpago.la/1Jvg2Zv" target="_blank" rel="noopener">Pagar seña con tarjeta · Mercado Pago</a>
-<a class="btn wa" href="https://wa.me/5491153797355?text=Hola%21%20Me%20interesa%20Tucum%C3%A1n%20550%2C%20San%20Nicol%C3%A1s" target="_blank" rel="noopener">WhatsApp</a>
-<a class="btn ghost" href="mailto:informeZonaProp@gmail.com?subject=Consulta%20Tucum%C3%A1n%20550">Email informeZonaProp@gmail.com</a>
-</div></div><footer class="footer">ZonaProp · Alquiler CABA<br><a href="mailto:informeZonaProp@gmail.com">informeZonaProp@gmail.com</a></footer></body></html>
+<a class="btn wa" href="https://wa.me/5491171365501?text=Hola%21%20Quiero%20reservar%20Tucum%C3%A1n%20550%2C%20San%20Nicol%C3%A1s.%20Precio%20%24%20990.000" target="_blank" rel="noopener">Reservar por WhatsApp · 11 7136-5501</a>
+<a class="btn ghost" href="mailto:informeZonaProp@gmail.com?subject=Reserva%20Tucum%C3%A1n%20550">Email informeZonaProp@gmail.com</a>
+</div>
+</div>
+<footer class="footer">ZonaProp · Alquiler CABA<br><a href="mailto:informeZonaProp@gmail.com">informeZonaProp@gmail.com</a></footer>
+<script>
+(function(){
+  var imgs=[].slice.call(document.querySelectorAll('.carousel img'));
+  var thumbs=[].slice.call(document.querySelectorAll('.thumbs img'));
+  var counter=document.getElementById('counter');
+  var i=0;
+  function show(n){
+    if(!imgs.length)return;
+    i=(n+imgs.length)%imgs.length;
+    imgs.forEach(function(el,idx){el.classList.toggle('active',idx===i)});
+    thumbs.forEach(function(el,idx){el.classList.toggle('active',idx===i)});
+    if(counter)counter.textContent=(i+1)+' / '+imgs.length;
+    if(thumbs[i])thumbs[i].scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+  }
+  var prev=document.querySelector('.prev'), next=document.querySelector('.next');
+  if(prev)prev.addEventListener('click',function(){show(i-1)});
+  if(next)next.addEventListener('click',function(){show(i+1)});
+  thumbs.forEach(function(t,idx){t.addEventListener('click',function(){show(idx)})});
+  var startX=0, car=document.querySelector('.carousel');
+  if(car){
+    car.addEventListener('touchstart',function(e){startX=e.touches[0].clientX},{passive:true});
+    car.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>40)show(i+(dx<0?1:-1))},{passive:true});
+  }
+  document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
+  show(0);
+})();
+</script>
+</body></html>
