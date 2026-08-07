@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
+<meta name="referrer" content="origin">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover"/>
 <title>Departamentos en alquiler · ZonaProp</title>
@@ -966,56 +967,76 @@ document.getElementById("btnDoRegister").onclick = function() {
   setSession({ nombre: nombre, email: email, dni: dni, tel: tel });
   closeRegister();
 
-  var FORMSPREE_ENDPOINT = "https://formspree.io/f/xrpzbayz";
+  var FORMSPREE = "https://formspree.io/f/xrpzbayz";
   var selfieFile = selfieInput.files[0];
 
-  function sendToFormspree(blob) {
-    var fd = new FormData();
-    fd.append("_subject", "Nuevo registro ZonaProp - " + nombre);
-    fd.append("email", email);
-    fd.append("_replyto", email);
-    fd.append("nombre", nombre);
-    fd.append("dni", dni);
-    fd.append("whatsapp", tel);
-    fd.append("mensaje", "Nuevo usuario registrado.");
-    fd.append("fecha", new Date().toLocaleString("es-AR"));
-    if (blob) {
-      fd.append("attachment", blob, "selfie-" + dni + ".jpg");
-    }
-    return fetch(FORMSPREE_ENDPOINT, {
-      method: "POST",
-      body: fd,
-      headers: { "Accept": "application/json" }
-    });
-  }
+  // 1) JSON — confirmado que Formspree responde ok:true
+  var payload = {
+    _subject: "Nuevo registro ZonaProp - " + nombre,
+    email: email,
+    _replyto: email,
+    nombre: nombre,
+    dni: dni,
+    whatsapp: tel,
+    mensaje: "Nuevo usuario registrado en ZonaProp",
+    fecha: new Date().toLocaleString("es-AR")
+  };
 
-  function finishOk() {
+  function done() {
     alert("¡Cuenta creada! Ya podés solicitar reservas.");
   }
 
-  if (selfieFile && selfieFile.type.indexOf("image") === 0) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var img = new Image();
-      img.onload = function() {
-        var max = 800;
-        var scale = Math.min(1, max / Math.max(img.width, img.height));
-        var canvas = document.createElement("canvas");
-        canvas.width = Math.round(img.width * scale);
-        canvas.height = Math.round(img.height * scale);
-        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-        canvas.toBlob(function(blob) {
-          sendToFormspree(blob || selfieFile).finally(finishOk);
-        }, "image/jpeg", 0.85);
-      };
-      img.onerror = function() { sendToFormspree(selfieFile).finally(finishOk); };
-      img.src = e.target.result;
-    };
-    reader.onerror = function() { sendToFormspree(selfieFile).finally(finishOk); };
-    reader.readAsDataURL(selfieFile);
-  } else {
-    sendToFormspree(null).finally(finishOk);
-  }
+  fetch(FORMSPREE, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(payload)
+  }).then(function(r) {
+    return r.json().catch(function(){ return {}; }).then(function(j) {
+      // 2) Intento con selfie como archivo (si el plan lo permite)
+      if (selfieFile) {
+        var fd = new FormData();
+        fd.append("_subject", "Selfie registro - " + nombre);
+        fd.append("email", email);
+        fd.append("nombre", nombre);
+        fd.append("dni", dni);
+        fd.append("whatsapp", tel);
+        fd.append("mensaje", "Selfie de " + nombre);
+        // redimensionar y adjuntar
+        var reader = new FileReader();
+        reader.onload = function(ev) {
+          var img = new Image();
+          img.onload = function() {
+            var max = 700;
+            var scale = Math.min(1, max / Math.max(img.width, img.height));
+            var c = document.createElement("canvas");
+            c.width = Math.round(img.width * scale);
+            c.height = Math.round(img.height * scale);
+            c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+            c.toBlob(function(blob) {
+              if (blob) fd.append("attachment", blob, "selfie-" + dni + ".jpg");
+              else fd.append("attachment", selfieFile);
+              fetch(FORMSPREE, { method: "POST", body: fd, headers: { "Accept": "application/json" } })
+                .finally(done);
+            }, "image/jpeg", 0.8);
+          };
+          img.onerror = function() {
+            fd.append("attachment", selfieFile);
+            fetch(FORMSPREE, { method: "POST", body: fd, headers: { "Accept": "application/json" } }).finally(done);
+          };
+          img.src = ev.target.result;
+        };
+        reader.onerror = function() {
+          fd.append("attachment", selfieFile);
+          fetch(FORMSPREE, { method: "POST", body: fd, headers: { "Accept": "application/json" } }).finally(done);
+        };
+        reader.readAsDataURL(selfieFile);
+      } else {
+        done();
+      }
+    });
+  }).catch(function() {
+    done();
+  });
 };
 
 updateHeader();
