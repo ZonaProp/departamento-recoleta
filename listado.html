@@ -1147,7 +1147,7 @@ function renderAccountViews() {
     var a = document.createElement("a");
     a.href = v.link || "#";
     a.style.cssText = "display:flex;gap:.55rem;align-items:center;background:#f7f7f7;border-radius:10px;padding:.45rem .55rem;text-decoration:none;color:inherit";
-    a.innerHTML = '<div style="width:48px;height:48px;border-radius:8px;background:#ddd center/cover no-repeat;flex-shrink:0;background-image:url(\\''+(v.img||'')+'\\')"></div><div style="min-width:0;flex:1"><div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(v.title||'')+'</div><div style="font-size:12px;color:#666">'+(v.barrio||'')+' · '+(v.price||'')+'</div></div>';
+    a.innerHTML = "<div style=\"width:48px;height:48px;border-radius:8px;background:#ddd center/cover no-repeat;flex-shrink:0;background-image:url('" + (v.img||"") + "')\"></div><div style=\"min-width:0;flex:1\"><div style=\"font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis\">" + (v.title||"") + "</div><div style=\"font-size:12px;color:#666\">" + (v.barrio||"") + " · " + (v.price||"") + "</div></div>";
     box.appendChild(a);
   });
 }
