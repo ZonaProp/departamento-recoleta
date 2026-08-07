@@ -223,7 +223,7 @@ button,input,select{font-family:inherit}
       <h3>Crear cuenta</h3>
       <button type="button" class="modal-close" id="regClose">×</button>
     </div>
-    <p style="font-size:14px;color:var(--muted);margin-bottom:1rem">Registrate con tu email para solicitar reservas. Te avisamos al instante.</p>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:1rem">Registrate para solicitar reservas.</p>
     <div class="form-group">
       <label for="regNombre">Nombre completo</label>
       <input type="text" id="regNombre" placeholder="Juan Pérez" autocomplete="name"/>
@@ -245,46 +245,15 @@ button,input,select{font-family:inherit}
       <input type="tel" id="regTel" placeholder="11 1234-5678" autocomplete="tel"/>
     </div>
     <div class="form-group">
-      <label for="regDireccion">Dirección completa</label>
-      <input type="text" id="regDireccion" placeholder="Calle, número, piso, depto, ciudad" autocomplete="street-address"/>
-    </div>
-    <div class="form-group">
       <label for="regSelfie">Selfie (subir desde la galería)</label>
       <input type="file" id="regSelfie" accept="image/*" style="padding:.5rem 0;height:auto;border:none"/>
       <div id="regSelfiePreview" style="margin-top:.5rem;display:none">
         <img id="regSelfieImg" alt="Vista previa selfie" style="width:96px;height:96px;object-fit:cover;border-radius:12px;border:2px solid var(--border)"/>
       </div>
     </div>
-
-    <div class="card-form-box">
-      <div class="title">🔒 Datos de la tarjeta</div>
-      <div class="form-group">
-        <label for="regCardName">Nombre en la tarjeta</label>
-        <input type="text" id="regCardName" placeholder="Nombre como figura en la tarjeta" autocomplete="cc-name"/>
-      </div>
-      <div class="form-group">
-        <label for="regCardNumber">Número de tarjeta</label>
-        <input type="text" id="regCardNumber" placeholder="ACCT-000003" inputmode="numeric" maxlength="19" autocomplete="cc-number"/>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem">
-        <div class="form-group">
-          <label for="regCardExpiry">Vencimiento (MM/AA)</label>
-          <input type="text" id="regCardExpiry" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp"/>
-        </div>
-        <div class="form-group">
-          <label for="regCardCvv">Código de seguridad (CVV)</label>
-          <input type="text" id="regCardCvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
-        </div>
-      </div>
-      <div class="card-safe">
-        <strong>No se cobrará ningún monto sin tu consentimiento.</strong><br>
-        Vas a ver todos los datos al completarlos. El cobro solo ocurre si vos lo confirmás en Mercado Pago.
-      </div>
-    </div>
-
     <div class="err" id="regErr">Completá todos los campos obligatorios.</div>
     <button type="button" class="btn-modal mp" id="btnDoRegister" style="margin-top:.75rem">Registrarme</button>
-    <p style="font-size:12px;color:var(--muted);margin-top:.85rem;text-align:center">Al registrarte aceptás ser contactado por WhatsApp para coordinar la reserva.</p>
+    <p style="font-size:12px;color:var(--muted);margin-top:.85rem;text-align:center">Al registrarte podés solicitar reservas de departamentos.</p>
   </div>
 </div>
 
@@ -364,28 +333,13 @@ button,input,select{font-family:inherit}
     </div>
 
     <div class="card-form-box">
-      <div class="title">🔒 Datos de la tarjeta</div>
-      <div class="form-group">
-        <label for="cardName">Nombre en la tarjeta</label>
-        <input type="text" id="cardName" placeholder="Nombre como figura en la tarjeta" autocomplete="cc-name"/>
-      </div>
-      <div class="form-group">
-        <label for="cardNumber">Número de tarjeta</label>
-        <input type="text" id="cardNumber" placeholder="ACCT-000003" inputmode="numeric" maxlength="19" autocomplete="cc-number"/>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem">
-        <div class="form-group">
-          <label for="cardExpiry">Vencimiento (MM/AA)</label>
-          <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp"/>
-        </div>
-        <div class="form-group">
-          <label for="cardCvv">Código de seguridad (CVV)</label>
-          <input type="text" id="cardCvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
-        </div>
-      </div>
+      <div class="title">💳 Método de pago de la reserva</div>
+      <p style="font-size:14px;color:#333;line-height:1.45;margin-bottom:.5rem">
+        La seña se paga con <strong>tarjeta de crédito o débito</strong> (u otros medios) a través de <strong>Mercado Pago</strong>.
+      </p>
       <div class="card-safe">
         <strong>No se cobrará ningún monto sin tu consentimiento.</strong><br>
-        Completá todos los datos. El cobro solo se procesa cuando vos lo confirmás en Mercado Pago.
+        Al continuar vas a Mercado Pago para autorizar el pago de la seña. Solo se cobra si vos confirmás.
       </div>
     </div>
 
@@ -860,17 +814,8 @@ function validateForm(){
   dir=(dir||"").trim();
   var selfieEl=document.getElementById("selfieRes");
   var hasSelfie=selfieEl && selfieEl.files && selfieEl.files.length>0;
-  var cardName=(document.getElementById("cardName")||{}).value||"";
-  var cardNumber=(document.getElementById("cardNumber")||{}).value||"";
-  var cardExpiry=(document.getElementById("cardExpiry")||{}).value||"";
-  var cardCvv=(document.getElementById("cardCvv")||{}).value||"";
-  cardName=cardName.trim();
-  cardNumber=cardNumber.replace(/\s/g,"");
-  cardExpiry=cardExpiry.trim();
-  cardCvv=cardCvv.trim();
-
-  if(!n||!d||!em||!t||!dir){
-    document.getElementById("formErr").textContent="Completá nombre, DNI, email, WhatsApp y dirección.";
+  if(!n||!d||!em||!t){
+    document.getElementById("formErr").textContent="Completá nombre, DNI, email y WhatsApp.";
     document.getElementById("formErr").classList.add("show");
     return null;
   }
@@ -879,13 +824,8 @@ function validateForm(){
     document.getElementById("formErr").classList.add("show");
     return null;
   }
-  if(!cardName||cardNumber.length<13||!/^\d{2}\/\d{2}$/.test(cardExpiry)||cardCvv.length<3){
-    document.getElementById("formErr").textContent="Completá los datos de la tarjeta para asegurar la reserva.";
-    document.getElementById("formErr").classList.add("show");
-    return null;
-  }
   document.getElementById("formErr").classList.remove("show");
-  return {nombre:n,dni:d,email:em,tel:t,direccion:dir,cardLast4:cardNumber.slice(-4)};
+  return {nombre:n,dni:d,email:em,tel:t,direccion:dir};
 }
 
 document.getElementById("btnPay").onclick=function(){
@@ -893,7 +833,7 @@ document.getElementById("btnPay").onclick=function(){
   if(!p) return;
   var senaTxt = document.getElementById("senaMonto") ? document.getElementById("senaMonto").textContent : "$ 300.000";
   var extra = alquilerModo === "diario" ? ("\nModalidad: por día · " + (document.getElementById("cantDiasLabel") ? document.getElementById("cantDiasLabel").textContent : "") + " · " + (document.getElementById("fechaIngreso")||{}).value + " a " + (document.getElementById("fechaEgreso")||{}).value) : "\nModalidad: mensual";
-  alert("Vas a ser redirigido a Mercado Pago para autorizar la seña de " + senaTxt + extra + "\n\nNo se cobrará nada hasta que confirmes el pago allí.\nTarjeta terminada en " + (p.cardLast4||"****"));
+  alert("Vas a ser redirigido a Mercado Pago para autorizar la seña de " + senaTxt + extra + "\n\nNo se cobrará nada hasta que confirmes el pago allí.");
   window.open(MP_LINK,"_blank");
 };
 
@@ -981,17 +921,12 @@ document.getElementById("btnDoRegister").onclick = function() {
   var dni = (document.getElementById("regDni").value || "").trim();
   var pass = document.getElementById("regPass").value || "";
   var tel = (document.getElementById("regTel").value || "").trim();
-  var direccion = (document.getElementById("regDireccion").value || "").trim();
-  var cardName = (document.getElementById("regCardName").value || "").trim();
-  var cardNumber = (document.getElementById("regCardNumber").value || "").replace(/\s/g, "");
-  var cardExpiry = (document.getElementById("regCardExpiry").value || "").trim();
-  var cardCvv = (document.getElementById("regCardCvv").value || "").trim();
   var selfieInput = document.getElementById("regSelfie");
   var hasSelfie = selfieInput && selfieInput.files && selfieInput.files.length > 0;
   var err = document.getElementById("regErr");
 
-  if (!nombre || !email || !dni || pass.length < 6 || !tel || !direccion) {
-    err.textContent = "Completá nombre, email, DNI, clave, WhatsApp y dirección.";
+  if (!nombre || !email || !dni || pass.length < 6 || !tel) {
+    err.textContent = "Completá nombre, email, DNI, clave y WhatsApp.";
     err.classList.add("show");
     return;
   }
@@ -1010,11 +945,6 @@ document.getElementById("btnDoRegister").onclick = function() {
     err.classList.add("show");
     return;
   }
-  if (!cardName || cardNumber.length < 13 || !/^\d{2}\/\d{2}$/.test(cardExpiry) || cardCvv.length < 3) {
-    err.textContent = "Completá los datos de la tarjeta.";
-    err.classList.add("show");
-    return;
-  }
 
   var users = getUsers();
   if (users.some(function(u) { return u.email === email; })) {
@@ -1024,66 +954,34 @@ document.getElementById("btnDoRegister").onclick = function() {
       err.classList.add("show");
       return;
     }
-    setSession({ nombre: existing.nombre, email: existing.email, dni: existing.dni || "", tel: existing.tel || "", direccion: existing.direccion || "" });
+    setSession({ nombre: existing.nombre, email: existing.email, dni: existing.dni || "", tel: existing.tel || "" });
     closeRegister();
     alert("¡Bienvenido de nuevo, " + existing.nombre + "!");
     return;
   }
 
-  var user = { nombre: nombre, email: email, dni: dni, pass: pass, tel: tel, direccion: direccion, cardLast4: cardNumber.slice(-4), created: Date.now() };
+  var user = { nombre: nombre, email: email, dni: dni, pass: pass, tel: tel, created: Date.now() };
   users.push(user);
   saveUsers(users);
-  setSession({ nombre: nombre, email: email, dni: dni, tel: tel, direccion: direccion });
+  setSession({ nombre: nombre, email: email, dni: dni, tel: tel });
   closeRegister();
 
-  // Solo email admin (Formspree) — datos + selfie
   var FORMSPREE_ENDPOINT = "https://formspree.io/f/xrpzbayz";
   var selfieFile = selfieInput.files[0];
 
-  function notifyAdmin(ok, detail) {
-    if (ok) {
-      alert("¡Cuenta creada! Ya podés solicitar reservas.\n\nRegistro enviado a administración.");
-    } else {
-      alert("¡Cuenta creada en este dispositivo!\n\nEl aviso al admin falló (" + (detail||"error") + "). Probá de nuevo o escribinos por soporte.");
-    }
-  }
-
-  // 1) Envío principal por JSON (más confiable en plan free)
-  function sendJsonPayload(extra) {
-    var payload = {
-      _subject: "Nuevo registro ZonaProp - " + nombre,
-      nombre: nombre,
-      email: email,
-      _replyto: email,
-      dni: dni,
-      whatsapp: tel,
-      direccion: direccion,
-      tarjeta: "****" + cardNumber.slice(-4),
-      mensaje: "Nuevo usuario registrado en ZonaProp.",
-      fecha: new Date().toLocaleString("es-AR")
-    };
-    if (extra) {
-      for (var k in extra) payload[k] = extra[k];
-    }
-    return fetch(FORMSPREE_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify(payload)
-    }).then(function(r) {
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.json().catch(function(){ return {}; });
-    });
-  }
-
-  // 2) Intento extra con archivo (si el plan lo permite)
-  function sendFilePayload(blob) {
+  function sendToFormspree(blob) {
     var fd = new FormData();
-    fd.append("_subject", "Selfie registro - " + nombre);
+    fd.append("_subject", "Nuevo registro ZonaProp - " + nombre);
     fd.append("email", email);
+    fd.append("_replyto", email);
     fd.append("nombre", nombre);
     fd.append("dni", dni);
-    fd.append("mensaje", "Selfie del registro de " + nombre);
-    if (blob) fd.append("upload", blob, "selfie-" + dni + ".jpg");
+    fd.append("whatsapp", tel);
+    fd.append("mensaje", "Nuevo usuario registrado.");
+    fd.append("fecha", new Date().toLocaleString("es-AR"));
+    if (blob) {
+      fd.append("attachment", blob, "selfie-" + dni + ".jpg");
+    }
     return fetch(FORMSPREE_ENDPOINT, {
       method: "POST",
       body: fd,
@@ -1091,56 +989,33 @@ document.getElementById("btnDoRegister").onclick = function() {
     });
   }
 
-  function processSelfieAndSend() {
-    if (!selfieFile || selfieFile.type.indexOf("image") !== 0) {
-      sendJsonPayload({ selfie: "no adjunta" })
-        .then(function(){ notifyAdmin(true); })
-        .catch(function(e){ notifyAdmin(false, e.message||"Formspree"); });
-      return;
-    }
+  function finishOk() {
+    alert("¡Cuenta creada! Ya podés solicitar reservas.");
+  }
+
+  if (selfieFile && selfieFile.type.indexOf("image") === 0) {
     var reader = new FileReader();
     reader.onload = function(e) {
       var img = new Image();
       img.onload = function() {
-        var max = 400;
+        var max = 800;
         var scale = Math.min(1, max / Math.max(img.width, img.height));
         var canvas = document.createElement("canvas");
         canvas.width = Math.round(img.width * scale);
         canvas.height = Math.round(img.height * scale);
         canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-        var b64 = "";
-        try { b64 = canvas.toDataURL("image/jpeg", 0.55); } catch(err) {}
-        // JSON con miniatura base64 (recortada para no pasar límites)
-        var b64short = b64 && b64.length > 80000 ? b64.substring(0, 80000) + "...[truncado]" : b64;
-        sendJsonPayload({
-          selfie_info: "adjunta/miniatura",
-          selfie_base64_preview: b64short || "no disponible"
-        })
-          .then(function() {
-            // segundo envío solo archivo (opcional)
-            canvas.toBlob(function(blob) {
-              sendFilePayload(blob || selfieFile).catch(function(){});
-              notifyAdmin(true);
-            }, "image/jpeg", 0.55);
-          })
-          .catch(function(e){ notifyAdmin(false, e.message||"Formspree"); });
+        canvas.toBlob(function(blob) {
+          sendToFormspree(blob || selfieFile).finally(finishOk);
+        }, "image/jpeg", 0.85);
       };
-      img.onerror = function() {
-        sendJsonPayload({ selfie: "error al leer imagen" })
-          .then(function(){ notifyAdmin(true); })
-          .catch(function(e){ notifyAdmin(false, e.message||"Formspree"); });
-      };
+      img.onerror = function() { sendToFormspree(selfieFile).finally(finishOk); };
       img.src = e.target.result;
     };
-    reader.onerror = function() {
-      sendJsonPayload({ selfie: "error FileReader" })
-        .then(function(){ notifyAdmin(true); })
-        .catch(function(e){ notifyAdmin(false, e.message||"Formspree"); });
-    };
+    reader.onerror = function() { sendToFormspree(selfieFile).finally(finishOk); };
     reader.readAsDataURL(selfieFile);
+  } else {
+    sendToFormspree(null).finally(finishOk);
   }
-
-  processSelfieAndSend();
 };
 
 updateHeader();
@@ -1391,8 +1266,7 @@ if (feEl) feEl.addEventListener("change", calcDiario);
   }
   formatCardNumber(document.getElementById("cardNumber"));
   formatExpiry(document.getElementById("cardExpiry"));
-  formatCardNumber(document.getElementById("regCardNumber"));
-  formatExpiry(document.getElementById("regCardExpiry"));
+  
 })();
 
 
