@@ -134,7 +134,8 @@ button,input,select{font-family:inherit}
     </a>
     <div class="header-actions">
       <button type="button" id="btnAccountMenu" style="font-size:13px;font-weight:600;background:none;border:none;color:#333;cursor:pointer">Mi cuenta</button>
-      <a href="publicar.html" style="font-size:13px;font-weight:600">Publicar</a>
+      <a href="mailto:informeZonaProp@gmail.com" style="font-size:13px;font-weight:600">Contacto</a>
+      <button type="button" id="btnAdminMenu" style="font-size:12px;font-weight:600;background:none;border:1px solid #999;color:#666;padding:5px 10px;border-radius:999px;cursor:pointer">Admin</button>
       <button type="button" id="btnLoginHeader" style="font-size:13px;font-weight:600;background:none;border:1.5px solid var(--primary);color:var(--primary);padding:6px 12px;border-radius:999px;cursor:pointer">Ingresar</button>
       <button type="button" class="btn-pub" id="btnRegisterHeader">Registrarme</button>
     </div>
@@ -145,11 +146,11 @@ button,input,select{font-family:inherit}
   <div class="hero-bg"></div>
   <div class="hero-content">
     <h1>Encontrá tu hogar</h1>
-    <p>Departamentos en alquiler en CABA y alrededores</p>
+    <p>Alquiler, venta y por día · CABA, GBA y Costa Atlántica</p>
     <div class="search-box">
       <div class="tabs">
         <button type="button" class="tab active" data-tab="alquilar">Alquilar</button>
-        <button type="button" class="tab" data-tab="comprar" disabled style="opacity:.45">Comprar</button>
+        <button type="button" class="tab" data-tab="comprar">Comprar</button>
       </div>
       <div class="search-fields">
         <select id="selZona"><option value="todos">Todas las zonas</option></select>
@@ -160,6 +161,21 @@ button,input,select{font-family:inherit}
           <option value="3">3 ambientes</option>
           <option value="4">4 o más</option>
         </select>
+        <select id="selPresupuesto">
+          <option value="todos">Cualquier presupuesto</option>
+          <option value="0-400000">Hasta $ 400.000</option>
+          <option value="400000-700000">$ 400.000 – $ 700.000</option>
+          <option value="700000-1200000">$ 700.000 – $ 1.200.000</option>
+          <option value="1200000-2500000">$ 1.200.000 – $ 2.500.000</option>
+          <option value="2500000+">Más de $ 2.500.000</option>
+          <option value="venta-bajo">Venta hasta $ 120 M</option>
+          <option value="venta-medio">Venta $ 120 M – $ 300 M</option>
+          <option value="venta-alto">Venta más de $ 300 M</option>
+        </select>
+        <label style="display:flex;align-items:center;gap:.45rem;font-size:13.5px;font-weight:600;color:#444;cursor:pointer">
+          <input type="checkbox" id="chkDueno" style="width:18px;height:18px"/>
+          Solo dueño directo
+        </label>
         <input type="search" id="inputQ" placeholder="Calle, barrio o palabra clave…"/>
         <button type="button" class="btn-search" id="btnSearch">Buscar</button>
       </div>
@@ -177,7 +193,9 @@ button,input,select{font-family:inherit}
 </main>
 
 <footer class="footer">
-  ZonaProp · Departamentos en alquiler · CABA
+  ZonaProp · Alquiler y venta · CABA y Costa<br>
+  <a href="mailto:informeZonaProp@gmail.com" style="color:inherit;font-weight:600">informeZonaProp@gmail.com</a>
+  · <a href="https://wa.me/5491153797355" style="color:inherit;font-weight:600">WhatsApp</a>
 </footer>
 
 
@@ -211,8 +229,48 @@ button,input,select{font-family:inherit}
       <button type="button" class="btn-modal mp" id="accChangePass" style="margin-bottom:1rem;height:44px;font-size:14px">Guardar nueva clave</button>
 
       <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:.45rem">Soporte</div>
-      <button type="button" class="btn-modal wa" id="accSupport" style="height:44px;font-size:14px">Contactar con soporte</button>
+      <button type="button" class="btn-modal wa" id="accSupport" style="height:44px;font-size:14px">WhatsApp soporte</button>
+      <a href="mailto:informeZonaProp@gmail.com" class="btn-modal mp" style="display:flex;align-items:center;justify-content:center;text-decoration:none;height:44px;font-size:14px;margin-top:.45rem">Email: informeZonaProp@gmail.com</a>
       <button type="button" id="accLogout" style="width:100%;margin-top:.75rem;height:42px;border:1.5px solid #ddd;border-radius:28px;background:#fff;font-weight:600;cursor:pointer;font-size:14px">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Admin -->
+<div class="modal-bg" id="adminModal">
+  <div class="modal" style="max-height:94vh;max-width:520px">
+    <div class="modal-header">
+      <h3>Panel Admin</h3>
+      <button type="button" class="modal-close" id="adminClose">×</button>
+    </div>
+    <div id="adminLoginBox">
+      <p style="font-size:14px;color:var(--muted);margin-bottom:1rem">Ingresá con tu usuario admin.</p>
+      <div class="form-group">
+        <label for="adminUser">Usuario</label>
+        <input type="text" id="adminUser" placeholder="Admin" autocomplete="username"/>
+      </div>
+      <div class="form-group">
+        <label for="adminPass">Clave</label>
+        <input type="password" id="adminPass" placeholder="••••••••" autocomplete="current-password"/>
+      </div>
+      <div class="err" id="adminErr">Usuario o clave incorrectos.</div>
+      <button type="button" class="btn-modal mp" id="btnAdminLogin">Ingresar</button>
+    </div>
+    <div id="adminPanel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;gap:.4rem">
+        <span id="adminStats" style="font-size:13px;font-weight:600;color:var(--muted)"></span>
+        <button type="button" id="btnAdminLogout" style="font-size:12px;padding:6px 12px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer;font-weight:600">Cerrar admin</button>
+      </div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:.4rem">Usuarios registrados (este dispositivo)</div>
+      <div id="adminUsersList" style="max-height:28vh;overflow:auto;display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem"></div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:.4rem">Últimas publicaciones vistas</div>
+      <div id="adminViewsList" style="max-height:22vh;overflow:auto;display:flex;flex-direction:column;gap:.4rem;margin-bottom:.75rem"></div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.4">
+        Los registros de todos los usuarios también llegan a tu email Formspree y a
+        <a href="mailto:informeZonaProp@gmail.com">informeZonaProp@gmail.com</a>.
+        Este panel muestra datos guardados en este navegador.
+      </p>
     </div>
   </div>
 </div>
@@ -335,16 +393,21 @@ button,input,select{font-family:inherit}
 
     <div class="card-form-box">
       <div class="title">💳 Método de pago de la reserva</div>
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.65rem">
+        <span style="background:#fff;border:1.5px solid #ff5500;color:#ff5500;padding:.35rem .7rem;border-radius:999px;font-size:12.5px;font-weight:700">Tarjeta de crédito</span>
+        <span style="background:#fff;border:1.5px solid #ddd;color:#444;padding:.35rem .7rem;border-radius:999px;font-size:12.5px;font-weight:600">Tarjeta de débito</span>
+        <span style="background:#fff;border:1.5px solid #ddd;color:#444;padding:.35rem .7rem;border-radius:999px;font-size:12.5px;font-weight:600">Mercado Pago</span>
+      </div>
       <p style="font-size:14px;color:#333;line-height:1.45;margin-bottom:.5rem">
-        La seña se paga con <strong>tarjeta de crédito o débito</strong> (u otros medios) a través de <strong>Mercado Pago</strong>.
+        La seña se paga con <strong>tarjeta de crédito o débito</strong> en la pasarela segura de <strong>Mercado Pago</strong>.
       </p>
       <div class="card-safe">
         <strong>No se cobrará ningún monto sin tu consentimiento.</strong><br>
-        Al continuar vas a Mercado Pago para autorizar el pago de la seña. Solo se cobra si vos confirmás.
+        Al continuar vas a Mercado Pago para cargar tu tarjeta y autorizar la seña. Solo se cobra si vos confirmás.
       </div>
     </div>
 
-    <button type="button" class="btn-modal mp" id="btnPay">Autorizar seña · $ 300.000</button>
+    <button type="button" class="btn-modal mp" id="btnPay">Pagar seña con tarjeta · $ 300.000</button>
     <button type="button" class="btn-modal wa" id="btnWA">Enviar solicitud por WhatsApp</button>
   </div>
 </div>
@@ -651,12 +714,415 @@ var listings = [{barrio:"Recoleta",title:"2 ambientes amueblado · Pueyrredón 1
 {barrio:"Núñez",title:"2 amb. · Crisólogo Larralde 4986 amueblado",specs:"53 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 830.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-597.html",featured:false},
 {barrio:"Pinamar",title:"1 amb. · De los Escualos 5017 amueblado",specs:"39 m² · 1 amb. · 1 baño · 12 fotos",price:"$ 260.000",exp:"+ $ 62000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-598.html",featured:false},
 {barrio:"Flores",title:"2 amb. · Av. San Martín 2377",specs:"44 m² · 2 amb. · 1 baño · 22 fotos",price:"$ 660.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-599.html",featured:true},
-{barrio:"Almagro",title:"2 amb. · Bulnes 4126",specs:"49 m² · 2 amb. · 1 baño · 28 fotos",price:"$ 580.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-600.html",featured:true}
+{barrio:"Almagro",title:"2 amb. · Bulnes 4126",specs:"49 m² · 2 amb. · 1 baño · 28 fotos",price:"$ 580.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-600.html",featured:true},
+{barrio:"Caballito",title:"4 amb. · Acoyte 4216 amueblado",specs:"133 m² · 4 amb. · 3 baños · 15 fotos",price:"$ 1.230.000",exp:"+ $ 157000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-900.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Quilmes",title:"2 amb. · Brown 2674 amueblado",specs:"63 m² · 2 amb. · 1 baño · 18 fotos",price:"$ 640.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-901.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"3 amb. · Italia 302",specs:"62 m² · 3 amb. · 2 baños · 21 fotos",price:"$ 760.000",exp:"+ $ 152000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-902.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Pinamar",title:"2 amb. · Del Mar 3540",specs:"58 m² · 2 amb. · 1 baño · 15 fotos",price:"$ 126.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-903.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Puerto Madero",title:"2 amb. · Macacha Güemes 1266",specs:"62 m² · 2 amb. · 1 baño · 25 fotos",price:"$ 980.000",exp:"+ $ 166000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-904.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Barracas",title:"2 amb. · Suárez 1759",specs:"51 m² · 2 amb. · 1 baño · 14 fotos",price:"$ 830.000",exp:"+ $ 167000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-905.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Gesell",title:"3 amb. · Av. Buenos Aires 375",specs:"83 m² · 3 amb. · 2 baños · 13 fotos",price:"$ 770.000",exp:"+ $ 162000 exp.",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-906.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Mar del Plata",title:"2 amb. · Independencia 891",specs:"42 m² · 2 amb. · 1 baño · 8 fotos",price:"$ 86.000.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-907.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Vicente López",title:"4 amb. · Libertador 4576",specs:"127 m² · 4 amb. · 3 baños · 12 fotos · Cochera",price:"$ 1.140.000",exp:"+ $ 51000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-908.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Quilmes",title:"3 amb. · Mitre 1208",specs:"79 m² · 3 amb. · 2 baños · 12 fotos · Cochera",price:"$ 235.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-909.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Recoleta",title:"3 amb. · Callao 2942",specs:"87 m² · 3 amb. · 2 baños · 23 fotos",price:"$ 226.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-910.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Retiro",title:"3 amb. · Cerrito 1360 amueblado",specs:"90 m² · 3 amb. · 2 baños · 20 fotos · Cochera",price:"$ 1.230.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-911.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Isidro",title:"3 amb. · Libertador 4063",specs:"68 m² · 3 amb. · 2 baños · 24 fotos",price:"$ 315.000.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-912.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Puerto Madero",title:"2 amb. · Macacha Güemes 744 amueblado",specs:"49 m² · 2 amb. · 1 baño · 22 fotos",price:"$ 870.000",exp:"+ $ 177000 exp.",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-913.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Núñez",title:"4 amb. · Cabildo 140",specs:"119 m² · 4 amb. · 2 baños · 8 fotos",price:"$ 558.000.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-914.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Tigre",title:"3 amb. · Italia 4653 amueblado",specs:"72 m² · 3 amb. · 2 baños · 25 fotos · Cochera",price:"$ 274.000.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-915.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Quilmes",title:"3 amb. · Rivadavia 3018",specs:"92 m² · 3 amb. · 2 baños · 10 fotos · Cochera",price:"$ 1.290.000",exp:"+ $ 130000 exp.",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-916.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"1 amb. · Miller 226",specs:"40 m² · 1 amb. · 1 baño · 22 fotos",price:"$ 310.000",exp:"+ $ 139000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-917.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Núñez",title:"2 amb. · Ramallo 3890",specs:"52 m² · 2 amb. · 1 baño · 17 fotos",price:"$ 810.000",exp:"+ $ 178000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-918.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Flores",title:"2 amb. · Bacacay 2807",specs:"49 m² · 2 amb. · 1 baño · 21 fotos",price:"$ 100.000.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-919.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Belgrano",title:"3 amb. · Juramento 1428 amueblado",specs:"82 m² · 3 amb. · 2 baños · 26 fotos",price:"$ 1.350.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-920.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Crespo",title:"1 amb. · Scalabrini Ortiz 4547 con balcón",specs:"40 m² · 1 amb. · 1 baño · 12 fotos",price:"$ 450.000",exp:"+ $ 151000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-921.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"1 amb. · Alvarez Thomas 4963",specs:"38 m² · 1 amb. · 1 baño · 24 fotos",price:"$ 550.000",exp:"+ $ 117000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-922.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Telmo",title:"4 amb. · México 577",specs:"145 m² · 4 amb. · 2 baños · 25 fotos · Cochera",price:"$ 1.900.000",exp:"+ $ 152000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-923.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"2 amb. · Paraguay 4856",specs:"66 m² · 2 amb. · 1 baño · 24 fotos",price:"$ 730.000",exp:"+ $ 51000 exp.",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-924.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Gesell",title:"1 amb. · Av. Buenos Aires 2271",specs:"36 m² · 1 amb. · 1 baño · 14 fotos",price:"$ 82.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-925.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Barracas",title:"1 amb. · California 4267",specs:"28 m² · 1 amb. · 1 baño · 26 fotos",price:"$ 450.000",exp:"+ $ 116000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-926.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Saavedra",title:"2 amb. · Crisólogo Larralde 3283",specs:"60 m² · 2 amb. · 1 baño · 23 fotos",price:"$ 162.000.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-927.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Palermo",title:"2 amb. · Thames 2677",specs:"42 m² · 2 amb. · 1 baño · 19 fotos",price:"$ 900.000",exp:"+ $ 50000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-928.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"3 amb. · Moldes 979",specs:"96 m² · 3 amb. · 2 baños · 11 fotos · Cochera",price:"$ 207.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-929.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Quilmes",title:"2 amb. · Brown 4894 amueblado",specs:"64 m² · 2 amb. · 1 baño · 15 fotos",price:"$ 730.000",exp:"+ $ 129000 exp.",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-930.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Nordelta",title:"2 amb. · Portezuelo 3401",specs:"66 m² · 2 amb. · 1 baño · 26 fotos",price:"$ 640.000",exp:"+ $ 139000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-931.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"2 amb. · Cabildo 2721",specs:"60 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 154.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-932.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Olivos",title:"2 amb. · Ugarte 3386",specs:"61 m² · 2 amb. · 1 baño · 23 fotos",price:"$ 680.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-933.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Isidro",title:"4 amb. · Beccar 591",specs:"129 m² · 4 amb. · 3 baños · 12 fotos",price:"$ 566.000.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-934.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Mar del Plata",title:"1 amb. · Independencia 196",specs:"40 m² · 1 amb. · 1 baño · 14 fotos",price:"$ 290.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-935.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Tigre",title:"3 amb. · Liniers 4515",specs:"84 m² · 3 amb. · 2 baños · 14 fotos",price:"$ 186.000.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-936.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Quilmes",title:"1 amb. · Mitre 985",specs:"39 m² · 1 amb. · 1 baño · 24 fotos",price:"$ 90.000.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-937.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Colegiales",title:"2 amb. · Ciudad de la Paz 4029 amueblado",specs:"60 m² · 2 amb. · 1 baño · 23 fotos",price:"$ 89.000.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-938.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Peterson 3376 amueblado",specs:"55 m² · 2 amb. · 1 baño · 27 fotos",price:"$ 460.000",exp:"+ $ 180000 exp.",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-939.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Quilmes",title:"2 amb. · Alsina 3049",specs:"64 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 107.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-940.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Vicente López",title:"2 amb. · Maipú 336",specs:"65 m² · 2 amb. · 1 baño · 16 fotos · Cochera",price:"$ 750.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-941.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Isidro",title:"3 amb. · Acassuso 4463 amueblado",specs:"97 m² · 3 amb. · 2 baños · 26 fotos · Cochera",price:"$ 840.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-942.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Almagro",title:"4 amb. · Corrientes 2291",specs:"133 m² · 4 amb. · 2 baños · 12 fotos",price:"$ 1.160.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-943.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Pinamar",title:"1 amb. · Del Mar 4546 amueblado",specs:"35 m² · 1 amb. · 1 baño · 8 fotos",price:"$ 350.000",exp:"",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-944.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Palermo",title:"2 amb. · Thames 4222",specs:"46 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 250.000.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-945.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Puerto Madero",title:"3 amb. · Macacha Güemes 3863",specs:"60 m² · 3 amb. · 2 baños · 14 fotos · Cochera",price:"$ 1.700.000",exp:"+ $ 162000 exp.",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-946.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Núñez",title:"2 amb. · Quesada 3651",specs:"57 m² · 2 amb. · 1 baño · 12 fotos",price:"$ 147.000.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-947.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Barracas",title:"2 amb. · Montes de Oca 4004",specs:"44 m² · 2 amb. · 1 baño · 11 fotos",price:"$ 147.000.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-948.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Isidro",title:"2 amb. · Centenario 4689",specs:"57 m² · 2 amb. · 1 baño · 24 fotos",price:"$ 710.000",exp:"+ $ 169000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-949.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"2 amb. · Maipú 675 amueblado",specs:"57 m² · 2 amb. · 1 baño · 8 fotos · Cochera",price:"$ 830.000",exp:"+ $ 166000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-950.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Gesell",title:"4 amb. · Paseo 105 249",specs:"118 m² · 4 amb. · 2 baños · 18 fotos",price:"$ 588.000.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-951.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Retiro",title:"2 amb. · Cerrito 3377",specs:"55 m² · 2 amb. · 1 baño · 15 fotos",price:"$ 90.000.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-952.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Mar del Plata",title:"4 amb. · Av. Colón 4187",specs:"100 m² · 4 amb. · 3 baños · 16 fotos",price:"$ 1.440.000",exp:"+ $ 85000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-953.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Pinamar",title:"1 amb. · Libertador 4444",specs:"34 m² · 1 amb. · 1 baño · 11 fotos",price:"$ 270.000",exp:"+ $ 93000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-954.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Belgrano",title:"2 amb. · Arribeños 1484",specs:"41 m² · 2 amb. · 1 baño · 14 fotos",price:"$ 182.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-955.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Villa Gesell",title:"2 amb. · Av. Buenos Aires 391 con balcón",specs:"66 m² · 2 amb. · 1 baño · 24 fotos",price:"$ 239.000.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-956.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Mar del Plata",title:"1 amb. · Av. Colón 2486 amueblado",specs:"35 m² · 1 amb. · 1 baño · 16 fotos",price:"$ 210.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-957.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Belgrano",title:"2 amb. · Olazábal 2983 amueblado",specs:"52 m² · 2 amb. · 1 baño · 25 fotos · Cochera",price:"$ 600.000",exp:"+ $ 53000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-958.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Núñez",title:"2 amb. · Ramallo 2861",specs:"42 m² · 2 amb. · 1 baño · 8 fotos · Cochera",price:"$ 259.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-959.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Mar del Plata",title:"1 amb. · Güemes 2741",specs:"38 m² · 1 amb. · 1 baño · 21 fotos",price:"$ 330.000",exp:"+ $ 72000 exp.",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-960.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Olivos",title:"2 amb. · Maipú 2166 amueblado con balcón",specs:"63 m² · 2 amb. · 1 baño · 25 fotos",price:"$ 610.000",exp:"+ $ 95000 exp.",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-961.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"3 amb. · Maipú 2087 amueblado",specs:"97 m² · 3 amb. · 2 baños · 23 fotos",price:"$ 258.000.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-962.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Villa Urquiza",title:"3 amb. · Triunvirato 3739 amueblado",specs:"83 m² · 3 amb. · 2 baños · 26 fotos",price:"$ 131.000.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-963.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Urquiza",title:"3 amb. · Miller 3737",specs:"85 m² · 3 amb. · 2 baños · 17 fotos · Cochera",price:"$ 235.000.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-964.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Tigre",title:"2 amb. · Italia 3404",specs:"44 m² · 2 amb. · 1 baño · 27 fotos · Cochera",price:"$ 480.000",exp:"+ $ 108000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-965.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Gesell",title:"2 amb. · Paseo 107 2259",specs:"49 m² · 2 amb. · 1 baño · 9 fotos",price:"$ 250.000.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-966.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Crespo",title:"3 amb. · Thames 3173",specs:"81 m² · 3 amb. · 2 baños · 15 fotos",price:"$ 690.000",exp:"+ $ 136000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-967.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Vicente López",title:"3 amb. · Florida 2973",specs:"70 m² · 3 amb. · 2 baños · 25 fotos",price:"$ 1.190.000",exp:"+ $ 149000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-968.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Núñez",title:"3 amb. · Cabildo 4118 amueblado",specs:"56 m² · 3 amb. · 2 baños · 25 fotos · Cochera",price:"$ 1.450.000",exp:"+ $ 98000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-969.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Saavedra",title:"2 amb. · Cabildo 3510",specs:"54 m² · 2 amb. · 1 baño · 28 fotos",price:"$ 460.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-970.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Gesell",title:"3 amb. · Paseo 107 2892",specs:"61 m² · 3 amb. · 2 baños · 25 fotos",price:"$ 840.000",exp:"+ $ 163000 exp.",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-971.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"2 amb. · Paraguay 613",specs:"45 m² · 2 amb. · 1 baño · 21 fotos",price:"$ 480.000",exp:"+ $ 62000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-972.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Saavedra",title:"3 amb. · Crisólogo Larralde 189 con balcón",specs:"69 m² · 3 amb. · 2 baños · 19 fotos",price:"$ 980.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-973.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Vicente López",title:"2 amb. · Florida 2714",specs:"48 m² · 2 amb. · 1 baño · 9 fotos",price:"$ 560.000",exp:"+ $ 96000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-974.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Monroe 4937",specs:"67 m² · 2 amb. · 1 baño · 27 fotos",price:"$ 580.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-975.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Nordelta",title:"2 amb. · Av. de los Lagos 2856",specs:"67 m² · 2 amb. · 1 baño · 21 fotos",price:"$ 660.000",exp:"+ $ 77000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-976.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Saavedra",title:"3 amb. · Ruiz Huidobro 2973",specs:"84 m² · 3 amb. · 2 baños · 9 fotos",price:"$ 235.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-977.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Colegiales",title:"2 amb. · Moldes 2243 amueblado con balcón",specs:"40 m² · 2 amb. · 1 baño · 14 fotos · Cochera",price:"$ 117.000.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-978.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Vicente López",title:"3 amb. · San Martín 944",specs:"61 m² · 3 amb. · 2 baños · 21 fotos · Cochera",price:"$ 710.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-979.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"1 amb. · Posadas 3279",specs:"42 m² · 1 amb. · 1 baño · 19 fotos",price:"$ 390.000",exp:"+ $ 123000 exp.",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-980.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Crespo",title:"1 amb. · Acevedo 4492",specs:"35 m² · 1 amb. · 1 baño · 28 fotos",price:"$ 420.000",exp:"+ $ 155000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-981.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Puerto Madero",title:"4 amb. · Aimé Painé 2309",specs:"133 m² · 4 amb. · 3 baños · 8 fotos",price:"$ 1.660.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-982.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · Callao 3106",specs:"42 m² · 2 amb. · 1 baño · 17 fotos",price:"$ 700.000",exp:"+ $ 137000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-983.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Saavedra",title:"1 amb. · Crisólogo Larralde 1499 amueblado",specs:"33 m² · 1 amb. · 1 baño · 14 fotos",price:"$ 400.000",exp:"+ $ 114000 exp.",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-984.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Vicente López",title:"3 amb. · Maipú 2450",specs:"77 m² · 3 amb. · 2 baños · 15 fotos",price:"$ 272.000.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-985.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Retiro",title:"2 amb. · Paraguay 946",specs:"50 m² · 2 amb. · 1 baño · 17 fotos",price:"$ 680.000",exp:"+ $ 68000 exp.",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-986.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Flores",title:"3 amb. · Carabobo 837",specs:"67 m² · 3 amb. · 2 baños · 8 fotos · Cochera",price:"$ 660.000",exp:"+ $ 57000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-987.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Gesell",title:"2 amb. · Av. Buenos Aires 5142 amueblado",specs:"62 m² · 2 amb. · 1 baño · 21 fotos",price:"$ 870.000",exp:"+ $ 176000 exp.",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-988.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Peterson 4399 con balcón",specs:"54 m² · 2 amb. · 1 baño · 9 fotos · Cochera",price:"$ 470.000",exp:"+ $ 55000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-989.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"2 amb. · Italia 1096 amueblado",specs:"54 m² · 2 amb. · 1 baño · 8 fotos",price:"$ 550.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-990.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Isidro",title:"3 amb. · Libertador 1729",specs:"82 m² · 3 amb. · 2 baños · 25 fotos",price:"$ 1.200.000",exp:"+ $ 123000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-991.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Vicente López",title:"3 amb. · San Martín 2244",specs:"90 m² · 3 amb. · 2 baños · 10 fotos · Cochera",price:"$ 214.000.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-992.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Nordelta",title:"3 amb. · El Golf 2629",specs:"95 m² · 3 amb. · 2 baños · 9 fotos",price:"$ 1.000.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-993.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Pinamar",title:"3 amb. · Simbad 3634",specs:"88 m² · 3 amb. · 2 baños · 12 fotos",price:"$ 1.000.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-994.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Urquiza",title:"1 amb. · Peterson 2313",specs:"35 m² · 1 amb. · 1 baño · 24 fotos · Cochera",price:"$ 360.000",exp:"+ $ 173000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-995.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Urquiza",title:"1 amb. · Miller 164",specs:"40 m² · 1 amb. · 1 baño · 25 fotos · Cochera",price:"$ 80.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-996.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Tigre",title:"3 amb. · Lavalle 2668",specs:"58 m² · 3 amb. · 2 baños · 14 fotos",price:"$ 670.000",exp:"+ $ 77000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-997.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"1 amb. · Libertador 1733",specs:"39 m² · 1 amb. · 1 baño · 20 fotos",price:"$ 420.000",exp:"+ $ 74000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-998.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"1 amb. · Callao 1621 amueblado con balcón",specs:"38 m² · 1 amb. · 1 baño · 14 fotos · Cochera",price:"$ 410.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-999.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"1 amb. · Ayacucho 4134 amueblado",specs:"31 m² · 1 amb. · 1 baño · 9 fotos",price:"$ 170.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1000.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Recoleta",title:"3 amb. · Arenales 5033 amueblado",specs:"92 m² · 3 amb. · 2 baños · 27 fotos",price:"$ 1.330.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1001.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Belgrano",title:"3 amb. · Monroe 4086",specs:"92 m² · 3 amb. · 2 baños · 27 fotos",price:"$ 1.370.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1002.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Mar del Plata",title:"2 amb. · Independencia 2672 amueblado",specs:"47 m² · 2 amb. · 1 baño · 18 fotos",price:"$ 135.000.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1003.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Colegiales",title:"2 amb. · Ciudad de la Paz 3899",specs:"68 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 590.000",exp:"+ $ 80000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1004.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Crespo",title:"2 amb. · Camargo 1492",specs:"40 m² · 2 amb. · 1 baño · 24 fotos · Cochera",price:"$ 107.000.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1005.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Crespo",title:"1 amb. · Corrientes 2509 amueblado",specs:"28 m² · 1 amb. · 1 baño · 20 fotos · Cochera",price:"$ 420.000",exp:"+ $ 56000 exp.",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1006.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"2 amb. · Acoyte 1086",specs:"50 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 560.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1007.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Mar del Plata",title:"2 amb. · Güemes 3932 amueblado",specs:"45 m² · 2 amb. · 1 baño · 11 fotos",price:"$ 420.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1008.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Almagro",title:"2 amb. · Corrientes 1847 amueblado",specs:"59 m² · 2 amb. · 1 baño · 18 fotos",price:"$ 135.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1009.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Colegiales",title:"2 amb. · Cabildo 638",specs:"63 m² · 2 amb. · 1 baño · 9 fotos",price:"$ 91.000.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1010.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Mar del Plata",title:"1 amb. · San Martín 1115 amueblado",specs:"38 m² · 1 amb. · 1 baño · 19 fotos",price:"$ 70.000.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1011.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Palermo",title:"2 amb. · Armenia 963",specs:"44 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 600.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1012.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"2 amb. · Lavalle 789",specs:"66 m² · 2 amb. · 1 baño · 11 fotos",price:"$ 117.000.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1013.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Crespo",title:"4 amb. · Murillo 1854 amueblado",specs:"131 m² · 4 amb. · 2 baños · 12 fotos",price:"$ 1.240.000",exp:"",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1014.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Gesell",title:"2 amb. · Paseo 107 4077",specs:"66 m² · 2 amb. · 1 baño · 20 fotos",price:"$ 610.000",exp:"+ $ 93000 exp.",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1015.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Retiro",title:"3 amb. · Paraguay 2303 con balcón",specs:"95 m² · 3 amb. · 2 baños · 22 fotos",price:"$ 1.270.000",exp:"+ $ 129000 exp.",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1016.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Vicente López",title:"3 amb. · Maipú 3305 con balcón",specs:"84 m² · 3 amb. · 2 baños · 8 fotos",price:"$ 1.010.000",exp:"+ $ 150000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1017.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Pinamar",title:"1 amb. · Jason 5028",specs:"32 m² · 1 amb. · 1 baño · 16 fotos",price:"$ 280.000",exp:"+ $ 52000 exp.",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1018.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"2 amb. · Cerrito 318",specs:"61 m² · 2 amb. · 1 baño · 8 fotos",price:"$ 500.000",exp:"+ $ 157000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1019.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Puerto Madero",title:"1 amb. · Olga Cossettini 4574 amueblado",specs:"40 m² · 1 amb. · 1 baño · 13 fotos",price:"$ 530.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1020.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Telmo",title:"2 amb. · Estados Unidos 5150 amueblado",specs:"61 m² · 2 amb. · 1 baño · 8 fotos",price:"$ 780.000",exp:"+ $ 177000 exp.",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1021.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Mar del Plata",title:"3 amb. · Av. Colón 816",specs:"94 m² · 3 amb. · 2 baños · 24 fotos",price:"$ 167.000.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1022.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Barracas",title:"3 amb. · California 2365 amueblado",specs:"79 m² · 3 amb. · 2 baños · 16 fotos · Cochera",price:"$ 1.210.000",exp:"+ $ 119000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1023.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"2 amb. · Cerrito 793",specs:"54 m² · 2 amb. · 1 baño · 28 fotos",price:"$ 550.000",exp:"+ $ 124000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1024.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Almagro",title:"4 amb. · Medrano 4456",specs:"93 m² · 4 amb. · 3 baños · 20 fotos · Cochera",price:"$ 1.220.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1025.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · Juncal 4411 amueblado",specs:"63 m² · 2 amb. · 1 baño · 23 fotos",price:"$ 209.000.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1026.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Vicente López",title:"3 amb. · Florida 1324",specs:"86 m² · 3 amb. · 2 baños · 26 fotos",price:"$ 1.080.000",exp:"+ $ 148000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1027.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"3 amb. · Alvarez Thomas 3621",specs:"59 m² · 3 amb. · 2 baños · 10 fotos",price:"$ 980.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1028.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"3 amb. · Ugarte 3055",specs:"95 m² · 3 amb. · 2 baños · 16 fotos",price:"$ 700.000",exp:"+ $ 57000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1029.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"1 amb. · Pedro Goyena 2050",specs:"40 m² · 1 amb. · 1 baño · 8 fotos",price:"$ 71.000.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1030.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Isidro",title:"4 amb. · Acassuso 628",specs:"145 m² · 4 amb. · 3 baños · 17 fotos",price:"$ 1.680.000",exp:"+ $ 136000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1031.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Quilmes",title:"3 amb. · Mitre 5164",specs:"91 m² · 3 amb. · 2 baños · 9 fotos",price:"$ 860.000",exp:"+ $ 139000 exp.",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1032.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Pinamar",title:"2 amb. · Simbad 584",specs:"47 m² · 2 amb. · 1 baño · 23 fotos",price:"$ 460.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1033.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"2 amb. · Hidalgo 4397",specs:"49 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 144.000.000",exp:"",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1034.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Pinamar",title:"2 amb. · Av. Bunge 3200",specs:"45 m² · 2 amb. · 1 baño · 25 fotos",price:"$ 690.000",exp:"+ $ 85000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1035.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Triunvirato 2919 amueblado",specs:"58 m² · 2 amb. · 1 baño · 17 fotos",price:"$ 650.000",exp:"+ $ 55000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1036.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Quilmes",title:"1 amb. · Mitre 2116",specs:"35 m² · 1 amb. · 1 baño · 16 fotos · Cochera",price:"$ 360.000",exp:"",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1037.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · Libertad 190",specs:"56 m² · 2 amb. · 1 baño · 21 fotos · Cochera",price:"$ 159.000.000",exp:"",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1038.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Puerto Madero",title:"4 amb. · Olga Cossettini 3567",specs:"131 m² · 4 amb. · 3 baños · 11 fotos",price:"$ 2.450.000",exp:"+ $ 142000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1039.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Gesell",title:"1 amb. · Av. 3 4162",specs:"30 m² · 1 amb. · 1 baño · 12 fotos · Cochera",price:"$ 370.000",exp:"",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1040.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Crespo",title:"3 amb. · Lavalleja 2820",specs:"89 m² · 3 amb. · 2 baños · 10 fotos",price:"$ 1.120.000",exp:"+ $ 169000 exp.",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1041.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Olivos",title:"2 amb. · Ugarte 1083 con balcón",specs:"55 m² · 2 amb. · 1 baño · 18 fotos",price:"$ 830.000",exp:"+ $ 138000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1042.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Núñez",title:"2 amb. · Quesada 3466",specs:"42 m² · 2 amb. · 1 baño · 20 fotos",price:"$ 900.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1043.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"4 amb. · Esmeralda 4366 amueblado",specs:"85 m² · 4 amb. · 2 baños · 26 fotos · Cochera",price:"$ 1.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1044.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"1 amb. · Moldes 2891",specs:"39 m² · 1 amb. · 1 baño · 17 fotos · Cochera",price:"$ 430.000",exp:"+ $ 169000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1045.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"2 amb. · Libertador 5107",specs:"54 m² · 2 amb. · 1 baño · 10 fotos",price:"$ 102.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1046.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Urquiza",title:"3 amb. · Monroe 2717",specs:"80 m² · 3 amb. · 2 baños · 20 fotos",price:"$ 1.280.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1047.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Flores",title:"1 amb. · Carabobo 1700",specs:"40 m² · 1 amb. · 1 baño · 25 fotos · Cochera",price:"$ 360.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1048.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Olazábal 211",specs:"48 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 138.000.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1049.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Flores",title:"2 amb. · Av. San Martín 1712",specs:"60 m² · 2 amb. · 1 baño · 17 fotos",price:"$ 550.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1050.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Flores",title:"4 amb. · Rivadavia 2772 amueblado",specs:"93 m² · 4 amb. · 3 baños · 12 fotos",price:"$ 1.780.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1051.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Recoleta",title:"1 amb. · Pueyrredón 3276",specs:"36 m² · 1 amb. · 1 baño · 15 fotos",price:"$ 138.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1052.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Recoleta",title:"1 amb. · Callao 3056 amueblado",specs:"32 m² · 1 amb. · 1 baño · 21 fotos",price:"$ 169.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1053.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Isidro",title:"1 amb. · Centenario 3811",specs:"33 m² · 1 amb. · 1 baño · 22 fotos · Cochera",price:"$ 126.000.000",exp:"",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1054.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Pinamar",title:"4 amb. · Libertador 494",specs:"118 m² · 4 amb. · 2 baños · 15 fotos · Cochera",price:"$ 1.430.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1055.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"1 amb. · Maipú 3579",specs:"31 m² · 1 amb. · 1 baño · 18 fotos",price:"$ 420.000",exp:"+ $ 144000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1056.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Flores",title:"1 amb. · Bacacay 2966",specs:"39 m² · 1 amb. · 1 baño · 19 fotos",price:"$ 106.000.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1057.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Gesell",title:"1 amb. · Av. 3 3900",specs:"38 m² · 1 amb. · 1 baño · 14 fotos · Cochera",price:"$ 91.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1058.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Crespo",title:"2 amb. · Murillo 3484",specs:"63 m² · 2 amb. · 1 baño · 11 fotos",price:"$ 680.000",exp:"+ $ 63000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1059.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Crespo",title:"3 amb. · Acevedo 2053",specs:"75 m² · 3 amb. · 2 baños · 15 fotos",price:"$ 880.000",exp:"+ $ 137000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1060.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"2 amb. · Maipú 4505",specs:"66 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 500.000",exp:"+ $ 157000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1061.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Palermo",title:"1 amb. · Santa Fe 1785",specs:"29 m² · 1 amb. · 1 baño · 16 fotos",price:"$ 690.000",exp:"+ $ 90000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1062.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Crespo",title:"4 amb. · Corrientes 3344",specs:"111 m² · 4 amb. · 2 baños · 19 fotos · Cochera",price:"$ 1.890.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1063.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"2 amb. · Libertador 4354 amueblado",specs:"41 m² · 2 amb. · 1 baño · 27 fotos",price:"$ 430.000",exp:"+ $ 164000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1064.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Barracas",title:"2 amb. · Montes de Oca 1076",specs:"54 m² · 2 amb. · 1 baño · 27 fotos",price:"$ 660.000",exp:"+ $ 127000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1065.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"2 amb. · Paraguay 611 amueblado",specs:"62 m² · 2 amb. · 1 baño · 20 fotos",price:"$ 660.000",exp:"+ $ 130000 exp.",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1066.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Nordelta",title:"1 amb. · Portezuelo 2376 amueblado",specs:"31 m² · 1 amb. · 1 baño · 28 fotos",price:"$ 104.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1067.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Quilmes",title:"1 amb. · Brown 1649",specs:"29 m² · 1 amb. · 1 baño · 25 fotos",price:"$ 80.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1068.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Mar del Plata",title:"2 amb. · Güemes 528 amueblado",specs:"51 m² · 2 amb. · 1 baño · 14 fotos",price:"$ 760.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1069.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"3 amb. · Italia 2247",specs:"81 m² · 3 amb. · 2 baños · 23 fotos",price:"$ 750.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1070.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Saavedra",title:"3 amb. · Pinto 2743 con balcón",specs:"63 m² · 3 amb. · 2 baños · 21 fotos · Cochera",price:"$ 1.210.000",exp:"+ $ 129000 exp.",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1071.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Almagro",title:"4 amb. · Sarmiento 3291",specs:"110 m² · 4 amb. · 3 baños · 27 fotos",price:"$ 1.480.000",exp:"+ $ 164000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1072.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · Ayacucho 2330",specs:"40 m² · 2 amb. · 1 baño · 27 fotos",price:"$ 211.000.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1073.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Retiro",title:"2 amb. · Esmeralda 5104 amueblado",specs:"48 m² · 2 amb. · 1 baño · 22 fotos",price:"$ 830.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1074.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Gesell",title:"3 amb. · Av. 2 3469",specs:"93 m² · 3 amb. · 2 baños · 23 fotos",price:"$ 690.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1075.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"2 amb. · Hidalgo 483",specs:"50 m² · 2 amb. · 1 baño · 14 fotos",price:"$ 139.000.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1076.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Pinamar",title:"3 amb. · Jason 3451",specs:"71 m² · 3 amb. · 2 baños · 27 fotos",price:"$ 191.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1077.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Quilmes",title:"3 amb. · Mitre 3290",specs:"90 m² · 3 amb. · 2 baños · 24 fotos",price:"$ 1.220.000",exp:"+ $ 56000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1078.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Nordelta",title:"1 amb. · La Isla 2741 amueblado",specs:"40 m² · 1 amb. · 1 baño · 18 fotos",price:"$ 280.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1079.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Flores",title:"1 amb. · Av. San Martín 4637",specs:"34 m² · 1 amb. · 1 baño · 24 fotos",price:"$ 400.000",exp:"+ $ 99000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1080.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · Callao 2243",specs:"55 m² · 2 amb. · 1 baño · 24 fotos · Cochera",price:"$ 1.100.000",exp:"+ $ 97000 exp.",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1081.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"4 amb. · Cazón 3817 con balcón",specs:"87 m² · 4 amb. · 2 baños · 8 fotos",price:"$ 1.630.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1082.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Nordelta",title:"2 amb. · El Golf 590 amueblado",specs:"67 m² · 2 amb. · 1 baño · 23 fotos",price:"$ 247.000.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1083.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Gesell",title:"3 amb. · Av. Buenos Aires 4106",specs:"72 m² · 3 amb. · 2 baños · 19 fotos",price:"$ 356.000.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1084.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Pinamar",title:"2 amb. · Simbad 882 con balcón",specs:"54 m² · 2 amb. · 1 baño · 20 fotos",price:"$ 168.000.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1085.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Isidro",title:"2 amb. · Centenario 3206",specs:"58 m² · 2 amb. · 1 baño · 28 fotos · Cochera",price:"$ 420.000",exp:"+ $ 133000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1086.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Palermo",title:"1 amb. · Uriarte 491",specs:"33 m² · 1 amb. · 1 baño · 12 fotos",price:"$ 420.000",exp:"+ $ 82000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1087.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"1 amb. · Cazón 1517",specs:"38 m² · 1 amb. · 1 baño · 12 fotos",price:"$ 520.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1088.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"2 amb. · Libertador 4499 amueblado",specs:"49 m² · 2 amb. · 1 baño · 17 fotos · Cochera",price:"$ 780.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1089.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Colegiales",title:"1 amb. · Moldes 3966",specs:"35 m² · 1 amb. · 1 baño · 26 fotos",price:"$ 540.000",exp:"+ $ 112000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1090.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"1 amb. · Italia 1686 amueblado",specs:"42 m² · 1 amb. · 1 baño · 28 fotos · Cochera",price:"$ 62.000.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1091.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Gesell",title:"2 amb. · Av. Buenos Aires 2779",specs:"43 m² · 2 amb. · 1 baño · 21 fotos",price:"$ 680.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1092.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Nordelta",title:"2 amb. · Av. de los Lagos 3328",specs:"59 m² · 2 amb. · 1 baño · 18 fotos · Cochera",price:"$ 820.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1093.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Telmo",title:"3 amb. · Estados Unidos 4947",specs:"94 m² · 3 amb. · 2 baños · 10 fotos",price:"$ 208.000.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1094.html",featured:true,tipo:"venta",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Miller 4570",specs:"67 m² · 2 amb. · 1 baño · 17 fotos",price:"$ 89.000.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1095.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Palermo",title:"2 amb. · Córdoba 2006",specs:"66 m² · 2 amb. · 1 baño · 26 fotos · Cochera",price:"$ 166.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1096.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Barracas",title:"1 amb. · Iriarte 1368 amueblado",specs:"29 m² · 1 amb. · 1 baño · 19 fotos",price:"$ 420.000",exp:"+ $ 147000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1097.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Telmo",title:"2 amb. · México 2799 con balcón",specs:"41 m² · 2 amb. · 1 baño · 11 fotos",price:"$ 92.000.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1098.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Belgrano",title:"3 amb. · Congreso 197",specs:"62 m² · 3 amb. · 2 baños · 19 fotos",price:"$ 385.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1099.html",featured:true,tipo:"venta",dueno:false},
+{barrio:"Retiro",title:"1 amb. · Cerrito 4025",specs:"37 m² · 1 amb. · 1 baño · 9 fotos",price:"$ 510.000",exp:"+ $ 131000 exp.",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1100.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Recoleta",title:"4 amb. · Juncal 4807",specs:"131 m² · 4 amb. · 3 baños · 9 fotos",price:"$ 1.590.000",exp:"+ $ 159000 exp.",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1101.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Barracas",title:"3 amb. · Montes de Oca 3216",specs:"72 m² · 3 amb. · 2 baños · 27 fotos",price:"$ 175.000.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1102.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Tigre",title:"3 amb. · Cazón 4799 amueblado con balcón",specs:"70 m² · 3 amb. · 2 baños · 12 fotos",price:"$ 1.000.000",exp:"+ $ 158000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1103.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"3 amb. · Moldes 2751",specs:"57 m² · 3 amb. · 2 baños · 25 fotos",price:"$ 144.000.000",exp:"",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1104.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Colegiales",title:"4 amb. · Alvarez Thomas 5162",specs:"97 m² · 4 amb. · 3 baños · 16 fotos",price:"$ 1.570.000",exp:"+ $ 169000 exp.",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1105.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"2 amb. · Ciudad de la Paz 3410 amueblado",specs:"55 m² · 2 amb. · 1 baño · 18 fotos",price:"$ 540.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1106.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Colegiales",title:"3 amb. · Moldes 5195",specs:"73 m² · 3 amb. · 2 baños · 21 fotos",price:"$ 950.000",exp:"+ $ 123000 exp.",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1107.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Quilmes",title:"1 amb. · Brown 1147 con balcón",specs:"35 m² · 1 amb. · 1 baño · 20 fotos",price:"$ 530.000",exp:"+ $ 78000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1108.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Recoleta",title:"2 amb. · Rodríguez Peña 547",specs:"46 m² · 2 amb. · 1 baño · 24 fotos · Cochera",price:"$ 1.000.000",exp:"+ $ 150000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1109.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Gesell",title:"2 amb. · Av. Buenos Aires 1862",specs:"64 m² · 2 amb. · 1 baño · 14 fotos",price:"$ 650.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1110.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Almagro",title:"3 amb. · Corrientes 4127",specs:"98 m² · 3 amb. · 2 baños · 10 fotos",price:"$ 228.000.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1111.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Belgrano",title:"2 amb. · Arribeños 1477",specs:"60 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 890.000",exp:"+ $ 145000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1112.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"2 amb. · Alvarez Thomas 5054 amueblado",specs:"62 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 110.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1113.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Colegiales",title:"2 amb. · Cabildo 670",specs:"54 m² · 2 amb. · 1 baño · 23 fotos · Cochera",price:"$ 102.000.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1114.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Recoleta",title:"3 amb. · French 2251",specs:"76 m² · 3 amb. · 2 baños · 16 fotos",price:"$ 1.170.000",exp:"+ $ 131000 exp.",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1115.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Peterson 4941 amueblado",specs:"44 m² · 2 amb. · 1 baño · 12 fotos",price:"$ 166.000.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1116.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Almagro",title:"2 amb. · Rivadavia 4388",specs:"58 m² · 2 amb. · 1 baño · 18 fotos",price:"$ 178.000.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1117.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Telmo",title:"2 amb. · Estados Unidos 2628",specs:"63 m² · 2 amb. · 1 baño · 22 fotos · Cochera",price:"$ 670.000",exp:"+ $ 109000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1118.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"2 amb. · Cerrito 2982",specs:"44 m² · 2 amb. · 1 baño · 8 fotos · Cochera",price:"$ 660.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1119.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"2 amb. · Rivadavia 204",specs:"54 m² · 2 amb. · 1 baño · 18 fotos",price:"$ 780.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1120.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"1 amb. · Libertador 2434",specs:"32 m² · 1 amb. · 1 baño · 17 fotos",price:"$ 380.000",exp:"+ $ 175000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1121.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · Posadas 3265",specs:"56 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 1.070.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1122.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Telmo",title:"2 amb. · Defensa 1350 amueblado",specs:"60 m² · 2 amb. · 1 baño · 17 fotos",price:"$ 470.000",exp:"+ $ 74000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1123.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Flores",title:"2 amb. · Av. San Martín 421 amueblado",specs:"63 m² · 2 amb. · 1 baño · 11 fotos",price:"$ 820.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1124.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Gesell",title:"3 amb. · Costanera 3895 amueblado",specs:"79 m² · 3 amb. · 2 baños · 16 fotos",price:"$ 308.000.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1125.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Urquiza",title:"4 amb. · Triunvirato 3586 amueblado",specs:"122 m² · 4 amb. · 2 baños · 15 fotos",price:"$ 309.000.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1126.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Olivos",title:"1 amb. · Esteban Echeverría 854",specs:"37 m² · 1 amb. · 1 baño · 25 fotos",price:"$ 75.000.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1127.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Tigre",title:"2 amb. · Cazón 773",specs:"44 m² · 2 amb. · 1 baño · 22 fotos",price:"$ 750.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1128.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Telmo",title:"2 amb. · Chile 3836",specs:"66 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 590.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1129.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Almagro",title:"2 amb. · Rivadavia 622 amueblado",specs:"62 m² · 2 amb. · 1 baño · 26 fotos",price:"$ 151.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1130.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Pinamar",title:"3 amb. · Libertador 2276",specs:"92 m² · 3 amb. · 2 baños · 12 fotos · Cochera",price:"$ 870.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1131.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Almagro",title:"3 amb. · Yatay 4355",specs:"70 m² · 3 amb. · 2 baños · 28 fotos",price:"$ 1.180.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1132.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"1 amb. · Conesa 2351",specs:"35 m² · 1 amb. · 1 baño · 15 fotos",price:"$ 500.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1133.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"4 amb. · Directorio 1765",specs:"116 m² · 4 amb. · 3 baños · 28 fotos",price:"$ 1.720.000",exp:"+ $ 62000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1134.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Caballito",title:"3 amb. · Av. La Plata 4946",specs:"68 m² · 3 amb. · 2 baños · 8 fotos",price:"$ 910.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1135.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Telmo",title:"2 amb. · Chile 1483",specs:"65 m² · 2 amb. · 1 baño · 12 fotos",price:"$ 470.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1136.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Belgrano",title:"2 amb. · Juramento 798 amueblado",specs:"53 m² · 2 amb. · 1 baño · 19 fotos",price:"$ 1.060.000",exp:"+ $ 120000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1137.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Vicente López",title:"1 amb. · Libertador 4407",specs:"41 m² · 1 amb. · 1 baño · 11 fotos",price:"$ 300.000",exp:"+ $ 178000 exp.",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1138.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"3 amb. · Cazón 311",specs:"67 m² · 3 amb. · 2 baños · 13 fotos",price:"$ 840.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1139.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"3 amb. · Conesa 1905",specs:"62 m² · 3 amb. · 2 baños · 17 fotos",price:"$ 770.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1140.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · French 2382",specs:"46 m² · 2 amb. · 1 baño · 28 fotos",price:"$ 990.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1141.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Flores",title:"1 amb. · Directorio 3171",specs:"41 m² · 1 amb. · 1 baño · 24 fotos",price:"$ 320.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1142.html",featured:true,tipo:"alquiler",dueno:true},
+{barrio:"Puerto Madero",title:"2 amb. · Olga Cossettini 1417 con balcón",specs:"50 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 940.000",exp:"+ $ 53000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1143.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Núñez",title:"3 amb. · Ramallo 2038",specs:"61 m² · 3 amb. · 2 baños · 21 fotos",price:"$ 299.000.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1144.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Almagro",title:"2 amb. · Medrano 3740",specs:"56 m² · 2 amb. · 1 baño · 24 fotos",price:"$ 670.000",exp:"+ $ 62000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1145.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"4 amb. · Triunvirato 2277",specs:"102 m² · 4 amb. · 2 baños · 21 fotos · Cochera",price:"$ 1.010.000",exp:"+ $ 155000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1146.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Barracas",title:"4 amb. · Montes de Oca 3710",specs:"86 m² · 4 amb. · 2 baños · 10 fotos · Cochera",price:"$ 1.380.000",exp:"+ $ 63000 exp.",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1147.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Vicente López",title:"3 amb. · Florida 2762",specs:"89 m² · 3 amb. · 2 baños · 10 fotos · Cochera",price:"$ 155.000.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1148.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Barracas",title:"1 amb. · Iriarte 1764",specs:"38 m² · 1 amb. · 1 baño · 15 fotos · Cochera",price:"$ 360.000",exp:"+ $ 147000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1149.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Palermo",title:"2 amb. · Gorriti 1781 amueblado",specs:"66 m² · 2 amb. · 1 baño · 15 fotos · Cochera",price:"$ 173.000.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1150.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Telmo",title:"4 amb. · Estados Unidos 1348",specs:"144 m² · 4 amb. · 3 baños · 17 fotos",price:"$ 1.190.000",exp:"+ $ 153000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1151.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Nordelta",title:"3 amb. · Av. de los Lagos 2122",specs:"97 m² · 3 amb. · 2 baños · 20 fotos",price:"$ 1.210.000",exp:"",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1152.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Quilmes",title:"2 amb. · Brown 4171 amueblado",specs:"56 m² · 2 amb. · 1 baño · 25 fotos · Cochera",price:"$ 118.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1153.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Quilmes",title:"3 amb. · Rivadavia 4518",specs:"71 m² · 3 amb. · 2 baños · 16 fotos",price:"$ 1.030.000",exp:"+ $ 122000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1154.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Nordelta",title:"1 amb. · Av. de los Lagos 2108",specs:"31 m² · 1 amb. · 1 baño · 19 fotos",price:"$ 550.000",exp:"+ $ 80000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1155.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"3 amb. · Rivadavia 620",specs:"67 m² · 3 amb. · 2 baños · 9 fotos",price:"$ 860.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1156.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"3 amb. · Cazón 3515",specs:"76 m² · 3 amb. · 2 baños · 17 fotos · Cochera",price:"$ 900.000",exp:"",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1157.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"2 amb. · Acoyte 2561 amueblado",specs:"52 m² · 2 amb. · 1 baño · 12 fotos · Cochera",price:"$ 500.000",exp:"+ $ 176000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1158.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Pinamar",title:"4 amb. · Del Mar 4506",specs:"120 m² · 4 amb. · 2 baños · 12 fotos",price:"$ 1.110.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1159.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"1 amb. · Conesa 4816",specs:"30 m² · 1 amb. · 1 baño · 16 fotos · Cochera",price:"$ 380.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1160.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Mar del Plata",title:"2 amb. · Córdoba 4502",specs:"59 m² · 2 amb. · 1 baño · 8 fotos",price:"$ 690.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1161.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Retiro",title:"1 amb. · Cerrito 2589",specs:"33 m² · 1 amb. · 1 baño · 16 fotos",price:"$ 470.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1162.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"2 amb. · Cerrito 1701",specs:"59 m² · 2 amb. · 1 baño · 15 fotos",price:"$ 690.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1163.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"4 amb. · Alvarez Thomas 2162",specs:"135 m² · 4 amb. · 2 baños · 25 fotos",price:"$ 1.290.000",exp:"+ $ 147000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1164.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Telmo",title:"2 amb. · Perú 1643 con balcón",specs:"59 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 420.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1165.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · Guido 2552",specs:"66 m² · 2 amb. · 1 baño · 14 fotos",price:"$ 680.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1166.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"1 amb. · Liniers 3900 amueblado",specs:"38 m² · 1 amb. · 1 baño · 22 fotos",price:"$ 550.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1167.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Núñez",title:"2 amb. · Ibera 473",specs:"51 m² · 2 amb. · 1 baño · 12 fotos",price:"$ 910.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1168.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Telmo",title:"3 amb. · México 2506",specs:"91 m² · 3 amb. · 2 baños · 24 fotos · Cochera",price:"$ 750.000",exp:"+ $ 53000 exp.",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1169.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"3 amb. · Juncal 3530",specs:"94 m² · 3 amb. · 2 baños · 20 fotos",price:"$ 1.190.000",exp:"+ $ 85000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1170.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Telmo",title:"2 amb. · Balcarce 3938",specs:"44 m² · 2 amb. · 1 baño · 25 fotos · Cochera",price:"$ 790.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1171.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"3 amb. · Peterson 1863",specs:"95 m² · 3 amb. · 2 baños · 22 fotos",price:"$ 143.000.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1172.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Saavedra",title:"2 amb. · Pinto 3620",specs:"49 m² · 2 amb. · 1 baño · 9 fotos",price:"$ 530.000",exp:"+ $ 144000 exp.",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1173.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Palermo",title:"1 amb. · Thames 2576",specs:"39 m² · 1 amb. · 1 baño · 28 fotos · Cochera",price:"$ 560.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1174.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"4 amb. · Guido 294",specs:"91 m² · 4 amb. · 3 baños · 21 fotos",price:"$ 2.030.000",exp:"+ $ 69000 exp.",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1175.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Urquiza",title:"2 amb. · Olazábal 4783",specs:"43 m² · 2 amb. · 1 baño · 21 fotos",price:"$ 840.000",exp:"+ $ 154000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1176.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Puerto Madero",title:"3 amb. · Olga Cossettini 4638",specs:"64 m² · 3 amb. · 2 baños · 25 fotos",price:"$ 448.000.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1177.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Isidro",title:"2 amb. · Beccar 4446",specs:"64 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 134.000.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1178.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Isidro",title:"2 amb. · Centenario 3136",specs:"48 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 217.000.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1179.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Recoleta",title:"3 amb. · Posadas 3986",specs:"64 m² · 3 amb. · 2 baños · 12 fotos",price:"$ 1.480.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1180.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Gesell",title:"1 amb. · Av. 2 2956",specs:"31 m² · 1 amb. · 1 baño · 14 fotos",price:"$ 300.000",exp:"+ $ 106000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1181.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"2 amb. · Yerbal 3023 amueblado",specs:"64 m² · 2 amb. · 1 baño · 12 fotos",price:"$ 107.000.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1182.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Barracas",title:"3 amb. · Iriarte 3423",specs:"98 m² · 3 amb. · 2 baños · 19 fotos · Cochera",price:"$ 1.230.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1183.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Mar del Plata",title:"4 amb. · Av. Colón 651",specs:"139 m² · 4 amb. · 2 baños · 14 fotos",price:"$ 239.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1184.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Flores",title:"2 amb. · Nazca 3246",specs:"58 m² · 2 amb. · 1 baño · 23 fotos",price:"$ 470.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1185.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Isidro",title:"2 amb. · Centenario 1570 amueblado",specs:"64 m² · 2 amb. · 1 baño · 11 fotos",price:"$ 630.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1186.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Saavedra",title:"1 amb. · Ruiz Huidobro 1041",specs:"31 m² · 1 amb. · 1 baño · 15 fotos · Cochera",price:"$ 101.000.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1187.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Almagro",title:"1 amb. · Medrano 1672 con balcón",specs:"36 m² · 1 amb. · 1 baño · 22 fotos · Cochera",price:"$ 520.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1188.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Mar del Plata",title:"1 amb. · Güemes 4320 amueblado",specs:"37 m² · 1 amb. · 1 baño · 23 fotos · Cochera",price:"$ 350.000",exp:"",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1189.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"1 amb. · Juncal 2321",specs:"33 m² · 1 amb. · 1 baño · 21 fotos · Cochera",price:"$ 146.000.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1190.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Barracas",title:"2 amb. · Suárez 3696",specs:"41 m² · 2 amb. · 1 baño · 14 fotos",price:"$ 580.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1191.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Crespo",title:"2 amb. · Lavalleja 3059",specs:"50 m² · 2 amb. · 1 baño · 8 fotos",price:"$ 640.000",exp:"+ $ 74000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1192.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Crespo",title:"3 amb. · Acevedo 1762",specs:"76 m² · 3 amb. · 2 baños · 14 fotos",price:"$ 194.000.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1193.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Belgrano",title:"1 amb. · Arribeños 4074",specs:"30 m² · 1 amb. · 1 baño · 16 fotos",price:"$ 380.000",exp:"+ $ 104000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1194.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Telmo",title:"3 amb. · México 4371 con balcón",specs:"65 m² · 3 amb. · 2 baños · 23 fotos",price:"$ 196.000.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1195.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Puerto Madero",title:"3 amb. · Olga Cossettini 903",specs:"67 m² · 3 amb. · 2 baños · 19 fotos",price:"$ 1.530.000",exp:"+ $ 63000 exp.",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1196.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Palermo",title:"3 amb. · Gorriti 762",specs:"77 m² · 3 amb. · 2 baños · 15 fotos · Cochera",price:"$ 950.000",exp:"+ $ 51000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1197.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Barracas",title:"1 amb. · Iriarte 1206",specs:"31 m² · 1 amb. · 1 baño · 18 fotos · Cochera",price:"$ 80.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1198.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Villa Gesell",title:"2 amb. · Paseo 105 576",specs:"53 m² · 2 amb. · 1 baño · 21 fotos",price:"$ 670.000",exp:"+ $ 74000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1199.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Puerto Madero",title:"3 amb. · Juana Manso 4167",specs:"79 m² · 3 amb. · 2 baños · 15 fotos · Cochera",price:"$ 1.310.000",exp:"+ $ 171000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1200.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Caballito",title:"1 amb. · Yerbal 3193",specs:"40 m² · 1 amb. · 1 baño · 15 fotos",price:"$ 76.000.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1201.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Olivos",title:"2 amb. · Maipú 3968 amueblado",specs:"56 m² · 2 amb. · 1 baño · 16 fotos · Cochera",price:"$ 156.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1202.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Urquiza",title:"3 amb. · Miller 978",specs:"79 m² · 3 amb. · 2 baños · 8 fotos",price:"$ 1.100.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1203.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Recoleta",title:"2 amb. · Arenales 167",specs:"47 m² · 2 amb. · 1 baño · 10 fotos",price:"$ 710.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1204.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Triunvirato 875",specs:"66 m² · 2 amb. · 1 baño · 27 fotos · Cochera",price:"$ 730.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1205.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Olivos",title:"3 amb. · Libertador 1956",specs:"84 m² · 3 amb. · 2 baños · 21 fotos · Cochera",price:"$ 260.000.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1206.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · Ayacucho 2369",specs:"41 m² · 2 amb. · 1 baño · 19 fotos",price:"$ 660.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1207.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Saavedra",title:"2 amb. · Crisólogo Larralde 4926 amueblado",specs:"62 m² · 2 amb. · 1 baño · 18 fotos · Cochera",price:"$ 100.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1208.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Belgrano",title:"3 amb. · Monroe 2097",specs:"82 m² · 3 amb. · 2 baños · 20 fotos · Cochera",price:"$ 1.530.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1209.html",featured:true,tipo:"alquiler",dueno:true},
+{barrio:"Núñez",title:"3 amb. · Ramallo 2432",specs:"95 m² · 3 amb. · 2 baños · 26 fotos",price:"$ 910.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1210.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"3 amb. · Ciudad de la Paz 838",specs:"77 m² · 3 amb. · 2 baños · 28 fotos",price:"$ 940.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1211.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Quilmes",title:"3 amb. · Alsina 479",specs:"95 m² · 3 amb. · 2 baños · 24 fotos",price:"$ 1.160.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1212.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"2 amb. · Directorio 2804",specs:"44 m² · 2 amb. · 1 baño · 22 fotos",price:"$ 530.000",exp:"+ $ 88000 exp.",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1213.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Quilmes",title:"3 amb. · Alsina 2211",specs:"55 m² · 3 amb. · 2 baños · 18 fotos · Cochera",price:"$ 790.000",exp:"+ $ 126000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1214.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Nordelta",title:"4 amb. · El Golf 1382",specs:"129 m² · 4 amb. · 3 baños · 19 fotos · Cochera",price:"$ 483.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1215.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Núñez",title:"1 amb. · Quesada 3034",specs:"38 m² · 1 amb. · 1 baño · 16 fotos",price:"$ 650.000",exp:"+ $ 140000 exp.",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1216.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Barracas",title:"4 amb. · Montes de Oca 2702",specs:"120 m² · 4 amb. · 2 baños · 12 fotos · Cochera",price:"$ 1.380.000",exp:"+ $ 161000 exp.",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1217.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Belgrano",title:"2 amb. · Juramento 1036 amueblado",specs:"49 m² · 2 amb. · 1 baño · 28 fotos · Cochera",price:"$ 1.090.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1218.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Barracas",title:"3 amb. · Iriarte 2587 amueblado",specs:"76 m² · 3 amb. · 2 baños · 14 fotos",price:"$ 150.000.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1219.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Flores",title:"2 amb. · Nazca 4107",specs:"68 m² · 2 amb. · 1 baño · 13 fotos · Cochera",price:"$ 790.000",exp:"+ $ 115000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1220.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Isidro",title:"2 amb. · Acassuso 679",specs:"44 m² · 2 amb. · 1 baño · 11 fotos",price:"$ 233.000.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1221.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Retiro",title:"3 amb. · Cerrito 926 con balcón",specs:"90 m² · 3 amb. · 2 baños · 27 fotos · Cochera",price:"$ 1.100.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1222.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Telmo",title:"2 amb. · Chile 4605",specs:"45 m² · 2 amb. · 1 baño · 27 fotos",price:"$ 740.000",exp:"+ $ 136000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1223.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Almagro",title:"1 amb. · Estado de Israel 1057",specs:"39 m² · 1 amb. · 1 baño · 18 fotos",price:"$ 360.000",exp:"",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1224.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Belgrano",title:"2 amb. · Monroe 2789 amueblado",specs:"62 m² · 2 amb. · 1 baño · 19 fotos · Cochera",price:"$ 173.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1225.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Mar del Plata",title:"2 amb. · Independencia 2926 amueblado",specs:"42 m² · 2 amb. · 1 baño · 12 fotos",price:"$ 730.000",exp:"+ $ 180000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1226.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Puerto Madero",title:"2 amb. · Juana Manso 3082",specs:"57 m² · 2 amb. · 1 baño · 21 fotos",price:"$ 1.070.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1227.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Belgrano",title:"3 amb. · Juramento 3493",specs:"95 m² · 3 amb. · 2 baños · 19 fotos",price:"$ 1.000.000",exp:"+ $ 66000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1228.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"1 amb. · Italia 131",specs:"28 m² · 1 amb. · 1 baño · 18 fotos",price:"$ 400.000",exp:"+ $ 131000 exp.",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1229.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Saavedra",title:"3 amb. · Crisólogo Larralde 2747",specs:"71 m² · 3 amb. · 2 baños · 13 fotos · Cochera",price:"$ 1.050.000",exp:"+ $ 133000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1230.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Caballito",title:"3 amb. · Rivadavia 2221",specs:"84 m² · 3 amb. · 2 baños · 16 fotos",price:"$ 880.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1231.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Isidro",title:"2 amb. · Beccar 2922",specs:"59 m² · 2 amb. · 1 baño · 23 fotos · Cochera",price:"$ 130.000.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1232.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Caballito",title:"1 amb. · Hidalgo 2967",specs:"30 m² · 1 amb. · 1 baño · 17 fotos",price:"$ 320.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1233.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Núñez",title:"2 amb. · Ibera 2800",specs:"48 m² · 2 amb. · 1 baño · 24 fotos",price:"$ 710.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1234.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Vicente López",title:"1 amb. · Florida 668",specs:"39 m² · 1 amb. · 1 baño · 27 fotos",price:"$ 290.000",exp:"+ $ 116000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1235.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Saavedra",title:"4 amb. · Ruiz Huidobro 293 amueblado",specs:"138 m² · 4 amb. · 2 baños · 23 fotos · Cochera",price:"$ 1.880.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1236.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Isidro",title:"2 amb. · Centenario 3515",specs:"48 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 480.000",exp:"+ $ 102000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1237.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"2 amb. · Rojas 698",specs:"49 m² · 2 amb. · 1 baño · 27 fotos",price:"$ 700.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1238.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Colegiales",title:"4 amb. · Cabildo 3251",specs:"135 m² · 4 amb. · 2 baños · 12 fotos",price:"$ 1.060.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1239.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Quilmes",title:"2 amb. · Mitre 3650",specs:"57 m² · 2 amb. · 1 baño · 27 fotos · Cochera",price:"$ 540.000",exp:"+ $ 146000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1240.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Quilmes",title:"3 amb. · Mitre 117",specs:"65 m² · 3 amb. · 2 baños · 23 fotos · Cochera",price:"$ 234.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1241.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Olivos",title:"2 amb. · Ugarte 850",specs:"58 m² · 2 amb. · 1 baño · 19 fotos",price:"$ 131.000.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1242.html",featured:true,tipo:"venta",dueno:true},
+{barrio:"Flores",title:"3 amb. · Directorio 960",specs:"66 m² · 3 amb. · 2 baños · 12 fotos",price:"$ 660.000",exp:"+ $ 113000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1243.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Núñez",title:"3 amb. · Crisólogo Larralde 2973",specs:"91 m² · 3 amb. · 2 baños · 19 fotos",price:"$ 1.470.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1244.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Tigre",title:"3 amb. · Italia 1284",specs:"77 m² · 3 amb. · 2 baños · 26 fotos · Cochera",price:"$ 145.000.000",exp:"",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",link:"depto-extra-1245.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Vicente López",title:"2 amb. · San Martín 3750",specs:"55 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 760.000",exp:"+ $ 110000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1246.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Mar del Plata",title:"3 amb. · Brown 507",specs:"70 m² · 3 amb. · 2 baños · 16 fotos · Cochera",price:"$ 900.000",exp:"+ $ 159000 exp.",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1247.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"1 amb. · Posadas 220 amueblado",specs:"41 m² · 1 amb. · 1 baño · 13 fotos",price:"$ 470.000",exp:"+ $ 72000 exp.",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1248.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Caballito",title:"1 amb. · Acoyte 4265",specs:"33 m² · 1 amb. · 1 baño · 16 fotos",price:"$ 108.000.000",exp:"",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1249.html",featured:true,tipo:"venta",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · French 2327 amueblado con balcón",specs:"65 m² · 2 amb. · 1 baño · 13 fotos",price:"$ 145.000.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1250.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Belgrano",title:"2 amb. · Monroe 2074 amueblado",specs:"68 m² · 2 amb. · 1 baño · 10 fotos",price:"$ 840.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1251.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Almagro",title:"4 amb. · Yatay 3977 amueblado",specs:"89 m² · 4 amb. · 2 baños · 19 fotos",price:"$ 1.510.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1252.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"3 amb. · Posadas 1926",specs:"82 m² · 3 amb. · 2 baños · 9 fotos · Cochera",price:"$ 1.700.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1253.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Telmo",title:"2 amb. · Estados Unidos 5103",specs:"46 m² · 2 amb. · 1 baño · 15 fotos",price:"$ 143.000.000",exp:"",img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",link:"depto-extra-1254.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Retiro",title:"3 amb. · Paraguay 3813",specs:"89 m² · 3 amb. · 2 baños · 20 fotos",price:"$ 195.000.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1255.html",featured:true,tipo:"venta",dueno:false},
+{barrio:"Tigre",title:"1 amb. · Lavalle 3533",specs:"33 m² · 1 amb. · 1 baño · 10 fotos",price:"$ 370.000",exp:"+ $ 99000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1256.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Crespo",title:"3 amb. · Corrientes 1499",specs:"59 m² · 3 amb. · 2 baños · 25 fotos · Cochera",price:"$ 1.140.000",exp:"+ $ 98000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1257.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"San Telmo",title:"1 amb. · Carlos Calvo 1406 amueblado",specs:"36 m² · 1 amb. · 1 baño · 22 fotos",price:"$ 320.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1258.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Almagro",title:"3 amb. · Bulnes 4306 con balcón",specs:"82 m² · 3 amb. · 2 baños · 13 fotos",price:"$ 194.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1259.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Núñez",title:"1 amb. · Crisólogo Larralde 521",specs:"39 m² · 1 amb. · 1 baño · 11 fotos · Cochera",price:"$ 125.000.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1260.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Saavedra",title:"2 amb. · Ruiz Huidobro 3579",specs:"40 m² · 2 amb. · 1 baño · 23 fotos",price:"$ 120.000.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1261.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Vicente López",title:"2 amb. · Maipú 1912 amueblado con balcón",specs:"48 m² · 2 amb. · 1 baño · 9 fotos",price:"$ 670.000",exp:"+ $ 119000 exp.",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1262.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Villa Crespo",title:"3 amb. · Scalabrini Ortiz 2762 con balcón",specs:"56 m² · 3 amb. · 2 baños · 14 fotos · Cochera",price:"$ 830.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1263.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Palermo",title:"2 amb. · Uriarte 2295",specs:"66 m² · 2 amb. · 1 baño · 25 fotos",price:"$ 246.000.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1264.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"San Telmo",title:"3 amb. · Estados Unidos 2785",specs:"81 m² · 3 amb. · 2 baños · 22 fotos",price:"$ 660.000",exp:"",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1265.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"4 amb. · Esmeralda 5180",specs:"92 m² · 4 amb. · 3 baños · 27 fotos",price:"$ 404.000.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1266.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Telmo",title:"3 amb. · Perú 1009",specs:"56 m² · 3 amb. · 2 baños · 23 fotos · Cochera",price:"$ 1.050.000",exp:"+ $ 138000 exp.",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1267.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Recoleta",title:"4 amb. · Arenales 3731",specs:"110 m² · 4 amb. · 3 baños · 15 fotos",price:"$ 2.430.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1268.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"2 amb. · Cabildo 696",specs:"52 m² · 2 amb. · 1 baño · 23 fotos",price:"$ 570.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1269.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"San Telmo",title:"2 amb. · Balcarce 3673",specs:"45 m² · 2 amb. · 1 baño · 9 fotos",price:"$ 670.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1270.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Núñez",title:"2 amb. · Libertador 2811",specs:"52 m² · 2 amb. · 1 baño · 22 fotos · Cochera",price:"$ 710.000",exp:"+ $ 167000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1271.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Núñez",title:"4 amb. · Crisólogo Larralde 1687",specs:"119 m² · 4 amb. · 2 baños · 26 fotos",price:"$ 619.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448075-bb485b067938?w=600&h=400&fit=crop",link:"depto-extra-1272.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"San Telmo",title:"3 amb. · Carlos Calvo 3621 amueblado",specs:"57 m² · 3 amb. · 2 baños · 23 fotos",price:"$ 279.000.000",exp:"",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1273.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"San Telmo",title:"2 amb. · Chile 293",specs:"53 m² · 2 amb. · 1 baño · 12 fotos",price:"$ 730.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1274.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"3 amb. · Esmeralda 3048",specs:"78 m² · 3 amb. · 2 baños · 9 fotos · Cochera",price:"$ 1.300.000",exp:"+ $ 138000 exp.",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1275.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Pinamar",title:"4 amb. · Del Mar 1287 amueblado",specs:"98 m² · 4 amb. · 2 baños · 18 fotos",price:"$ 1.420.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1276.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Palermo",title:"3 amb. · Córdoba 1101 amueblado",specs:"73 m² · 3 amb. · 2 baños · 19 fotos · Cochera",price:"$ 1.130.000",exp:"",img:"https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",link:"depto-extra-1277.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Flores",title:"2 amb. · Rivadavia 1294",specs:"55 m² · 2 amb. · 1 baño · 11 fotos",price:"$ 540.000",exp:"+ $ 133000 exp.",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1278.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Pinamar",title:"3 amb. · Jason 1872 amueblado",specs:"65 m² · 3 amb. · 2 baños · 12 fotos · Cochera",price:"$ 183.000.000",exp:"",img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",link:"depto-extra-1279.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Recoleta",title:"2 amb. · Posadas 3845 amueblado",specs:"59 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 820.000",exp:"+ $ 57000 exp.",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",link:"depto-extra-1280.html",featured:true,tipo:"alquiler",dueno:false},
+{barrio:"Nordelta",title:"3 amb. · La Isla 680 amueblado",specs:"90 m² · 3 amb. · 2 baños · 24 fotos",price:"$ 214.000.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1281.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Monroe 4173",specs:"44 m² · 2 amb. · 1 baño · 25 fotos",price:"$ 165.000.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1282.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Recoleta",title:"3 amb. · Rodríguez Peña 3673",specs:"83 m² · 3 amb. · 2 baños · 12 fotos · Cochera",price:"$ 1.180.000",exp:"+ $ 78000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1283.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Colegiales",title:"2 amb. · Conesa 4526 amueblado",specs:"66 m² · 2 amb. · 1 baño · 16 fotos",price:"$ 460.000",exp:"+ $ 68000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1284.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"2 amb. · Esmeralda 390",specs:"41 m² · 2 amb. · 1 baño · 19 fotos",price:"$ 450.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1285.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Tigre",title:"3 amb. · Italia 3529",specs:"87 m² · 3 amb. · 2 baños · 25 fotos",price:"$ 189.000.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1286.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Nordelta",title:"3 amb. · Av. de los Lagos 548",specs:"69 m² · 3 amb. · 2 baños · 24 fotos · Cochera",price:"$ 1.120.000",exp:"",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",link:"depto-extra-1287.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Puerto Madero",title:"1 amb. · Aimé Painé 5016",specs:"28 m² · 1 amb. · 1 baño · 23 fotos",price:"$ 109.000.000",exp:"",img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop",link:"depto-extra-1288.html",featured:false,tipo:"venta",dueno:false},
+{barrio:"Palermo",title:"4 amb. · Córdoba 2845",specs:"101 m² · 4 amb. · 3 baños · 9 fotos",price:"$ 2.310.000",exp:"+ $ 142000 exp.",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1289.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"4 amb. · Triunvirato 640",specs:"94 m² · 4 amb. · 3 baños · 27 fotos · Cochera",price:"$ 1.200.000",exp:"+ $ 88000 exp.",img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",link:"depto-extra-1290.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Quilmes",title:"4 amb. · Brown 1039",specs:"112 m² · 4 amb. · 2 baños · 24 fotos · Cochera",price:"$ 1.180.000",exp:"+ $ 166000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1291.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Barracas",title:"1 amb. · Suárez 2499",specs:"39 m² · 1 amb. · 1 baño · 15 fotos · Cochera",price:"$ 540.000",exp:"",img:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",link:"depto-extra-1292.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Almagro",title:"1 amb. · Estado de Israel 4924",specs:"39 m² · 1 amb. · 1 baño · 28 fotos · Cochera",price:"$ 300.000",exp:"",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",link:"depto-extra-1293.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Retiro",title:"1 amb. · Paraguay 1256",specs:"30 m² · 1 amb. · 1 baño · 12 fotos",price:"$ 520.000",exp:"",img:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop",link:"depto-extra-1294.html",featured:false,tipo:"alquiler",dueno:true},
+{barrio:"Olivos",title:"3 amb. · Maipú 4062",specs:"92 m² · 3 amb. · 2 baños · 14 fotos",price:"$ 206.000.000",exp:"",img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",link:"depto-extra-1295.html",featured:false,tipo:"venta",dueno:true},
+{barrio:"Barracas",title:"2 amb. · Suárez 284",specs:"63 m² · 2 amb. · 1 baño · 8 fotos",price:"$ 730.000",exp:"",img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",link:"depto-extra-1296.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Pinamar",title:"3 amb. · Jason 4800",specs:"93 m² · 3 amb. · 2 baños · 24 fotos",price:"$ 328.000.000",exp:"",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1297.html",featured:true,tipo:"venta",dueno:true},
+{barrio:"Recoleta",title:"1 amb. · Libertad 2323",specs:"33 m² · 1 amb. · 1 baño · 9 fotos",price:"$ 470.000",exp:"+ $ 165000 exp.",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",link:"depto-extra-1298.html",featured:false,tipo:"alquiler",dueno:false},
+{barrio:"Villa Urquiza",title:"2 amb. · Bauness 2176",specs:"63 m² · 2 amb. · 1 baño · 24 fotos",price:"$ 810.000",exp:"+ $ 143000 exp.",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",link:"depto-extra-1299.html",featured:false,tipo:"alquiler",dueno:false}
 ];
 
 var MP_LINK = "https://mpago.la/1Jvg2Zv";
 var WA_NUM = "5491153797355";
 var currentZona = "todos", currentAmb = "todos", currentQ = "";
+var currentTipo = "alquiler"; // alquiler | venta
+var currentPresupuesto = "todos";
+var currentDueno = false;
 var selectedDepto = null;
 
 var listEl = document.getElementById("cardList");
@@ -665,6 +1131,9 @@ var filtersEl = document.getElementById("filters");
 var selZona = document.getElementById("selZona");
 var selAmb = document.getElementById("selAmb");
 var inputQ = document.getElementById("inputQ");
+var selPresupuesto = document.getElementById("selPresupuesto");
+var chkDueno = document.getElementById("chkDueno");
+var resultsTitle = document.getElementById("resultsTitle");
 
 // Build zonas
 var barrios = [];
@@ -690,43 +1159,81 @@ function matchAmb(item){
 }
 function matchQ(item){
   if(!currentQ) return true;
-  var t=(item.title+" "+item.barrio+" "+(item.specs||"")).toLowerCase();
+  var t=(item.title+" "+item.barrio+" "+(item.specs||"")+" "+(item.tipo||"")).toLowerCase();
   return t.indexOf(currentQ)!==-1;
+}
+function priceNum(item){
+  return parseInt(String(item.price||"").replace(/[^\d]/g,""),10)||0;
+}
+function matchTipo(item){
+  var t = item.tipo || "alquiler";
+  return t === currentTipo;
+}
+function matchPresupuesto(item){
+  if(currentPresupuesto==="todos") return true;
+  var p = priceNum(item);
+  var t = item.tipo || "alquiler";
+  if(currentPresupuesto==="0-400000") return t==="alquiler" && p<=400000;
+  if(currentPresupuesto==="400000-700000") return t==="alquiler" && p>=400000 && p<=700000;
+  if(currentPresupuesto==="700000-1200000") return t==="alquiler" && p>=700000 && p<=1200000;
+  if(currentPresupuesto==="1200000-2500000") return t==="alquiler" && p>=1200000 && p<=2500000;
+  if(currentPresupuesto==="2500000+") return t==="alquiler" && p>=2500000;
+  if(currentPresupuesto==="venta-bajo") return t==="venta" && p<=120000000;
+  if(currentPresupuesto==="venta-medio") return t==="venta" && p>120000000 && p<=300000000;
+  if(currentPresupuesto==="venta-alto") return t==="venta" && p>300000000;
+  return true;
+}
+function matchDueno(item){
+  if(!currentDueno) return true;
+  return !!item.dueno;
 }
 
 function render(){
   listEl.innerHTML="";
   var n=0;
   listings.forEach(function(item){
+    if(!matchTipo(item)) return;
     if(currentZona!=="todos" && item.barrio!==currentZona) return;
     if(!matchAmb(item)) return;
     if(!matchQ(item)) return;
+    if(!matchPresupuesto(item)) return;
+    if(!matchDueno(item)) return;
     n++;
     var card=document.createElement("div");
     card.className="dept-card";
+    var badges = "";
+    if(item.dueno) badges += '<span style="position:absolute;top:10px;left:10px;background:#111;color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:8px;z-index:2">Dueño directo</span>';
+    if((item.tipo||"alquiler")==="venta") badges += '<span style="position:absolute;top:10px;right:10px;background:#1565c0;color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:8px;z-index:2">En venta</span>';
+    else badges += '<span style="position:absolute;top:10px;right:10px;background:#2e7d32;color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:8px;z-index:2">Alquiler</span>';
+    var btnLabel = (item.tipo||"alquiler")==="venta" ? "Consultar compra" : "Solicitar reserva";
     card.innerHTML=
-      '<a href="'+item.link+'" class="dept-photo"><img src="'+item.img+'" alt="'+item.title.replace(/"/g,'&quot;')+'" loading="lazy" onerror="this.src=\'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop\'"/></a>'+
+      '<a href="'+item.link+'" class="dept-photo" style="position:relative">'+badges+'<img src="'+item.img+'" alt="'+item.title.replace(/"/g,'&quot;')+'" loading="lazy" onerror="this.src=\'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop\'"/></a>'+
       '<div class="dept-body">'+
         '<div class="dept-price">'+item.price+' <span>'+(item.exp||'')+'</span></div>'+
         '<div class="dept-title">'+item.title+'</div>'+
         '<div class="dept-specs">'+item.specs+'</div>'+
-        '<div class="dept-barrio">'+item.barrio+'</div>'+
+        '<div class="dept-barrio">'+item.barrio+(item.dueno?' · Dueño directo':'')+'</div>'+
         '<div class="dept-actions">'+
-          '<button type="button" class="btn-contact" data-link="'+item.link+'" data-title="'+item.title.replace(/"/g,'&quot;')+'" data-price="'+item.price+'" data-barrio="'+item.barrio+'">Solicitar reserva</button>'+
+          '<button type="button" class="btn-contact" data-link="'+item.link+'" data-title="'+item.title.replace(/"/g,'&quot;')+'" data-price="'+item.price+'" data-barrio="'+item.barrio+'" data-tipo="'+(item.tipo||'alquiler')+'">'+btnLabel+'</button>'+
         '</div>'+
       '</div>';
     listEl.appendChild(card);
   });
   if(n===0){
-    listEl.innerHTML='<div class="empty">No hay departamentos con esos filtros.<br>Probá otra zona o cantidad de ambientes.</div>';
+    listEl.innerHTML='<div class="empty">No hay departamentos con esos filtros.<br>Probá otra zona, presupuesto o modalidad.</div>';
   }
   countEl.textContent = n + " departamento" + (n===1?"":"s");
+  if(resultsTitle){
+    resultsTitle.textContent = currentTipo==="venta" ? "Departamentos en venta" : "Departamentos en alquiler";
+  }
 }
 
 function doSearch(){
   currentZona=selZona.value;
   currentAmb=selAmb.value;
   currentQ=(inputQ.value||"").trim().toLowerCase();
+  if(selPresupuesto) currentPresupuesto = selPresupuesto.value;
+  if(chkDueno) currentDueno = !!chkDueno.checked;
   document.querySelectorAll(".chip").forEach(function(b){
     b.classList.toggle("active", b.getAttribute("data-barrio")===currentZona);
   });
@@ -736,7 +1243,21 @@ function doSearch(){
 document.getElementById("btnSearch").onclick=doSearch;
 selZona.onchange=doSearch;
 selAmb.onchange=doSearch;
+if(selPresupuesto) selPresupuesto.onchange=doSearch;
+if(chkDueno) chkDueno.onchange=doSearch;
 inputQ.addEventListener("keydown",function(e){if(e.key==="Enter")doSearch();});
+
+// Tabs Alquilar / Comprar
+document.querySelectorAll(".tab").forEach(function(tab){
+  tab.addEventListener("click", function(){
+    if(tab.disabled) return;
+    document.querySelectorAll(".tab").forEach(function(t){ t.classList.remove("active"); });
+    tab.classList.add("active");
+    var mode = tab.getAttribute("data-tab");
+    currentTipo = (mode==="comprar") ? "venta" : "alquiler";
+    doSearch();
+  });
+});
 
 // Chips
 var chipAll=document.createElement("button");
@@ -970,73 +1491,95 @@ document.getElementById("btnDoRegister").onclick = function() {
   var FORMSPREE = "https://formspree.io/f/xrpzbayz";
   var selfieFile = selfieInput.files[0];
 
-  // 1) JSON — confirmado que Formspree responde ok:true
-  var payload = {
-    _subject: "Nuevo registro ZonaProp - " + nombre,
-    email: email,
-    _replyto: email,
-    nombre: nombre,
-    dni: dni,
-    whatsapp: tel,
-    mensaje: "Nuevo usuario registrado en ZonaProp",
-    fecha: new Date().toLocaleString("es-AR")
-  };
-
-  function done() {
+  function finish() {
     alert("¡Cuenta creada! Ya podés solicitar reservas.");
   }
 
-  fetch(FORMSPREE, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-    body: JSON.stringify(payload)
-  }).then(function(r) {
-    return r.json().catch(function(){ return {}; }).then(function(j) {
-      // 2) Intento con selfie como archivo (si el plan lo permite)
-      if (selfieFile) {
-        var fd = new FormData();
-        fd.append("_subject", "Selfie registro - " + nombre);
-        fd.append("email", email);
-        fd.append("nombre", nombre);
-        fd.append("dni", dni);
-        fd.append("whatsapp", tel);
-        fd.append("mensaje", "Selfie de " + nombre);
-        // redimensionar y adjuntar
-        var reader = new FileReader();
-        reader.onload = function(ev) {
-          var img = new Image();
-          img.onload = function() {
-            var max = 700;
-            var scale = Math.min(1, max / Math.max(img.width, img.height));
-            var c = document.createElement("canvas");
-            c.width = Math.round(img.width * scale);
-            c.height = Math.round(img.height * scale);
-            c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-            c.toBlob(function(blob) {
-              if (blob) fd.append("attachment", blob, "selfie-" + dni + ".jpg");
-              else fd.append("attachment", selfieFile);
-              fetch(FORMSPREE, { method: "POST", body: fd, headers: { "Accept": "application/json" } })
-                .finally(done);
-            }, "image/jpeg", 0.8);
-          };
-          img.onerror = function() {
-            fd.append("attachment", selfieFile);
-            fetch(FORMSPREE, { method: "POST", body: fd, headers: { "Accept": "application/json" } }).finally(done);
-          };
-          img.src = ev.target.result;
-        };
-        reader.onerror = function() {
-          fd.append("attachment", selfieFile);
-          fetch(FORMSPREE, { method: "POST", body: fd, headers: { "Accept": "application/json" } }).finally(done);
-        };
-        reader.readAsDataURL(selfieFile);
-      } else {
-        done();
-      }
+  function sendFormspree(fields, blob) {
+    // A) JSON con todos los datos + selfie en base64 (llega siempre como texto en el mail)
+    var payload = {
+      _subject: "Nuevo registro ZonaProp - " + nombre,
+      email: email,
+      _replyto: email,
+      nombre: nombre,
+      dni: dni,
+      whatsapp: tel,
+      mensaje: fields.mensaje || "Nuevo usuario registrado en ZonaProp",
+      fecha: new Date().toLocaleString("es-AR"),
+      selfie_url: fields.selfie_url || "",
+      selfie_base64: fields.selfie_base64 || "",
+      como_ver_selfie: fields.selfie_base64
+        ? "Abrí un navegador, pegá el contenido de selfie_base64 en la barra de dirección (empieza con data:image) o guardalo como .jpg con un conversor base64."
+        : (fields.selfie_url ? "Abrí el link de selfie_url para ver la foto." : "Sin selfie")
+    };
+    var p1 = fetch(FORMSPREE, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
     });
-  }).catch(function() {
-    done();
-  });
+    // B) FormData con archivo adjunto (por si el plan lo soporta)
+    var p2 = Promise.resolve();
+    if (blob) {
+      var fd = new FormData();
+      fd.append("_subject", "Selfie archivo - " + nombre);
+      fd.append("email", email);
+      fd.append("nombre", nombre);
+      fd.append("dni", dni);
+      fd.append("whatsapp", tel);
+      fd.append("mensaje", "Archivo selfie de " + nombre);
+      fd.append("attachment", blob, "selfie-" + dni + ".jpg");
+      p2 = fetch(FORMSPREE, { method: "POST", body: fd, headers: { "Accept": "application/json" } });
+    }
+    return Promise.all([p1, p2]);
+  }
+
+  // Redimensionar selfie (más chica = llega seguro en el email)
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var img = new Image();
+    img.onload = function() {
+      var max = 360;
+      var scale = Math.min(1, max / Math.max(img.width, img.height));
+      var canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(img.width * scale));
+      canvas.height = Math.max(1, Math.round(img.height * scale));
+      canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+      var b64 = "";
+      try { b64 = canvas.toDataURL("image/jpeg", 0.55); } catch (e) {}
+      canvas.toBlob(function(blob) {
+        // Intentar subir a host temporal gratis para link público
+        function afterHost(url) {
+          sendFormspree({
+            mensaje: "Nuevo usuario registrado. Selfie incluida.",
+            selfie_url: url || "",
+            selfie_base64: b64 || ""
+          }, blob || selfieFile).finally(finish);
+        }
+        if (blob) {
+          var up = new FormData();
+          up.append("reqtype", "fileupload");
+          up.append("fileToUpload", blob, "selfie.jpg");
+          fetch("https://catbox.moe/user/api.php", { method: "POST", body: up })
+            .then(function(r) { return r.text(); })
+            .then(function(txt) {
+              var url = (txt && txt.indexOf("http") === 0) ? txt.trim() : "";
+              afterHost(url);
+            })
+            .catch(function() { afterHost(""); });
+        } else {
+          afterHost("");
+        }
+      }, "image/jpeg", 0.55);
+    };
+    img.onerror = function() {
+      sendFormspree({ mensaje: "Nuevo usuario (selfie no pudo procesarse)" }, selfieFile).finally(finish);
+    };
+    img.src = ev.target.result;
+  };
+  reader.onerror = function() {
+    sendFormspree({ mensaje: "Nuevo usuario (error leyendo selfie)" }, selfieFile).finally(finish);
+  };
+  reader.readAsDataURL(selfieFile);
 };
 
 updateHeader();
@@ -1124,7 +1667,7 @@ if (accChangePass) accChangePass.onclick = function() {
 var accSupport = document.getElementById("accSupport");
 if (accSupport) accSupport.onclick = function() {
   var s = getSession();
-  var msg = "Hola, necesito soporte en ZonaProp.";
+  var msg = "Hola, necesito soporte en ZonaProp. También escribo a informeZonaProp@gmail.com";
   if (s && s.email) msg += "\\nMi email: " + s.email + (s.nombre ? "\\nNombre: " + s.nombre : "");
   window.open("https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(msg), "_blank");
 };
@@ -1210,7 +1753,7 @@ function calcDiario() {
   if (elTot) elTot.textContent = formatARS(r.total);
   if (elSena) elSena.textContent = formatARS(sena);
   if (elHint) elHint.textContent = "50% del total · días calendario exactos · se descuenta del total.";
-  if (elBtn) elBtn.textContent = "Autorizar seña · " + formatARS(sena);
+  if (elBtn) elBtn.textContent = "Pagar seña con tarjeta · " + formatARS(sena);
   return { dias: r.dias, total: r.total, sena: sena, ingreso: fi.value, egreso: fe.value };
 }
 function setModo(modo) {
@@ -1246,7 +1789,7 @@ function setModo(modo) {
     var elBtn = document.getElementById("btnPay");
     if (elSena) elSena.textContent = "$ 300.000";
     if (elHint) elHint.textContent = "Se descuenta del primer mes.";
-    if (elBtn) elBtn.textContent = "Autorizar seña · $ 300.000";
+    if (elBtn) elBtn.textContent = "Pagar seña con tarjeta · $ 300.000";
   }
 }
 var modMensual = document.getElementById("modMensual");
@@ -1265,6 +1808,107 @@ if (fiEl) fiEl.addEventListener("change", function() {
   calcDiario();
 });
 if (feEl) feEl.addEventListener("change", calcDiario);
+
+
+// ——— Panel Admin ———
+var ADMIN_USER = "Admin";
+var ADMIN_PASS = "Adminn";
+var STORAGE_ADMIN = "zp_admin_session";
+
+function isAdmin() {
+  return localStorage.getItem(STORAGE_ADMIN) === "1";
+}
+function setAdmin(on) {
+  if (on) localStorage.setItem(STORAGE_ADMIN, "1");
+  else localStorage.removeItem(STORAGE_ADMIN);
+}
+function openAdmin() {
+  var loginBox = document.getElementById("adminLoginBox");
+  var panel = document.getElementById("adminPanel");
+  var err = document.getElementById("adminErr");
+  if (err) err.classList.remove("show");
+  if (isAdmin()) {
+    if (loginBox) loginBox.style.display = "none";
+    if (panel) panel.style.display = "block";
+    renderAdminPanel();
+  } else {
+    if (loginBox) loginBox.style.display = "block";
+    if (panel) panel.style.display = "none";
+  }
+  document.getElementById("adminModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeAdmin() {
+  document.getElementById("adminModal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+function renderAdminPanel() {
+  var users = getUsers();
+  var views = (typeof getViews === "function") ? getViews() : [];
+  var stats = document.getElementById("adminStats");
+  if (stats) stats.textContent = users.length + " usuarios · " + views.length + " vistas recientes";
+  var ul = document.getElementById("adminUsersList");
+  if (ul) {
+    ul.innerHTML = "";
+    if (!users.length) {
+      ul.innerHTML = "<div style='color:#888;font-size:13px;padding:.5rem 0'>Sin usuarios en este navegador. Los registros globales llegan por email.</div>";
+    } else {
+      users.slice().reverse().forEach(function(u) {
+        var d = document.createElement("div");
+        d.style.cssText = "background:#f7f7f7;border-radius:10px;padding:.65rem .8rem;font-size:13px";
+        var fecha = u.created ? new Date(u.created).toLocaleString("es-AR") : "—";
+        d.innerHTML = "<strong>"+(u.nombre||"—")+"</strong><br>📧 "+(u.email||"—")+" · 🪪 "+(u.dni||"—")+"<br>📱 "+(u.tel||"—")+"<br><span style='color:#888;font-size:11px'>"+fecha+"</span>";
+        ul.appendChild(d);
+      });
+    }
+  }
+  var vl = document.getElementById("adminViewsList");
+  if (vl) {
+    vl.innerHTML = "";
+    if (!views.length) {
+      vl.innerHTML = "<div style='color:#888;font-size:13px'>Nadie vio publicaciones aún en este dispositivo.</div>";
+    } else {
+      views.slice(0, 20).forEach(function(v) {
+        var d = document.createElement("div");
+        d.style.cssText = "background:#fff;border:1px solid #eee;border-radius:8px;padding:.5rem .65rem;font-size:12.5px";
+        d.innerHTML = "<strong>"+(v.title||"—")+"</strong><br>"+(v.barrio||"")+" · "+(v.price||"");
+        vl.appendChild(d);
+      });
+    }
+  }
+}
+var btnAdminMenu = document.getElementById("btnAdminMenu");
+if (btnAdminMenu) btnAdminMenu.onclick = openAdmin;
+var adminClose = document.getElementById("adminClose");
+if (adminClose) adminClose.onclick = closeAdmin;
+var adminModal = document.getElementById("adminModal");
+if (adminModal) adminModal.addEventListener("click", function(e) {
+  if (e.target === adminModal) closeAdmin();
+});
+var btnAdminLogin = document.getElementById("btnAdminLogin");
+if (btnAdminLogin) btnAdminLogin.onclick = function() {
+  var u = (document.getElementById("adminUser").value || "").trim();
+  var p = document.getElementById("adminPass").value || "";
+  var err = document.getElementById("adminErr");
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    setAdmin(true);
+    if (err) err.classList.remove("show");
+    document.getElementById("adminLoginBox").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    renderAdminPanel();
+  } else {
+    if (err) err.classList.add("show");
+  }
+};
+var btnAdminLogout = document.getElementById("btnAdminLogout");
+if (btnAdminLogout) btnAdminLogout.onclick = function() {
+  setAdmin(false);
+  document.getElementById("adminLoginBox").style.display = "block";
+  document.getElementById("adminPanel").style.display = "none";
+  document.getElementById("adminUser").value = "";
+  document.getElementById("adminPass").value = "";
+};
+
 
 // Card input helpers (reserva + registro)
 (function(){
