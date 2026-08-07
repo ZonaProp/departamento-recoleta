@@ -187,10 +187,18 @@ button,input,select{font-family:inherit}
       <input type="email" id="regEmail" placeholder="tu@email.com" autocomplete="email"/>
     </div>
     <div class="form-group">
+      <label for="regDni">DNI</label>
+      <input type="text" id="regDni" placeholder="12345678" inputmode="numeric" autocomplete="off"/>
+    </div>
+    <div class="form-group">
+      <label for="regPass">Clave (mínimo 6 caracteres)</label>
+      <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password"/>
+    </div>
+    <div class="form-group">
       <label for="regTel">WhatsApp (opcional)</label>
       <input type="tel" id="regTel" placeholder="11 1234-5678"/>
     </div>
-    <div class="err" id="regErr">Completá nombre y un email válido.</div>
+    <div class="err" id="regErr">Completá todos los campos obligatorios.</div>
     <button type="button" class="btn-modal mp" id="btnDoRegister" style="margin-top:.75rem">Registrarme</button>
     <p style="font-size:12px;color:var(--muted);margin-top:.85rem;text-align:center">Al registrarte aceptás ser contactado por WhatsApp para coordinar la reserva.</p>
   </div>
@@ -655,10 +663,12 @@ document.addEventListener("click",function(e){
   document.getElementById("modalDeptoInfo").textContent=title+" · "+price+(barrio?" · "+barrio:"");
   document.getElementById("formErr").classList.remove("show");
 
-  // Pre-fill name from session
+  // Pre-fill from session
   var nombreInput = document.getElementById("nombre");
+  var dniInput = document.getElementById("dni");
   var telInput = document.getElementById("tel");
   if (nombreInput && session.nombre) nombreInput.value = session.nombre;
+  if (dniInput && session.dni) dniInput.value = session.dni;
   if (telInput && session.tel) telInput.value = session.tel;
 
   document.getElementById("reserveModal").classList.add("open");
@@ -764,37 +774,53 @@ document.getElementById("btnLoginHeader").onclick = function() {
 document.getElementById("btnDoRegister").onclick = function() {
   var nombre = (document.getElementById("regNombre").value || "").trim();
   var email = (document.getElementById("regEmail").value || "").trim().toLowerCase();
+  var dni = (document.getElementById("regDni").value || "").trim();
+  var pass = (document.getElementById("regPass").value || "");
   var tel = (document.getElementById("regTel").value || "").trim();
   var err = document.getElementById("regErr");
 
-  if (!nombre || !email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
-    err.textContent = "Completá nombre y un email válido.";
+  if (!nombre || !email || !dni || pass.length < 6) {
+    err.textContent = "Completá nombre, email, DNI y una clave de al menos 6 caracteres.";
+    err.classList.add("show");
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    err.textContent = "Ingresá un email válido.";
+    err.classList.add("show");
+    return;
+  }
+  if (!/^\d{7,8}$/.test(dni)) {
+    err.textContent = "Ingresá un DNI válido (7 u 8 números).";
     err.classList.add("show");
     return;
   }
 
   var users = getUsers();
   if (users.some(function(u) { return u.email === email; })) {
-    // Already registered → just log in
+    // Already registered → try login with password
     var existing = users.filter(function(u) { return u.email === email; })[0];
-    setSession({ nombre: existing.nombre, email: existing.email, tel: existing.tel || "" });
+    if (existing.pass && existing.pass !== pass) {
+      err.textContent = "Ese email ya está registrado. La clave no coincide.";
+      err.classList.add("show");
+      return;
+    }
+    setSession({ nombre: existing.nombre, email: existing.email, dni: existing.dni || "", tel: existing.tel || "" });
     closeRegister();
     alert("¡Bienvenido de nuevo, " + existing.nombre + "!");
     return;
   }
 
-  var user = { nombre: nombre, email: email, tel: tel, created: Date.now() };
+  var user = { nombre: nombre, email: email, dni: dni, pass: pass, tel: tel, created: Date.now() };
   users.push(user);
   saveUsers(users);
-  setSession({ nombre: nombre, email: email, tel: tel });
+  setSession({ nombre: nombre, email: email, dni: dni, tel: tel });
   closeRegister();
 
   // 1) Avisar al admin por WhatsApp
-  var adminMsg = "🆕 Nuevo registro en ZonaProp\n\nNombre: " + nombre + "\nEmail: " + email + (tel ? "\nWhatsApp: " + tel : "") + "\n\nFecha: " + new Date().toLocaleString("es-AR");
+  var adminMsg = "🆕 Nuevo registro en ZonaProp\n\nNombre: " + nombre + "\nEmail: " + email + "\nDNI: " + dni + (tel ? "\nWhatsApp: " + tel : "") + "\n\nFecha: " + new Date().toLocaleString("es-AR");
   window.open("https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(adminMsg), "_blank");
 
-  // 2) Avisar al admin por EMAIL (Formspree - gratis)
-  // Reemplazá YOUR_FORM_ID con tu ID de Formspree (instrucciones abajo)
+  // 2) Avisar al admin por EMAIL (Formspree)
   var FORMSPREE_ENDPOINT = "https://formspree.io/f/xrpzbayz";
   fetch(FORMSPREE_ENDPOINT, {
     method: "POST",
@@ -803,6 +829,7 @@ document.getElementById("btnDoRegister").onclick = function() {
       _subject: "Nuevo registro ZonaProp - " + nombre,
       nombre: nombre,
       email: email,
+      dni: dni,
       whatsapp: tel || "No indicado",
       mensaje: "Nuevo usuario registrado interesado en alquilar.",
       fecha: new Date().toLocaleString("es-AR")
