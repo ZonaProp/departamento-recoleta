@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover"/>
+<meta name="referrer" content="origin"/>
+<title>Bravard 1192 — Alquiler · Villa Crespo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap');
+:root{
+  --primary:#ff6a00;--primary-dark:#e55f00;--wa:#25d366;
+  --bg:#f0f0f0;--card:#fff;--muted:#757575;--border:#e0e0e0;--text:#222;
+  --font:"Nunito Sans",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.35;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.header-inner{max-width:720px;margin:0 auto;padding:0 12px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:6px;font-weight:800;font-size:1.25rem;color:var(--primary)}
+.logo .dot{width:22px;height:22px;border-radius:50%;background:var(--primary);display:inline-block}
+.header-actions{display:flex;align-items:center;gap:10px}
+.header-actions a,.header-actions button{font-size:13px;font-weight:700;color:#333;background:none;border:none}
+.btn-outline{border:1.5px solid var(--primary)!important;color:var(--primary)!important;padding:6px 14px!important;border-radius:20px!important}
+.btn-solid{background:var(--primary)!important;color:#fff!important;padding:6px 14px!important;border-radius:20px!important;border:none!important}
+.wrap{max-width:720px;margin:0 auto;padding:14px 12px 80px}
+.back{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:#555;margin-bottom:12px}
+.back:hover{color:var(--primary)}
+.hero-mini{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #e8e8e8;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.badge{display:inline-block;background:#e8f7eb;color:#176329;padding:5px 10px;border-radius:999px;font-weight:800;font-size:12px;margin-bottom:8px}
+.badge.orange{background:#fff3e8;color:var(--primary)}
+.hero-mini h1{font-size:1.35rem;font-weight:800;margin-bottom:4px;line-height:1.25}
+.hero-mini .loc{font-size:14px;font-weight:700;color:#666}
+.hero-mini .meta{font-size:13px;color:var(--muted);margin-top:6px;font-weight:600}
+.panel{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #e8e8e8;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.panel h2{font-size:1rem;font-weight:800;margin-bottom:10px}
+.panel p{font-size:14px;color:#555;font-weight:600;line-height:1.5;margin-bottom:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--primary);color:#fff;text-decoration:none;padding:12px 16px;border-radius:10px;font-weight:800;font-size:14px;border:none;width:100%;text-align:center}
+.btn:active{background:var(--primary-dark)}
+.btn.secondary{background:#111}
+.btn.wa{background:var(--wa);margin-top:8px}
+.btn.ghost{background:#fff;color:var(--primary);border:1.5px solid var(--primary);margin-top:8px}
+iframe{width:100%;height:640px;border:1px solid #ddd;border-radius:12px;background:#fff}
+.note{font-size:12px;line-height:1.5;color:#888;font-weight:600;margin-top:10px}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:520px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e8e8e8;box-shadow:0 1px 4px rgba(0,0,0,.06);text-decoration:none;color:#222;display:block}
+.card-body{padding:14px}
+.card .badge{margin-bottom:6px}
+.card h3{font-size:15px;font-weight:800;margin:4px 0}
+.card p{font-size:13px;font-weight:600;color:#666;margin:3px 0}
+.card .muted{color:#999}
+.footer{background:#fff;border-top:1px solid var(--border);padding:20px 14px;text-align:center;font-size:13px;color:var(--muted);font-weight:600;line-height:1.6}
+.footer a{color:var(--primary);font-weight:800}
+.results-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.results-header h2{font-size:1.15rem;font-weight:800}
+.count{font-size:13px;color:var(--muted);font-weight:600}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="index.html"><span class="dot"></span> zonaprop</a>
+    <div class="header-actions">
+      <a href="mailto:informeZonaProp@gmail.com">Contacto</a>
+      <a class="btn-outline" href="index.html">Inicio</a>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+  <a class="back" href="index.html">← Volver al listado</a>
+  <div class="hero-mini">
+    <span class="badge">14 fotos verificadas</span>
+    <h1>Bravard 1192</h1>
+    <div class="loc">Villa Crespo · CABA</div>
+    <div class="meta">Alquiler · Fuente Bullano</div>
+  </div>
+  <div class="panel">
+    <h2>Reservar / consultar</h2>
+    <p>Pedí reserva o consultá disponibilidad. La seña se abona por Mercado Pago (tarjeta de crédito o débito).</p>
+    <a class="btn" href="https://mpago.la/1Jvg2Zv" target="_blank" rel="noopener">Pagar seña con tarjeta · Mercado Pago</a>
+    <a class="btn wa" href="https://wa.me/5491153797355?text=Hola%21%20Me%20interesa%20el%20depto%20en%20Bravard%201192%20%28Villa%20Crespo%29" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+    <a class="btn ghost" href="mailto:informeZonaProp@gmail.com?subject=Consulta%20Bravard%201192">Email: informeZonaProp@gmail.com</a>
+  </div>
+  <div class="panel">
+    <h2>Galería y ficha completa</h2>
+    <p>Las fotos y datos actualizados se muestran desde la ficha original de Bullano (no se copian ni mezclan fotos de otras propiedades).</p>
+    <a class="btn secondary" href="https://www.bullano.com.ar/departamentos/ficha/bravard-1192-12499.html" target="_blank" rel="noopener">Abrir ficha original y galería</a>
+    <div style="margin-top:12px">
+      <iframe src="https://www.bullano.com.ar/departamentos/ficha/bravard-1192-12499.html" title="Ficha Bullano — Bravard 1192" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    </div>
+    <p class="note">Si Bullano bloquea el iframe, usá el botón “Abrir ficha original y galería”. Las imágenes requieren Internet y permanecen en Bullano.</p>
+  </div>
+</div>
+<footer class="footer">
+  ZonaProp · Alquiler · Datos reales Bullano CABA<br>
+  <a href="mailto:informeZonaProp@gmail.com">informeZonaProp@gmail.com</a>
+</footer>
+</body>
+</html>

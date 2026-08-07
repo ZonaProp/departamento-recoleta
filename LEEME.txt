@@ -1,0 +1,4 @@
+Paquete Bullano restyleado al diseño ZonaProp.
+- index.html: listado de 35 alquileres
+- departamento-01.html … departamento-35.html: fichas
+- Galerías desde Bullano (Internet).
