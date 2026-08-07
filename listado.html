@@ -124,8 +124,9 @@ button,input,select{font-family:inherit}
       zonaprop
     </a>
     <div class="header-actions">
-      <a href="publicar.html">Publicar</a>
-      <button type="button" class="btn-pub" id="btnLoginHeader">Ingresar</button>
+      <a href="publicar.html" style="font-size:13px;font-weight:600">Publicar</a>
+      <button type="button" id="btnLoginHeader" style="font-size:13px;font-weight:600;background:none;border:1.5px solid var(--primary);color:var(--primary);padding:6px 12px;border-radius:999px;cursor:pointer">Ingresar</button>
+      <button type="button" class="btn-pub" id="btnRegisterHeader">Registrarme</button>
     </div>
   </div>
 </header>
@@ -228,9 +229,14 @@ button,input,select{font-family:inherit}
     <div class="sena-box">
       <div style="font-size:12px;color:var(--muted)">Seña de reserva</div>
       <div class="monto">$ 300.000</div>
-      <div class="hint">Se descuenta del primer mes. Pagá por Mercado Pago y enviá el comprobante.</div>
+      <div class="hint">Se descuenta del primer mes.</div>
     </div>
-    <button type="button" class="btn-modal mp" id="btnPay">Ir a pagar seña · Mercado Pago</button>
+    <div style="background:#f0f7ff;border:1px solid #cce0ff;border-radius:12px;padding:.85rem 1rem;margin-bottom:.85rem;font-size:13px;color:#333;line-height:1.45">
+      <strong>🔒 Tarjeta de crédito o débito</strong><br>
+      Para asegurar tu reserva vas a cargar tu tarjeta en <strong>Mercado Pago</strong> (pasarela segura).<br>
+      <strong>No se te cobrará ningún monto sin tu consentimiento.</strong> Solo se procesa el pago cuando vos lo confirmás.
+    </div>
+    <button type="button" class="btn-modal mp" id="btnPay">Continuar con tarjeta · Mercado Pago</button>
     <button type="button" class="btn-modal wa" id="btnWA">Enviar solicitud por WhatsApp</button>
   </div>
 </div>
@@ -733,17 +739,20 @@ function setSession(user) {
 function updateHeader() {
   var s = getSession();
   var btn = document.getElementById("btnLoginHeader");
+  var btnReg = document.getElementById("btnRegisterHeader");
   if (!btn) return;
   if (s && s.email) {
     btn.textContent = s.nombre ? s.nombre.split(" ")[0] : "Mi cuenta";
     btn.style.background = "#fff";
     btn.style.color = "var(--primary)";
     btn.style.border = "1.5px solid var(--primary)";
+    if (btnReg) btnReg.style.display = "none";
   } else {
     btn.textContent = "Ingresar";
-    btn.style.background = "";
-    btn.style.color = "";
-    btn.style.border = "";
+    btn.style.background = "none";
+    btn.style.color = "var(--primary)";
+    btn.style.border = "1.5px solid var(--primary)";
+    if (btnReg) btnReg.style.display = "";
   }
 }
 
@@ -770,6 +779,10 @@ document.getElementById("btnLoginHeader").onclick = function() {
   }
   openRegister();
 };
+var btnRegHeader = document.getElementById("btnRegisterHeader");
+if (btnRegHeader) {
+  btnRegHeader.onclick = function() { openRegister(); };
+}
 
 document.getElementById("btnDoRegister").onclick = function() {
   var nombre = (document.getElementById("regNombre").value || "").trim();
