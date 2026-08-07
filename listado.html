@@ -324,10 +324,43 @@ button,input,select{font-family:inherit}
       </div>
     </div>
     <div class="err" id="formErr">Completá todos los datos obligatorios.</div>
+    <div style="border:1.5px solid var(--border);border-radius:14px;padding:1rem;margin-bottom:.85rem;background:#fff">
+      <div style="font-size:14px;font-weight:700;margin-bottom:.65rem">Modalidad de alquiler</div>
+      <div style="display:flex;gap:.4rem;margin-bottom:.75rem">
+        <button type="button" class="chip-mod active" id="modMensual" style="flex:1;padding:.55rem;border-radius:10px;border:1.5px solid var(--primary);background:var(--primary);color:#fff;font-weight:700;font-size:13px;cursor:pointer">Mensual</button>
+        <button type="button" class="chip-mod" id="modDiario" style="flex:1;padding:.55rem;border-radius:10px;border:1.5px solid var(--border);background:#fff;color:#333;font-weight:700;font-size:13px;cursor:pointer">Por día</button>
+      </div>
+      <div id="panelDiario" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem">
+          <div class="form-group">
+            <label for="fechaIngreso">Ingreso</label>
+            <input type="date" id="fechaIngreso" style="width:100%;height:46px;padding:0 .65rem;border:1.5px solid var(--border);border-radius:10px;font-size:14px"/>
+          </div>
+          <div class="form-group">
+            <label for="fechaEgreso">Egreso</label>
+            <input type="date" id="fechaEgreso" style="width:100%;height:46px;padding:0 .65rem;border:1.5px solid var(--border);border-radius:10px;font-size:14px"/>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:.35rem">
+          Días calendario: <strong id="cantDiasLabel">—</strong>
+        </div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:.35rem">
+          Valor día (proporcional exacto): <strong id="valorDia">—</strong>
+        </div>
+        <div style="font-size:15px;font-weight:800;margin-bottom:.5rem">
+          Total estimado: <span id="totalDiario" style="color:var(--primary)">—</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.4">Cada día se calcula con el valor del mes al que pertenece (alquiler mensual ÷ días de ese mes). La seña es el 50% del total (mín. $50.000).</p>
+      </div>
+      <div id="panelMensual" style="font-size:13px;color:var(--muted)">
+        Alquiler mensual según la publicación. Seña fija de reserva.
+      </div>
+    </div>
+
     <div class="sena-box">
       <div style="font-size:12px;color:var(--muted)">Seña de reserva</div>
-      <div class="monto">$ 300.000</div>
-      <div class="hint">Se descuenta del primer mes.</div>
+      <div class="monto" id="senaMonto">$ 300.000</div>
+      <div class="hint" id="senaHint">Se descuenta del primer mes / del total.</div>
     </div>
 
     <div class="card-form-box">
@@ -788,6 +821,10 @@ document.addEventListener("click",function(e){
   selectedDepto={title:title,price:price,barrio:barrio,link:link};
   document.getElementById("modalDeptoInfo").textContent=title+" · "+price+(barrio?" · "+barrio:"");
   document.getElementById("formErr").classList.remove("show");
+  precioMensualNum = parsePrecio(price);
+  setModo("mensual");
+  var _fi=document.getElementById("fechaIngreso"); var _fe=document.getElementById("fechaEgreso"); if(_fi)_fi.value=""; if(_fe)_fe.value="";
+
 
   // Pre-fill from session
   var nombreInput = document.getElementById("nombre");
@@ -854,15 +891,21 @@ function validateForm(){
 document.getElementById("btnPay").onclick=function(){
   var p=validateForm();
   if(!p) return;
-  alert("Vas a ser redirigido a Mercado Pago para autorizar la seña de $ 300.000.\n\nNo se cobrará nada hasta que confirmes el pago allí.\nTarjeta terminada en " + (p.cardLast4||"****"));
+  var senaTxt = document.getElementById("senaMonto") ? document.getElementById("senaMonto").textContent : "$ 300.000";
+  var extra = alquilerModo === "diario" ? ("\nModalidad: por día · " + (document.getElementById("cantDiasLabel") ? document.getElementById("cantDiasLabel").textContent : "") + " · " + (document.getElementById("fechaIngreso")||{}).value + " a " + (document.getElementById("fechaEgreso")||{}).value) : "\nModalidad: mensual";
+  alert("Vas a ser redirigido a Mercado Pago para autorizar la seña de " + senaTxt + extra + "\n\nNo se cobrará nada hasta que confirmes el pago allí.\nTarjeta terminada en " + (p.cardLast4||"****"));
   window.open(MP_LINK,"_blank");
 };
 
 document.getElementById("btnWA").onclick=function(){
   var p=validateForm();
   if(!p||!selectedDepto) return;
-  var text="Hola! Quiero reservar este departamento:\n"+selectedDepto.title+"\n"+selectedDepto.price+"\n"+
-    "Nombre: "+p.nombre+"\nDNI: "+p.dni+(p.tel?"\nWhatsApp: "+p.tel:"")+"\nSeña: $ 300.000";
+  var senaTxt = document.getElementById("senaMonto") ? document.getElementById("senaMonto").textContent : "$ 300.000";
+  var modoTxt = alquilerModo === "diario"
+    ? ("Por día · " + (document.getElementById("cantDiasLabel") ? document.getElementById("cantDiasLabel").textContent : "") + " · " + (document.getElementById("fechaIngreso") ? document.getElementById("fechaIngreso").value : "") + " → " + (document.getElementById("fechaEgreso") ? document.getElementById("fechaEgreso").value : "") + " · total " + (document.getElementById("totalDiario") ? document.getElementById("totalDiario").textContent : ""))
+    : "Mensual";
+  var text="Hola! Quiero reservar este departamento:\n"+selectedDepto.title+"\n"+selectedDepto.price+"\nModalidad: "+modoTxt+"\n"+
+    "Nombre: "+p.nombre+"\nDNI: "+p.dni+(p.tel?"\nWhatsApp: "+p.tel:"")+(p.direccion?"\nDirección: "+p.direccion:"")+"\nSeña: "+senaTxt;
   window.open("https://wa.me/"+WA_NUM+"?text="+encodeURIComponent(text),"_blank");
 };
 
@@ -1159,6 +1202,123 @@ document.addEventListener("click", function(e) {
     if (listings[i].link === link) { trackView(listings[i]); break; }
   }
 }, true);
+
+
+// ——— Modalidad mensual / diario (días calendario exactos) ———
+var alquilerModo = "mensual";
+var precioMensualNum = 0;
+
+function parsePrecio(str) {
+  if (!str) return 0;
+  var n = String(str).replace(/[^\d]/g, "");
+  return parseInt(n, 10) || 0;
+}
+function formatARS(n) {
+  return "$ " + Math.round(n).toLocaleString("es-AR").replace(/,/g, ".");
+}
+function daysInMonth(y, m) {
+  return new Date(y, m + 1, 0).getDate();
+}
+/** Suma el valor de cada día del rango [ingreso, egreso) usando mensual/díasDelMes de cada día */
+function calcProporcionalCalendario(precioMensual, ingreso, egreso) {
+  if (!ingreso || !egreso || egreso <= ingreso) return { dias: 0, total: 0, diaProm: 0 };
+  var total = 0;
+  var dias = 0;
+  var cur = new Date(ingreso.getFullYear(), ingreso.getMonth(), ingreso.getDate());
+  var end = new Date(egreso.getFullYear(), egreso.getMonth(), egreso.getDate());
+  while (cur < end) {
+    var dim = daysInMonth(cur.getFullYear(), cur.getMonth());
+    total += precioMensual / dim;
+    dias++;
+    cur.setDate(cur.getDate() + 1);
+    if (dias > 366) break;
+  }
+  return { dias: dias, total: total, diaProm: dias ? total / dias : 0 };
+}
+function calcDiario() {
+  var fi = document.getElementById("fechaIngreso");
+  var fe = document.getElementById("fechaEgreso");
+  var elDias = document.getElementById("cantDiasLabel");
+  var elDia = document.getElementById("valorDia");
+  var elTot = document.getElementById("totalDiario");
+  var elSena = document.getElementById("senaMonto");
+  var elHint = document.getElementById("senaHint");
+  var elBtn = document.getElementById("btnPay");
+  if (!fi || !fe || !fi.value || !fe.value) {
+    if (elDias) elDias.textContent = "Elegí ingreso y egreso";
+    if (elDia) elDia.textContent = "—";
+    if (elTot) elTot.textContent = "—";
+    return { dias: 0, total: 0, sena: 0 };
+  }
+  var ingreso = new Date(fi.value + "T12:00:00");
+  var egreso = new Date(fe.value + "T12:00:00");
+  if (egreso <= ingreso) {
+    if (elDias) elDias.textContent = "El egreso debe ser posterior al ingreso";
+    if (elTot) elTot.textContent = "—";
+    return { dias: 0, total: 0, sena: 0 };
+  }
+  var r = calcProporcionalCalendario(precioMensualNum, ingreso, egreso);
+  var sena = Math.max(50000, Math.round(r.total * 0.5));
+  if (elDias) elDias.textContent = r.dias + (r.dias === 1 ? " día" : " días");
+  if (elDia) elDia.textContent = formatARS(r.diaProm) + " / día (promedio del período)";
+  if (elTot) elTot.textContent = formatARS(r.total);
+  if (elSena) elSena.textContent = formatARS(sena);
+  if (elHint) elHint.textContent = "50% del total · días calendario exactos · se descuenta del total.";
+  if (elBtn) elBtn.textContent = "Autorizar seña · " + formatARS(sena);
+  return { dias: r.dias, total: r.total, sena: sena, ingreso: fi.value, egreso: fe.value };
+}
+function setModo(modo) {
+  alquilerModo = modo;
+  var pm = document.getElementById("panelMensual");
+  var pd = document.getElementById("panelDiario");
+  var bm = document.getElementById("modMensual");
+  var bd = document.getElementById("modDiario");
+  if (modo === "diario") {
+    if (pm) pm.style.display = "none";
+    if (pd) pd.style.display = "block";
+    if (bm) { bm.style.background = "#fff"; bm.style.color = "#333"; bm.style.borderColor = "var(--border)"; }
+    if (bd) { bd.style.background = "var(--primary)"; bd.style.color = "#fff"; bd.style.borderColor = "var(--primary)"; }
+    // defaults: hoy + 7 días
+    var fi = document.getElementById("fechaIngreso");
+    var fe = document.getElementById("fechaEgreso");
+    if (fi && !fi.value) {
+      var t = new Date();
+      fi.value = t.toISOString().slice(0, 10);
+      var t2 = new Date(t); t2.setDate(t2.getDate() + 7);
+      if (fe) fe.value = t2.toISOString().slice(0, 10);
+    }
+    if (fi) fi.min = new Date().toISOString().slice(0, 10);
+    if (fe) fe.min = fi && fi.value ? fi.value : new Date().toISOString().slice(0, 10);
+    calcDiario();
+  } else {
+    if (pm) pm.style.display = "block";
+    if (pd) pd.style.display = "none";
+    if (bm) { bm.style.background = "var(--primary)"; bm.style.color = "#fff"; bm.style.borderColor = "var(--primary)"; }
+    if (bd) { bd.style.background = "#fff"; bd.style.color = "#333"; bd.style.borderColor = "var(--border)"; }
+    var elSena = document.getElementById("senaMonto");
+    var elHint = document.getElementById("senaHint");
+    var elBtn = document.getElementById("btnPay");
+    if (elSena) elSena.textContent = "$ 300.000";
+    if (elHint) elHint.textContent = "Se descuenta del primer mes.";
+    if (elBtn) elBtn.textContent = "Autorizar seña · $ 300.000";
+  }
+}
+var modMensual = document.getElementById("modMensual");
+var modDiario = document.getElementById("modDiario");
+if (modMensual) modMensual.onclick = function() { setModo("mensual"); };
+if (modDiario) modDiario.onclick = function() { setModo("diario"); };
+var fiEl = document.getElementById("fechaIngreso");
+var feEl = document.getElementById("fechaEgreso");
+if (fiEl) fiEl.addEventListener("change", function() {
+  if (feEl && feEl.value && feEl.value <= fiEl.value) {
+    var d = new Date(fiEl.value + "T12:00:00");
+    d.setDate(d.getDate() + 1);
+    feEl.value = d.toISOString().slice(0, 10);
+  }
+  if (feEl) feEl.min = fiEl.value;
+  calcDiario();
+});
+if (feEl) feEl.addEventListener("change", calcDiario);
 
 // Card input helpers (reserva + registro)
 (function(){
