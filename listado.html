@@ -169,6 +169,33 @@ button,input,select{font-family:inherit}
   ZonaProp · Departamentos en alquiler · CABA
 </footer>
 
+
+<!-- Modal Registro -->
+<div class="modal-bg" id="registerModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Crear cuenta</h3>
+      <button type="button" class="modal-close" id="regClose">×</button>
+    </div>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:1rem">Registrate con tu email para solicitar reservas. Te avisamos al instante.</p>
+    <div class="form-group">
+      <label for="regNombre">Nombre completo</label>
+      <input type="text" id="regNombre" placeholder="Juan Pérez" autocomplete="name"/>
+    </div>
+    <div class="form-group">
+      <label for="regEmail">Email</label>
+      <input type="email" id="regEmail" placeholder="tu@email.com" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label for="regTel">WhatsApp (opcional)</label>
+      <input type="tel" id="regTel" placeholder="11 1234-5678"/>
+    </div>
+    <div class="err" id="regErr">Completá nombre y un email válido.</div>
+    <button type="button" class="btn-modal mp" id="btnDoRegister" style="margin-top:.75rem">Registrarme</button>
+    <p style="font-size:12px;color:var(--muted);margin-top:.85rem;text-align:center">Al registrarte aceptás ser contactado por WhatsApp para coordinar la reserva.</p>
+  </div>
+</div>
+
 <!-- Modal de reserva / pago -->
 <div class="modal-bg" id="reserveModal">
   <div class="modal">
@@ -608,24 +635,32 @@ filtersEl.querySelectorAll(".chip").forEach(function(btn){
 
 // Contactar / WhatsApp
 document.addEventListener("click",function(e){
-  var btn=e.target.closest(".btn-contact, .btn-wa");
+  var btn=e.target.closest(".btn-contact");
   if(!btn) return;
   e.preventDefault();
+
+  // Exigir registro
+  var session = getSession();
+  if (!session || !session.email) {
+    openRegister();
+    return;
+  }
+
   var title=btn.getAttribute("data-title");
   var price=btn.getAttribute("data-price");
   var barrio=btn.getAttribute("data-barrio")||"";
   var link=btn.getAttribute("data-link");
 
-  if(btn.classList.contains("btn-wa")){
-    var text="Hola! Me interesa el departamento:\n"+title+"\n"+price+"\n"+barrio+"\n"+location.origin+location.pathname.replace(/[^/]*$/,"")+link;
-    window.open("https://wa.me/"+WA_NUM+"?text="+encodeURIComponent(text),"_blank");
-    return;
-  }
-
-  // Contactar → abrir modal de pago
   selectedDepto={title:title,price:price,barrio:barrio,link:link};
   document.getElementById("modalDeptoInfo").textContent=title+" · "+price+(barrio?" · "+barrio:"");
   document.getElementById("formErr").classList.remove("show");
+
+  // Pre-fill name from session
+  var nombreInput = document.getElementById("nombre");
+  var telInput = document.getElementById("tel");
+  if (nombreInput && session.nombre) nombreInput.value = session.nombre;
+  if (telInput && session.tel) telInput.value = session.tel;
+
   document.getElementById("reserveModal").classList.add("open");
   document.body.style.overflow="hidden";
 });
@@ -662,6 +697,122 @@ document.getElementById("btnWA").onclick=function(){
     "Nombre: "+p.nombre+"\nDNI: "+p.dni+(p.tel?"\nWhatsApp: "+p.tel:"")+"\nSeña: $ 300.000";
   window.open("https://wa.me/"+WA_NUM+"?text="+encodeURIComponent(text),"_blank");
 };
+
+
+// ——— Auth / Registro ———
+var ADMIN_WA = "5491153797355";
+var STORAGE_USERS = "zp_interesados";
+var STORAGE_SESSION = "zp_session";
+
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_USERS) || "[]"); }
+  catch(e) { return []; }
+}
+function saveUsers(arr) {
+  localStorage.setItem(STORAGE_USERS, JSON.stringify(arr));
+}
+function getSession() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_SESSION) || "null"); }
+  catch(e) { return null; }
+}
+function setSession(user) {
+  if (user) localStorage.setItem(STORAGE_SESSION, JSON.stringify(user));
+  else localStorage.removeItem(STORAGE_SESSION);
+  updateHeader();
+}
+function updateHeader() {
+  var s = getSession();
+  var btn = document.getElementById("btnLoginHeader");
+  if (!btn) return;
+  if (s && s.email) {
+    btn.textContent = s.nombre ? s.nombre.split(" ")[0] : "Mi cuenta";
+    btn.style.background = "#fff";
+    btn.style.color = "var(--primary)";
+    btn.style.border = "1.5px solid var(--primary)";
+  } else {
+    btn.textContent = "Ingresar";
+    btn.style.background = "";
+    btn.style.color = "";
+    btn.style.border = "";
+  }
+}
+
+function openRegister() {
+  document.getElementById("regErr").classList.remove("show");
+  document.getElementById("registerModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeRegister() {
+  document.getElementById("registerModal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("regClose").onclick = closeRegister;
+document.getElementById("registerModal").addEventListener("click", function(e) {
+  if (e.target === this) closeRegister();
+});
+
+document.getElementById("btnLoginHeader").onclick = function() {
+  var s = getSession();
+  if (s) {
+    if (confirm("¿Cerrar sesión?")) setSession(null);
+    return;
+  }
+  openRegister();
+};
+
+document.getElementById("btnDoRegister").onclick = function() {
+  var nombre = (document.getElementById("regNombre").value || "").trim();
+  var email = (document.getElementById("regEmail").value || "").trim().toLowerCase();
+  var tel = (document.getElementById("regTel").value || "").trim();
+  var err = document.getElementById("regErr");
+
+  if (!nombre || !email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+    err.textContent = "Completá nombre y un email válido.";
+    err.classList.add("show");
+    return;
+  }
+
+  var users = getUsers();
+  if (users.some(function(u) { return u.email === email; })) {
+    // Already registered → just log in
+    var existing = users.filter(function(u) { return u.email === email; })[0];
+    setSession({ nombre: existing.nombre, email: existing.email, tel: existing.tel || "" });
+    closeRegister();
+    alert("¡Bienvenido de nuevo, " + existing.nombre + "!");
+    return;
+  }
+
+  var user = { nombre: nombre, email: email, tel: tel, created: Date.now() };
+  users.push(user);
+  saveUsers(users);
+  setSession({ nombre: nombre, email: email, tel: tel });
+  closeRegister();
+
+  // 1) Avisar al admin por WhatsApp
+  var adminMsg = "🆕 Nuevo registro en ZonaProp\n\nNombre: " + nombre + "\nEmail: " + email + (tel ? "\nWhatsApp: " + tel : "") + "\n\nFecha: " + new Date().toLocaleString("es-AR");
+  window.open("https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(adminMsg), "_blank");
+
+  // 2) Avisar al admin por EMAIL (Formspree - gratis)
+  // Reemplazá YOUR_FORM_ID con tu ID de Formspree (instrucciones abajo)
+  var FORMSPREE_ENDPOINT = "https://formspree.io/f/xrpzbayz";
+  fetch(FORMSPREE_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({
+      _subject: "Nuevo registro ZonaProp - " + nombre,
+      nombre: nombre,
+      email: email,
+      whatsapp: tel || "No indicado",
+      mensaje: "Nuevo usuario registrado interesado en alquilar.",
+      fecha: new Date().toLocaleString("es-AR")
+    })
+  }).catch(function(){});
+
+  alert("¡Cuenta creada! Ya podés solicitar reservas.");
+};
+
+updateHeader();
 
 render();
 </script>
