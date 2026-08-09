@@ -1,4 +1,18 @@
-Paquete Bullano restyleado al diseño ZonaProp.
-- index.html: listado de 35 alquileres
-- departamento-01.html … departamento-35.html: fichas
-- Galerías desde Bullano (Internet).
+CATÁLOGO COMPLETO
+Total de departamentos: 102
+
+Incluye:
+- index.html
+- listado.html
+- 102 páginas individuales de departamentos
+
+Criterios:
+- Alquiler
+- Capital Federal / CABA
+- Más de 10 fotos únicas por HTML
+
+WhatsApp:
+- 11 2569-2598
+- 5491125692598
+
+El index y listado fueron regenerados para mostrar únicamente estas propiedades.

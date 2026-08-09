@@ -308,7 +308,7 @@ thumbEls.forEach(function(t, j) { t.onclick = function() { show(j); }; });
       var method=b.getAttribute("data-method");
       var btnMp=document.getElementById("btnMp");
       if(method==="mp"){ btnMp.style.display="block"; btnMp.href="https://mpago.la/1Jvg2Zv"; btnMp.textContent="Pagar seña con Mercado Pago"; }
-      else { btnMp.style.display="block"; btnMp.href="https://wa.me/5491153797355?text="+encodeURIComponent("Hola! Quiero los datos para transferir la seña de $ 300.000 del 1 amb. · 3756 Humahuaca"); btnMp.textContent="Pedir datos por WhatsApp"; }
+      else { btnMp.style.display="block"; btnMp.href="https://wa.me/5491125692598?text="+encodeURIComponent("Hola! Quiero los datos para transferir la seña de $ 300.000 del 1 amb. · 3756 Humahuaca"); btnMp.textContent="Pedir datos por WhatsApp"; }
     };
   });
 
@@ -329,7 +329,7 @@ thumbEls.forEach(function(t, j) { t.onclick = function() { show(j); }; });
     if(!validate()) return;
     var fecha = selected ? ("\nFecha de ingreso: "+selected.d+" de "+months[selected.m]+" "+selected.y) : "";
     var msg = "Hola! Quiero reservar el 3 amb. · Matheu 172 ($ 750.000)."+fecha+personalDataText()+"\nSeña: $ 300.000";
-    window.open("https://wa.me/5491153797355?text="+encodeURIComponent(msg), "_blank");
+    window.open("https://wa.me/5491125692598?text="+encodeURIComponent(msg), "_blank");
   };
   document.getElementById("btnMp").addEventListener("click", function(e){
     // allow navigation; optionally require form
