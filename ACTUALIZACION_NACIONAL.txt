@@ -1,0 +1,14 @@
+CATÁLOGO NACIONAL — NAVEGACIÓN INTERNA
+
+Se agregaron 7 departamentos de otras provincias con más de 10 fotos verificadas:
+- 4 en Mendoza
+- 2 en Santa Fe
+- 1 en Córdoba
+
+Todos los enlaces HTML fueron convertidos a navegación interna.
+No quedan href externos http/https en los HTML.
+Contacto interno: contacto.html
+Teléfono: 11 2569-2598
+
+Advertencia: algunas imágenes ya existentes pueden cargarse desde servidores externos mediante src=,
+pero hacer clic en las fichas o botones no lleva a otra web.

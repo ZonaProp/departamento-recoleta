@@ -1,0 +1,7 @@
+ZonaProp - Verificación de catálogo
+
+Total de fichas individuales: 127
+index.html: 127 departamentos enlazados
+listado.html: 127 departamentos enlazados
+Filtros: Todos / Buenos Aires / Mendoza / Córdoba
+Textos y metadatos actualizados a 127 departamentos.
