@@ -1,0 +1,7 @@
+Base: catalogo_bullano_ampliado_verificado.zip
+Fichas conservadas: 127
+Fichas eliminadas: 0
+Enlaces internos rotos: 0
+
+Criterio menos estricto: se conservan fichas con contenido válido y al menos una imagen,
+además de las fichas nuevas generadas internamente aunque no tengan galería embebida.
