@@ -2,15 +2,109 @@
 <html lang="es-AR">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Recoleta + Cochera + 3 Ambientes</title>
-<style>body{font-family:system-ui;margin:0;padding:1rem}h1{font-size:1.3rem}.price{font-size:1.5rem;font-weight:800}</style>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
+<title>Recoleta + Cochera + 3 Ambientes | Recoleta</title>
+<meta name="description" content="DescripciónDepartamento en Temporario en Recoleta con 2 dorm., 3 amb. y 80 m2 cubiertosExcelente departamento de 3 ambientes ubicado en el corazón de Recoleta, "/>
+<meta property="og:image" content="https://www.bullano.com.ar/files/03-2026/ad17332/oUTXzKXzwcdQ.webp"/>
+<style>
+:root{--primary:#ff5500;--muted:#5a5a5a;--border:#e8e8e8;--wa:#25d366;--font:"Hind",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:#fff;color:#111;line-height:1.45;padding-bottom:5.5rem}
+a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;z-index:30;height:56px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.hi{width:min(720px,100%);margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:700;font-size:1.2rem}.logo span{color:var(--primary)}
+.hi a.b{font-size:13px;font-weight:600;color:var(--primary);padding:6px 12px;border-radius:999px;border:1.5px solid var(--primary)}
+.wrap{width:min(720px,100%);margin:0 auto;padding:0 1rem 1rem}
+.gallery{margin:0 -1rem;position:relative;background:#111}
+.main-photo{aspect-ratio:4/3;overflow:hidden;background:#222}
+.main-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.nav-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgb(0 0 0/.55);color:#fff;font-size:22px;display:grid;place-items:center;z-index:2;border:none;cursor:pointer}
+.nav-btn.prev{left:10px}.nav-btn.next{right:10px}
+.counter{position:absolute;bottom:12px;right:12px;background:rgb(0 0 0/.65);color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:8px;z-index:2}
+.thumbs{display:flex;gap:6px;overflow-x:auto;padding:8px 1rem;background:#f5f5f5}
+.thumbs img{width:64px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0;border:2px solid transparent;cursor:pointer;opacity:.75}
+.thumbs img.active{border-color:var(--primary);opacity:1}
+.tag{position:absolute;top:12px;left:12px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px;z-index:2}
+.meta{font-size:13px;color:var(--muted);margin:.85rem 0 .25rem}
+h1{font-size:1.3rem;font-weight:800;line-height:1.25;margin-bottom:.25rem}
+.addr{font-size:14px;color:var(--muted);margin-bottom:.75rem}
+.price{font-size:1.55rem;font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.85rem 0 1rem}
+.chip{background:#f3f3f3;border-radius:999px;padding:.35rem .75rem;font-size:13px;font-weight:600}
+.block{margin-top:.85rem;padding:.9rem 1rem;background:#f8f8f8;border-radius:12px;border:1px solid var(--border)}
+.block h3{font-size:14px;font-weight:700;margin-bottom:.4rem}
+.block p{font-size:13.5px;color:var(--muted);line-height:1.5}
+.source{margin-top:.85rem;padding:.75rem 1rem;background:#fff8f5;border:1px solid #ffd9c2;border-radius:12px;font-size:12.5px;color:var(--muted)}
+.fab{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:.6rem;padding:.65rem .85rem calc(.65rem + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e8e8e8;box-shadow:0 -4px 20px rgb(0 0 0/.06)}
+.fab a{flex:1;height:48px;border-radius:28px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;border:none;cursor:pointer;font-family:inherit;text-decoration:none}
+.fab .src{background:var(--primary)}.fab .list{background:var(--wa)}
+.detail-grid{display:grid;gap:.55rem;margin-top:.5rem}
+.detail-row{display:flex;justify-content:space-between;gap:1rem;font-size:13.5px;padding:.35rem 0;border-bottom:1px solid #eee}
+.detail-row:last-child{border-bottom:none}
+.detail-row .k{color:var(--muted)}
+.detail-row .v{font-weight:600;text-align:right}
+.amenity-block{margin-top:.75rem;padding:.85rem 1rem;background:#f8f8f8;border-radius:12px;border:1px solid var(--border)}
+.amenity-block h3{font-size:14px;font-weight:700;margin-bottom:.45rem}
+.amenity-block ul{margin:0;padding-left:1.1rem;font-size:13.5px;color:#444;line-height:1.55}
+.amenity-block li{margin-bottom:.2rem}
+</style>
 </head>
 <body>
+<header><div class="hi"><a class="logo" href="#"><span>●</span> zonaprop</a><a class="b" href="#">← Listado</a></div></header>
+<main class="wrap">
+<div class="gallery">
+  <span class="tag">Alquiler</span>
+  <button type="button" class="nav-btn prev" id="prev">‹</button>
+  <button type="button" class="nav-btn next" id="next">›</button>
+  <div class="main-photo"><img id="mainImg" src="https://www.bullano.com.ar/files/03-2026/ad17332/oUTXzKXzwcdQ.webp" alt="Recoleta + Cochera + 3 Ambientes"/></div>
+  <div class="counter" id="counter">1 / 12</div>
+</div>
+<div class="thumbs" id="thumbs"><img src="https://www.bullano.com.ar/files/03-2026/ad17332/oUTXzKXzwcdQ.webp" class="active" alt="Foto 1"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/NykSHwPNOTZv.webp" class="" alt="Foto 2"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/jsWJSzEvhzZt.webp" class="" alt="Foto 3"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/BuYnuscqTfUN.webp" class="" alt="Foto 4"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/yMwMCZPmBEFN.webp" class="" alt="Foto 5"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/NiizMguTJfWu.webp" class="" alt="Foto 6"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/uDWoSclSRIhj.webp" class="" alt="Foto 7"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/iKubLkLbUQwy.webp" class="" alt="Foto 8"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/BJwTrcCdRvba.webp" class="" alt="Foto 9"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/JGLjKlFYQNha.webp" class="" alt="Foto 10"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/VRijmlVTByKA.webp" class="" alt="Foto 11"/><img src="https://www.bullano.com.ar/files/03-2026/ad17332/yzwcgUybmaVX.webp" class="" alt="Foto 12"/></div>
+<p class="meta">Departamento · Recoleta</p>
 <h1>Recoleta + Cochera + 3 Ambientes</h1>
-<p>Uriburu 1426, Recoleta</p>
-<div class="price">Consultar</div>
-<p>Fuente: Bullano</p>
-<p><a href="https://www.bullano.com.ar/departamentos/ficha/uriburu-1426-17332.html">Ver original</a></p>
+<p class="addr">Uriburu 1426, Recoleta</p>
+<div class="price">$ 800</div>
+<div class="chips"><span class="chip">Volver al listadoBullanoDepartamentosAlquiler temporarioCiudad Autónoma de Buenos AiresRecoletaCompa</span><span class="chip">Cód. Aviso:BU-17332Propiedades</span><span class="chip">12 fotos</span></div>
+
+<div class="block"><h3>Descripción</h3>
+<p>DescripciónDepartamento en Temporario en Recoleta con 2 dorm., 3 amb. y 80 m2 cubiertosExcelente departamento de 3 ambientes ubicado en el corazón de Recoleta, a tan solo 3 cuadras de Av. Santa Fe y 2 cuadras de Av. Las Heras, con acceso inmediato a múltiples medios de transporte, comercios, bares y servicios. La unidad cuenta con: Amplio y luminoso living-comedor Cocina independiente 2 cómodos dormitorios Baño completo Cochera incluida Muy buena distribución y luminosidad en todos sus ambientes. Ideal tanto para vivienda como para quienes buscan una ubicación estratégica en una de las mejores</p>
+</div>
+
+<div class="amenity-block"><h3>Características</h3>
+<ul><li>Volver al listadoBullanoDepartamentosAlquiler temporarioCiudad Autónoma de Buenos AiresRecoletaCompa</li><li>DescripciónDepartamento en Temporario en Recoleta con 2 dorm</li><li>y 80 m2 cubiertosExcelente departamento de 3 ambientes ubicado en el corazón de Recoleta, a tan solo 3 cuadras de Av</li><li>Santa Fe y 2 cuadras de Av</li><li>Las Heras, con acceso inmediato a múltiples medios de transporte, comercios, bares y servicios</li><li>Ideal tanto para vivienda como para quienes buscan una ubicación estratégica en una de las mejores</li></ul>
+</div>
+
+<div class="block">
+  <h3>Detalle del inmueble</h3>
+  <div class="detail-grid">
+    <div class="detail-row"><span class="k">Tipo</span><span class="v">Departamento en alquiler</span></div><div class="detail-row"><span class="k">Dirección</span><span class="v">Uriburu 1426, Recoleta</span></div><div class="detail-row"><span class="k">Barrio / zona</span><span class="v">Recoleta</span></div><div class="detail-row"><span class="k">Precio</span><span class="v">$ 800</span></div><div class="detail-row"><span class="k">Código</span><span class="v">Cód. Aviso:BU-17332Propiedades</span></div><div class="detail-row"><span class="k">Fotos</span><span class="v">12 fotos</span></div><div class="detail-row"><span class="k">Anunciante</span><span class="v">Inmobiliarias</span></div>
+  </div>
+</div>
+
+<div class="source">Fuente: Bullano · <a href="https://www.bullano.com.ar/departamentos/ficha/uriburu-1426-17332.html" target="_blank" rel="noopener" style="color:#ff5500;font-weight:600">Ver publicación original</a></div>
+</main>
+
+<div class="fab">
+  <a class="src" href="https://www.bullano.com.ar/departamentos/ficha/uriburu-1426-17332.html" target="_blank" rel="noopener">Ver en Bullano</a>
+  <a class="list" href="https://wa.me/?text=Hola%2C%20me%20interesa%20el%20departamento%3A%20Recoleta%20%2B%20Cochera%20%2B%203%20Ambientes%20%28%24%20800%29%20-%20Uriburu%201426%2C%20Recoleta.%20Link%3A%20https%3A//www.bullano.com.ar/departamentos/ficha/uriburu-1426-17332.html" target="_blank" rel="noopener">WhatsApp</a>
+</div>
+
+<script>
+var photos = ["https://www.bullano.com.ar/files/03-2026/ad17332/oUTXzKXzwcdQ.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/NykSHwPNOTZv.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/jsWJSzEvhzZt.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/BuYnuscqTfUN.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/yMwMCZPmBEFN.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/NiizMguTJfWu.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/uDWoSclSRIhj.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/iKubLkLbUQwy.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/BJwTrcCdRvba.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/JGLjKlFYQNha.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/VRijmlVTByKA.webp", "https://www.bullano.com.ar/files/03-2026/ad17332/yzwcgUybmaVX.webp"];
+var idx = 0;
+var mainImg = document.getElementById("mainImg");
+var counter = document.getElementById("counter");
+var thumbEls = document.querySelectorAll("#thumbs img");
+function show(i) {
+  idx = (i + photos.length) % photos.length;
+  mainImg.src = photos[idx];
+  counter.textContent = (idx + 1) + " / " + photos.length;
+  thumbEls.forEach(function(t, j) { t.classList.toggle("active", j === idx); });
+}
+document.getElementById("prev").onclick = function() { show(idx - 1); };
+document.getElementById("next").onclick = function() { show(idx + 1); };
+thumbEls.forEach(function(t, j) { t.onclick = function() { show(j); }; });
+</script>
 </body>
 </html>
