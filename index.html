@@ -5,55 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Departamentos en alquiler · ZonaProp</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;background:#f5f5f5;color:#111}
-header{background:#1a1a1a;color:#fff;padding:1.1rem;text-align:center;font-weight:700;font-size:1.25rem}
-header span{color:#ff5500}
-h1{text-align:center;font-size:1.7rem;margin:1.4rem 0 1rem;font-weight:800}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.2rem;max-width:1140px;margin:0 auto;padding:0 1rem 2.5rem}
-.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);display:flex;flex-direction:column}
-.card-link{text-decoration:none;color:inherit;flex:1}
-.card-img{aspect-ratio:4/3;background:#eee;overflow:hidden}
-.card-img img{width:100%;height:100%;object-fit:cover}
-.card-body{padding:.85rem 1rem .4rem}
-.price{font-size:1.2rem;font-weight:800;margin-bottom:.2rem}
-h2{font-size:.92rem;font-weight:700;line-height:1.3}
-.card-actions{display:flex;gap:.45rem;padding:.7rem 1rem 1rem}
-.btn-o,.btn-g{flex:1;text-align:center;padding:.5rem;border-radius:999px;font-size:.82rem;font-weight:700;text-decoration:none;color:#fff}
-.btn-o{background:#ff5500}
-.btn-g{background:#25d366}
-footer{text-align:center;padding:1.2rem;color:#666;font-size:.85rem}
-.loading{text-align:center;padding:2rem;color:#666}
-</style>
-</head>
-<body>
-<header><span>●</span> ZonaProp</header>
-<h1>Departamentos en alquiler</h1>
-<div id="status" class="loading">Cargando 498 departamentos...</div>
-<div class="grid" id="grid"></div>
-<footer id="footer">498 departamentos · Formato compatible con zonaprop.github.io · Datos de Bullano · Estilo completo con reserva</footer>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#f5f5f5;color:#111}header{background:#1a1a1a;color:#fff;padding:1.1rem;text-align:center;font-weight:700;font-size:1.25rem}header span{color:#ff5500}h1{text-align:center;font-size:1.7rem;margin:1.4rem 0 1rem;font-weight:800}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.2rem;max-width:1140px;margin:0 auto;padding:0 1rem 2.5rem}.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);display:flex;flex-direction:column}.card-link{text-decoration:none;color:inherit;flex:1}.card-img{aspect-ratio:4/3;background:#eee;overflow:hidden}.card-img img{width:100%;height:100%;object-fit:cover}.card-body{padding:.85rem 1rem .4rem}.price{font-size:1.2rem;font-weight:800;margin-bottom:.2rem}h2{font-size:.92rem;font-weight:700;line-height:1.3}.card-actions{display:flex;gap:.45rem;padding:.7rem 1rem 1rem}.btn-o,.btn-g{flex:1;text-align:center;padding:.5rem;border-radius:999px;font-size:.82rem;font-weight:700;text-decoration:none;color:#fff}.btn-o{background:#ff5500}.btn-g{background:#25d366}footer{text-align:center;padding:1.2rem;color:#666;font-size:.85rem}.loading{text-align:center;padding:2rem;color:#666}
+</style></head><body>
+<header><span>●</span> ZonaProp</header><h1>Departamentos en alquiler</h1><div id="status" class="loading">Cargando departamentos...</div><div class="grid" id="grid"></div><footer id="footer"></footer>
 <script>
-async function loadAll() {
-  const grid = document.getElementById('grid');
-  let total = 0;
-  for (let i = 0; i < 5; i++) {
-    try {
-      const r = await fetch('cards_' + i + '.json');
-      const cards = await r.json();
-      cards.forEach(c => {
-        const art = document.createElement('article');
-        art.className = 'card';
-        art.innerHTML = `<a href="${c.href}" class="card-link"><div class="card-img"><img src="${c.img}" alt="" loading="lazy"></div><div class="card-body"><div class="price">${c.price}</div><h2>${c.title}</h2></div></a><div class="card-actions"><a class="btn-o" href="${c.href}">Ver departamento</a><a class="btn-g" href="${c.href}">Consultar</a></div>`;
-        grid.appendChild(art);
-        total++;
-      });
-      document.getElementById('status').textContent = 'Cargados ' + total + ' / 498...';
-    } catch(e) { console.error(e); }
-  }
-  document.getElementById('status').style.display = 'none';
-  document.getElementById('footer').textContent = total + ' departamentos · Formato compatible con zonaprop.github.io · Datos de Bullano · Estilo completo con reserva';
-}
-loadAll();
-</script>
-</body>
-</html>
+(async()=>{const grid=document.getElementById('grid'),status=document.getElementById('status');try{const r=await fetch('https://api.github.com/repos/ZonaProp/departamento-recoleta/git/trees/main?recursive=1');const d=await r.json();const files=(d.tree||[]).map(x=>x.path).filter(p=>/^\d.*\.html$/i.test(p)&&p!=='index.html').slice(0,498);let total=0;const load=async href=>{try{const h=await(await fetch(href)).text();const doc=new DOMParser().parseFromString(h,'text/html');const title=(doc.querySelector('h1')?.textContent||doc.title||href.replace('.html','')).trim();const img=doc.querySelector('img')?.src||'';const txt=doc.body?.innerText||'';const m=txt.match(/(?:US\$|USD|\$)\s?[\d.]+(?:,[\d]+)?/);const price=m?m[0]:'';const art=document.createElement('article');art.className='card';art.innerHTML=`<a href="${href}" class="card-link"><div class="card-img">${img?`<img src="${img}" alt="" loading="lazy">`:''}</div><div class="card-body"><div class="price">${price}</div><h2>${title}</h2></div></a><div class="card-actions"><a class="btn-o" href="${href}">Ver departamento</a><a class="btn-g" href="${href}">Consultar</a></div>`;grid.appendChild(art);total++;status.textContent=`Cargados ${total} / ${files.length}...`}catch(e){}};for(let i=0;i<files.length;i+=12)await Promise.all(files.slice(i,i+12).map(load));status.style.display='none';document.getElementById('footer').textContent=total+' departamentos · ZonaProp'}catch(e){status.textContent='No se pudo cargar el catálogo. Actualizá la página.'}})();
+</script></body></html>
