@@ -1,0 +1,71 @@
+name: Fix catalog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'fix-catalog.trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fix property pages
+        shell: python
+        run: |
+          import glob,re,html,urllib.parse
+          changed=0
+          for path in glob.glob('*.html'):
+              if path in ('index.html','listado.html'):
+                  continue
+              try:
+                  s=open(path,encoding='utf-8').read()
+              except Exception:
+                  continue
+              old=s
+              # Price: use the first explicit currency amount from meta description.
+              md=re.search(r'<meta name="description" content="([^"]*)"',s,re.I)
+              price=None
+              if md:
+                  desc=html.unescape(md.group(1))
+                  pm=re.search(r'(?i)(u\$s|us\$|usd|\$)\s*([0-9]{1,3}(?:\.[0-9]{3})*(?:,[0-9]+)?)',desc)
+                  if pm:
+                      cur=pm.group(1)
+                      if cur.lower() in ('us$','usd'): cur='u$s'
+                      price=f'{cur} {pm.group(2)}'
+              if price:
+                  s=re.sub(r'<div class="price">.*?</div>',f'<div class="price">{price}</div>',s,count=1,flags=re.S|re.I)
+                  s=re.sub(r'(<span class="k">Precio</span><span class="v">).*?(</span>)',lambda m:m.group(1)+price+m.group(2),s,count=1,flags=re.S|re.I)
+              # Remove visible Bullano source/reference block.
+              s=re.sub(r'<div class="source">.*?</div>\s*','',s,flags=re.S|re.I)
+              # Replace Bullano CTA with ZonaProp consult CTA.
+              s=re.sub(r'<a class="src"[^>]*>\s*Ver en Bullano\s*</a>', '<a class="src" href="#" onclick="document.querySelector(\'.list\').click();return false">Consultar</a>', s, flags=re.S|re.I)
+              # Clean WhatsApp CTA: preserve title/address, remove source URL and use configured ZonaProp number.
+              tm=re.search(r'<h1>(.*?)</h1>',s,re.S|re.I)
+              am=re.search(r'<p class="addr">(.*?)</p>',s,re.S|re.I)
+              title=re.sub('<.*?>','',tm.group(1)).strip() if tm else 'este departamento'
+              addr=re.sub('<.*?>','',am.group(1)).strip() if am else ''
+              msg=f'Hola, me interesa: {title}' + (f' - {addr}' if addr else '') + (f' ({price})' if price else '')
+              wa='https://wa.me/5491125692598?text='+urllib.parse.quote(msg)
+              s=re.sub(r'<a class="list" href="[^"]*"',f'<a class="list" href="{wa}"',s,count=1,flags=re.I)
+              # Fix list links.
+              s=s.replace('href="#">← Listado</a>','href="index.html">← Listado</a>')
+              s=s.replace('<a class="logo" href="#">','<a class="logo" href="index.html">')
+              if s!=old:
+                  open(path,'w',encoding='utf-8').write(s)
+                  changed+=1
+          print('Updated',changed,'property pages')
+      - name: Remove trigger and workflow, commit
+        run: |
+          rm -f fix-catalog.trigger .github/workflows/fix-catalog.yml
+          git config user.name "ZonaProp Catalog Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Corregir precios y quitar referencias visibles a Bullano" || exit 0
+          git push
