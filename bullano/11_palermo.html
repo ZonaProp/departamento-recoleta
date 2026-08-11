@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Departamento Palermo</title>
+<style>
+:root{--primary:#ff5500;--wa:#25d366}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#fff;color:#111;padding-bottom:5.5rem}
+header{position:sticky;top:0;height:56px;background:#fff;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 1rem;justify-content:space-between}
+.logo{font-weight:700}.logo span{color:var(--primary)}
+.wrap{max-width:720px;margin:0 auto;padding:1rem}
+.gallery{background:#111;aspect-ratio:4/3;position:relative}
+.gallery img{width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;top:12px;left:12px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px}
+h1{font-size:1.3rem;font-weight:800;margin:.8rem 0 .3rem}
+.price{font-size:1.5rem;font-weight:800;margin:.5rem 0}
+.fab{position:fixed;bottom:0;left:0;right:0;display:flex;gap:.5rem;padding:.7rem;background:#fff;border-top:1px solid #eee;box-shadow:0 -4px 20px rgba(0,0,0,.08)}
+.fab a{flex:1;height:48px;border-radius:28px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-decoration:none;font-size:15px}
+.fab .wa{background:var(--wa)}.fab .reserve{background:var(--primary)}
+</style>
+</head>
+<body>
+<header><div class="logo"><span>●</span> zonaprop</div><a href="../index.html" style="color:#ff5500;font-weight:600;text-decoration:none">← Listado</a></header>
+<main class="wrap">
+<div class="gallery"><span class="tag">Alquiler</span><img src="https://via.placeholder.com/800x600?text=Palermo" alt=""/></div>
+<p style="color:#666;font-size:13px;margin-top:.8rem">Departamento · Palermo</p>
+<h1>Departamento en Palermo</h1>
+<p style="color:#666">Palermo, CABA</p>
+<div class="price">Consultar</div>
+</main>
+<div class="fab">
+<a class="reserve" href="https://wa.me/?text=Hola%2C%20quiero%20reservar%20el%20departamento%20en%20Palermo" target="_blank">Reservar fechas</a>
+<a class="wa" href="https://wa.me/?text=Hola%2C%20me%20interesa%20el%20departamento%20en%20Palermo" target="_blank">WhatsApp</a>
+</div>
+</body>
+</html>
