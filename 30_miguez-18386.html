@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
+<title>Venta Depto A Estrenar</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#111;line-height:1.5}
+header{background:#1a1a1a;color:#fff;padding:1rem;text-align:center;font-weight:700}
+header span{color:#ff5500}
+.container{max-width:900px;margin:0 auto;padding:1rem}
+.gallery{position:relative;background:#000;border-radius:12px;overflow:hidden;aspect-ratio:4/3}
+.gallery img{width:100%;height:100%;object-fit:cover;display:block}
+.thumbs{display:flex;gap:6px;overflow-x:auto;padding:8px 0;scrollbar-width:thin}
+.thumbs img{width:72px;height:54px;object-fit:cover;border-radius:6px;cursor:pointer;opacity:.7;flex-shrink:0}
+.thumbs img.active,.thumbs img:hover{opacity:1;outline:2px solid #ff5500}
+.counter{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.6);color:#fff;padding:4px 10px;border-radius:20px;font-size:.8rem}
+.info{background:#fff;border-radius:12px;padding:1.2rem;margin-top:1rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.price{font-size:1.6rem;font-weight:800;color:#ff5500;margin-bottom:.3rem}
+h1{font-size:1.25rem;font-weight:700;margin-bottom:.5rem}
+.addr{color:#666;font-size:.95rem;margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:1rem 0}
+.chip{background:#f0f0f0;padding:4px 10px;border-radius:20px;font-size:.8rem}
+.desc{margin:1rem 0;color:#333;white-space:pre-line}
+.btn-row{display:flex;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap}
+.btn{flex:1;min-width:140px;text-align:center;padding:.75rem 1rem;border-radius:999px;font-weight:700;text-decoration:none;color:#fff;border:none;cursor:pointer;font-size:.95rem}
+.btn-o{background:#ff5500}
+.btn-g{background:#25d366}
+.btn-p{background:#009ee3}
+.cal{margin-top:1.5rem;background:#fff;border-radius:12px;padding:1rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.cal h3{margin-bottom:.8rem}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:.85rem}
+.cal-grid .dow{font-weight:600;color:#666;padding:.3rem 0}
+.cal-grid .day{padding:.5rem 0;border-radius:8px;cursor:pointer}
+.cal-grid .day:hover{background:#eee}
+.cal-grid .day.sel{background:#ff5500;color:#fff}
+.cal-grid .day.dis{opacity:.3;pointer-events:none}
+.fab{position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 12px rgba(0,0,0,.2);text-decoration:none;z-index:50}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:1rem}
+.modal.show{display:flex}
+.modal-box{background:#fff;border-radius:16px;padding:1.5rem;max-width:400px;width:100%}
+.modal-box h3{margin-bottom:1rem}
+.modal-box label{display:block;margin:.6rem 0 .2rem;font-size:.9rem}
+.modal-box input{width:100%;padding:.6rem;border:1px solid #ddd;border-radius:8px;font-size:1rem}
+.modal-actions{display:flex;gap:.5rem;margin-top:1.2rem}
+footer{text-align:center;padding:2rem 1rem;color:#888;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><span>●</span> ZonaProp</header>
+<div class="container">
+  <div class="gallery">
+    <img id="mainImg" src="https://www.bullano.com.ar/files/07-2026/ad18386/lYdwbMvmVqDw.webp" alt="Departamento">
+    <div class="counter" id="counter">1 / 4</div>
+  </div>
+  <div class="thumbs" id="thumbs"></div>
+  <div class="info">
+    <div class="price">Consultar</div>
+    <h1>Venta Depto A Estrenar</h1>
+    <div class="addr">Míguez</div>
+    <div class="chips"><span class="chip">A estrenar</span></div>
+    <div class="desc">Venta departamento a estrenar.</div>
+    <div class="btn-row">
+      <button class="btn btn-o" onclick="openModal()">Reservar / Consultar</button>
+      <a class="btn btn-g" href="https://wa.me/5491153797355?text=Hola,%20me%20interesa%20Miguez" target="_blank">WhatsApp</a>
+    </div>
+  </div>
+  <div class="cal"><h3>Disponibilidad</h3><div class="cal-grid" id="cal"></div></div>
+</div>
+<a class="fab" href="https://wa.me/5491153797355" target="_blank">💬</a>
+<div class="modal" id="payModal">
+  <div class="modal-box">
+    <h3>Reservar departamento</h3>
+    <label>Nombre</label><input type="text" id="nom">
+    <label>WhatsApp</label><input type="tel" id="tel">
+    <label>Fecha ingreso</label><input type="date" id="fi">
+    <label>Fecha egreso</label><input type="date" id="fe">
+    <div class="modal-actions">
+      <button class="btn btn-o" onclick="sendWA()">Enviar por WhatsApp</button>
+      <button class="btn btn-p" onclick="document.getElementById('payModal').classList.remove('show')">Cerrar</button>
+    </div>
+  </div>
+</div>
+<footer>ZonaProp · Datos de Bullano</footer>
+<script>
+(function(){
+  var photos = ["https://www.bullano.com.ar/files/07-2026/ad18386/lYdwbMvmVqDw.webp","https://www.bullano.com.ar/files/07-2026/ad18386/kfUpFVRlBPmC.webp","https://www.bullano.com.ar/files/07-2026/ad18386/NkTNlBTszYEE.webp","https://www.bullano.com.ar/files/07-2026/ad18386/FLGuLXYlfRBO.webp"];
+  var idx = 0;
+  var main = document.getElementById("mainImg");
+  var thumbs = document.getElementById("thumbs");
+  var counter = document.getElementById("counter");
+  function show(i){ idx = (i + photos.length) % photos.length; main.src = photos[idx]; counter.textContent = (idx+1) + " / " + photos.length; [].forEach.call(thumbs.children, function(t,j){ t.classList.toggle("active", j===idx); }); }
+  photos.forEach(function(src,i){ var img = document.createElement("img"); img.src = src; img.onclick = function(){ show(i); }; thumbs.appendChild(img); });
+  show(0);
+  main.onclick = function(){ show(idx+1); };
+  var cal = document.getElementById("cal");
+  var days = ["Do","Lu","Ma","Mi","Ju","Vi","Sa"];
+  days.forEach(function(d){ var s=document.createElement("div"); s.className="dow"; s.textContent=d; cal.appendChild(s); });
+  var now = new Date(); var y = now.getFullYear(), m = now.getMonth();
+  var first = new Date(y,m,1).getDay(); var total = new Date(y,m+1,0).getDate();
+  for(var i=0;i<first;i++){ var e=document.createElement("div"); e.className="day dis"; cal.appendChild(e); }
+  for(var d=1;d<=total;d++){ var el=document.createElement("div"); el.className="day"; el.textContent=d; el.onclick=function(){ [].forEach.call(cal.querySelectorAll(".day"),function(x){x.classList.remove("sel")}); this.classList.add("sel"); }; cal.appendChild(el); }
+  window.openModal = function(){ document.getElementById("payModal").classList.add("show"); };
+  window.sendWA = function(){ var msg = "Hola, quiero consultar por Míguez"; window.open("https://wa.me/5491153797355?text="+encodeURIComponent(msg), "_blank"); };
+})();
+</script>
+</body>
+</html>
