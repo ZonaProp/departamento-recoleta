@@ -19,8 +19,8 @@ jobs:
       - name: Rebuild package
         run: |
           cat deploy/chunk_*.b64 > deploy/package.b64
-          base64 -d deploy/package.b64 > deploy/package.tar.gz
-          tar -xzf deploy/package.tar.gz -C .
+          base64 -d deploy/package.b64 > deploy/package.tar.xz
+          tar -xJf deploy/package.tar.xz -C .
           rm -rf deploy
           rm -f .github/workflows/apply-catalog.yml
       - name: Commit catalog
