@@ -126,7 +126,7 @@ h1{font-size:1.3rem;font-weight:800;line-height:1.25;margin-bottom:.25rem}
   <p class="hint" id="calSelected" style="margin-top:.55rem;">Elegí una fecha de ingreso disponible.</p>
 </div>
 
-<div class="block"><h3>Descripción</h3><p>Departamento en Temporario en Recoleta con 2 dorm., 3 amb. y 80 m2 cubiertosExcelente departamento de 3 ambientes ubicado en el corazón de Recoleta, a tan solo 3 cuadras de Av. Santa Fe y 2 cuadras de Av. Las Heras, con acceso inmediato a múltiples medios de transporte, comercios, bares y servicios. Ideal tanto para vivienda como para quienes buscan una ubicación estratégica en una de las mejores...</p></div>
+<div class="block"><h3>Descripción</h3><p>Departamento en Temporario en Recoleta con 2 dorm., 3 amb. y 80 m2 cubiertosExcelente departamento de 3 ambientes ubicado en el corazón de Recoleta, a tan solo 3 cuadras de Av. Santa Fe y 2 cuadras de Av. Las Heras, con acceso inmediato a múltiples medios de transporte, comercios, bares y servicios. La unidad cuenta con: Amplio y luminoso living-comedor Cocina independiente 2 cómodos dormitorios B...</p></div>
 
 <div class="amenity-block"><h3>Características generales</h3>
 <ul>
@@ -236,7 +236,7 @@ thumbEls.forEach(function(t, j) { t.onclick = function() { show(j); }; });
     var dt = new Date(y,m,d);
     var today = new Date(); today.setHours(0,0,0,0);
     if(dt < today) return false;
-    var hash = (y*10000+m*100+d+42) % 7;
+    var hash = (y*10000+m*100+d+20) % 7;
     if(hash === 0) return false;
     return true;
   }
@@ -299,7 +299,7 @@ thumbEls.forEach(function(t, j) { t.onclick = function() { show(j); }; });
     var n=(document.getElementById("inputNombre").value||"").trim();
     var d=(document.getElementById("inputDNI").value||"").trim();
     if(!n||!d) return "";
-    return "\nMis datos para la reserva:\nNombre completo: "+n+"\nDNI: "+d;
+    return "\\nMis datos para la reserva:\\nNombre completo: "+n+"\\nDNI: "+d;
   }
   function validate(){
     var n=(document.getElementById("inputNombre").value||"").trim();
@@ -310,8 +310,8 @@ thumbEls.forEach(function(t, j) { t.onclick = function() { show(j); }; });
   }
   document.getElementById("btnWaModal").onclick=function(){
     if(!validate()) return;
-    var fecha = selected ? ("\nFecha de ingreso: "+selected.d+" de "+months[selected.m]+" "+selected.y) : "";
-    var msg = "Hola! Quiero reservar el Recoleta + Cochera + 3 Ambientes ($ 800)."+fecha+personalDataText()+"\nSeña: 150000";
+    var fecha = selected ? ("\\nFecha de ingreso: "+selected.d+" de "+months[selected.m]+" "+selected.y) : "";
+    var msg = "Hola! Quiero reservar el Recoleta + Cochera + 3 Ambientes ($ 800)."+fecha+personalDataText()+"\\nSeña: 150000";
     window.open("https://wa.me/5491153797355?text="+encodeURIComponent(msg), "_blank");
   };
 })();
