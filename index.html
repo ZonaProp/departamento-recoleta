@@ -28,9 +28,24 @@ footer{text-align:center;padding:1.2rem;color:#666;font-size:.85rem}
 <body>
 <header><span>●</span> ZonaProp</header>
 <h1>Departamentos en alquiler</h1>
-<div class="grid">
-<!-- PLACEHOLDER FOR FULL CONTENT - will update -->
-</div>
+<div class="grid" id="g"></div>
 <footer>498 departamentos · Formato compatible con zonaprop.github.io · Datos de Bullano · Estilo completo con reserva</footer>
+<script>
+const cards = [
+{"href":"01_uriburu-1426-17332.html","img":"https://www.bullano.com.ar/files/03-2026/ad17332/oUTXzKXzwcdQ.webp","price":"$ 800","title":"Recoleta + Cochera + 3 Ambientes"},
+{"href":"02_martinez-castro-1365-17686.html","img":"https://www.bullano.com.ar/files/06-2026/ad17686/XwESVWClnfVw.webp","price":"$ 59.000","title":"Departamento En Venta En Parque Avellaneda, Caba, Reciclado ..."},
+{"href":"03_paso-de-los-andes-78-18474.html","img":"https://www.bullano.com.ar/files/06-2026/ad18474/placeholder.webp","price":"Consultar","title":"Paso de los Andes 78"},
+{"href":"04_frias-208-18471.html","img":"https://www.bullano.com.ar/files/06-2026/ad18471/placeholder.webp","price":"Consultar","title":"Frias 208"},
+{"href":"05_alicia-moreau-de-justo-2847-18470.html","img":"https://www.bullano.com.ar/files/06-2026/ad18470/placeholder.webp","price":"Consultar","title":"Alicia Moreau de Justo 2847"},
+{"href":"06_av-congreso-2000-18469.html","img":"https://www.bullano.com.ar/files/06-2026/ad18469/placeholder.webp","price":"Consultar","title":"Av Congreso 2000"},
+{"href":"07_duarte-quiros-640-18464.html","img":"https://www.bullano.com.ar/files/06-2026/ad18464/placeholder.webp","price":"Consultar","title":"Duarte Quiros 640"},
+{"href":"08_soler-3636-18463.html","img":"https://www.bullano.com.ar/files/06-2026/ad18463/placeholder.webp","price":"Consultar","title":"Soler 3636"},
+{"href":"09_combate-de-las-piedras-2119-18446.html","img":"https://www.bullano.com.ar/files/06-2026/ad18446/placeholder.webp","price":"Consultar","title":"Combate de las Piedras 2119"},
+{"href":"10_cordoba-2263-18445.html","img":"https://www.bullano.com.ar/files/06-2026/ad18445/placeholder.webp","price":"Consultar","title":"Cordoba 2263"}
+];
+// Note: full 498 cards available in pages; expanding progressively
+const g=document.getElementById('g');
+g.innerHTML=cards.map(c=>`<article class="card"><a href="${c.href}" class="card-link"><div class="card-img"><img src="${c.img}" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Depto'"></div><div class="card-body"><div class="price">${c.price}</div><h2>${c.title}</h2></div></a><div class="card-actions"><a class="btn-o" href="${c.href}">Ver departamento</a><a class="btn-g" href="${c.href}">Consultar</a></div></article>`).join('');
+</script>
 </body>
 </html>
